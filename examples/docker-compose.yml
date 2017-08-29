@@ -1,0 +1,82 @@
+version: '2'
+services:
+
+  nextcloud-app:
+    container_name: nextcloud-app
+    image: tiredofit/nextcloud
+    environment:
+      - VIRTUAL_HOST=nextcloud.example.com
+      - VIRTUAL_NETWORK=nginx-proxy
+      - LETSENCRYPT_HOST=nextcloud.example.com
+      - LETSENCRYPT_EMAIL=email@Hostname.com
+
+      - UPLOAD_MAX_SIZE=10G
+      - APC_SHM_SIZE=128M
+      - OPCACHE_MEM_SIZE=128
+      - CRON_PERIOD=15
+      
+      - ADMIN_USER=admin
+      - ADMIN_PASS=pass
+      - DOMAIN=example.com
+      
+      - DB_TYPE=mysql
+      - DB_NAME=nextcloud
+      - DB_USER=nextcloud
+      - DB_PASS=password
+      - DB_HOST=nextcloud-db
+    
+    volumes:
+      - ./data/data:/www/nextcloud/data
+      - ./data/config:/www/nextcloud/config
+      - ./data/apps:/www/nextcloud/custom-apps
+      - ./data/themes:/www/nextcloud/themes
+      - ./logs:/www/logs
+    networks:
+      - proxy-tier
+
+  nextcloud-db:
+    container_name: nextcloud-db
+    image: tiredofit/mariadb:latest
+    volumes:
+      - /var/local/db/nextcloud:/var/lib/mysql
+    environment:
+      - MYSQL_ROOT_PASSWORD=password
+      - MYSQL_DATABASE=nextcloud
+      - MYSQL_USER=nextcloud
+      - MYSQL_PASSWORD=password
+    networks:
+      - proxy-tier
+
+
+  nextcloud-redis:
+    image: tiredofit/redis
+    container_name: nextcloud-redis
+    volumes:
+      - ./redis:/data
+    networks:
+      - proxy-tier
+
+  nextcloud-db-backup:
+    container_name: nextcloud-db-backup
+    image: tiredofit/mariadb-backup
+    links:
+     - nextcloud-db
+    volumes:
+      - ./dbbackup:/backup
+    environment:
+      - DB_SERVER=db
+      - DB_NAME=nextcloud
+      - DB_USER=nextcloud
+      - DB_PASSWORD=password
+      - DB_DUMP_FREQ=1440
+      - DB_DUMP_BEGIN=0000
+      - DB_CLEANUP_TIME=8640
+      - COMPRESSION=BZ
+    networks:
+      - proxy-tier
+    restart: always
+
+networks:
+  proxy-tier:
+    external:
+      name: nginx-proxy
