@@ -1,3 +1,7 @@
+## 1.4 2017-08-28 <dave at tiredofit dot ca>
+
+* Version Bump 12.04
+
 ## 1.3 2017-08-28 <dave at tiredofit dot ca>
 
 * File Structure Reorganization and Layer Compaction
