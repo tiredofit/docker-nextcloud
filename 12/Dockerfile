@@ -1,4 +1,4 @@
-FROM tiredofit/nginx-php-fpm:7.1-latest
+FROM tiredofit/nginx-php-fpm:7.1
 ARG NEXTCLOUD_VERSION=12.0.4
 ARG GPG_nextcloud="2880 6A87 8AE4 23A2 8372  792E D758 99B9 A724 937A"
 
@@ -41,7 +41,7 @@ RUN apk -U upgrade && \
 
 ### Nextcloud Installation
     mkdir -p /assets/nextcloud && \
-    cd /tmp && \   
+    cd /usr/src && \
     NEXTCLOUD_SRC="nextcloud-${NEXTCLOUD_VERSION}.tar.bz2" && \
     wget -q https://download.nextcloud.com/server/releases/${NEXTCLOUD_SRC} && \
     wget -q https://download.nextcloud.com/server/releases/${NEXTCLOUD_SRC}.sha512 && \
@@ -59,7 +59,7 @@ RUN apk -U upgrade && \
     echo "All seems good, now unpacking ${NEXTCLOUD_SRC}..." && \
     tar xjf ${NEXTCLOUD_SRC} --strip 1 -C /assets/nextcloud && \
     mkdir -p /assets/nextcloud/custom-apps && \
-    rm -rf /tmp/* && \
+    rm -rf /usr/src/* && \
 
 ## Maintenance
     update-ca-certificates && \
@@ -70,3 +70,5 @@ RUN apk -U upgrade && \
 
 ### Add Files
   ADD install /
+
+VOLUME ["/www/nextcloud/custom-apps"]

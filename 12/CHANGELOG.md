@@ -1,6 +1,22 @@
-## 1.4 2017-08-28 <dave at tiredofit dot ca>
+## 1.6 2017-02-01 <dave at tiredofit dot ca>
+
+* Rebase
+
+## 1.5 2017-01-18 <dave at tiredofit dot ca>
+
+* Fix App Upgrading issue on Startup
+
+## 1.42 2017-10-24 <dave at tiredofit dot ca>
 
 * Version Bump 12.04
+
+## 1.41 2017-10-24 <dave at tiredofit dot ca>
+
+* Fix config.php script generation
+
+## 1.4 2017-10-24 <dave at tiredofit dot ca>
+
+* Version Bump 12.0.3
 
 ## 1.3 2017-08-28 <dave at tiredofit dot ca>
 

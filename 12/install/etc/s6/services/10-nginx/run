@@ -15,10 +15,10 @@ sleep 2
 	  out="`$mysqlcmd -e "SELECT COUNT(*) FROM information_schema.FILES;" 2>&1`"
 	  echo "$out" | grep -E "COUNT|Enter" 2>&1 > /dev/null
 	  if [ $? -eq 0 ]; then
-	    echo "[maridb] Server is up !"
+	    echo "** [nextcloud] SQL Server "$DB_HOST" is up !"
 	    break
 	  fi
-	  echo "[mariadb] Server "$DB_HOST" is not available. Retying in 2 seconds"
+	  echo "** [nextcloud] Server "$DB_HOST" is not available. Retying in 2 seconds"
 	  sleep 2
 	done
 	  fi
@@ -74,7 +74,6 @@ sleep 2
 	        rm -f /tmp/list_before /tmp/list_after
 	    fi
 	fi
-
 
     sed -i -e "s/<CRON_PERIOD>/$CRON_PERIOD/g" /assets/cron/crontab.txt 
 	sed -i -e "s/<PHP_MEMORY_LIMIT>/$PHP_MEMORY_LIMIT/g" /assets/cron/crontab.txt 
@@ -175,7 +174,7 @@ include("/www/nextcloud/config/config.php");
 
 \$CONFIG['logtimezone'] = '$TIMEZONE';
 \$CONFIG['logdateformat'] = 'Y-m-d H:i:s';
-\$CONFIG[''log_type'] = 'owncloud';
+\$CONFIG['log_type'] = 'file';
 \$CONFIG['logfile'] = '/www/logs/nextcloud/nextcloud.log';
 
 echo "<?php\n\\\$CONFIG = ";
@@ -201,18 +200,14 @@ EOF
 	chown -R nginx:www-data /www/nextcloud
 	chown -R nginx:www-data /assets/nextcloud
 
-	mkdir -p /www/logs/nginx
-        mkdir -p /www/logs/nextcloud
-	mkdir -p /tmp/nginx
-        chown -R nginx /www/logs/nginx
-        chown -R nginx /www/logs/nextcloud
-	chown nginx /tmp/nginx
+    mkdir -p /www/logs/nextcloud
 	mkdir -p /tmp/state
 	echo '** Initialization Complete' >/tmp/state/10-nginx
+
+
 fi
 
+su -u nginx php /www/nextcloud/occ upgrade --no-app-disable
 echo ''
-echo '** Starting Nextcloud'
+echo '** [nextcloud] Starting nginx'
 exec nginx
-
-
