@@ -49,7 +49,8 @@ The following image tags are available:
 
 
 * `12`,`12-latest` - Nextcloud 12
-* `latest` - Nextcloud 12
+* `13`,`13-latest` - Nextcloud 13
+* `latest` - Nextcloud 13
 
 # Quick Start
 

@@ -1,6 +1,6 @@
-## 1.7 2017-02-06 <dave at tiredofit dot ca>
+## 1.6 2017-02-06 <dave at tiredofit dot ca>
 
-* Bump to 12.06
+* Bump to 13.0.0
 
 ## 1.6 2017-02-01 <dave at tiredofit dot ca>
 
