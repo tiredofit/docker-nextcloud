@@ -1,5 +1,11 @@
 # hub.docker.com/tiredofit/nextcloud
 
+[![Build Status](https://img.shields.io/docker/build/tiredofit/nextcloud.svg)](https://hub.docker.com/r/tiredofit/nextcloud)
+[![Docker Pulls](https://img.shields.io/docker/pulls/tiredofit/nextcloud.svg)](https://hub.docker.com/r/tiredofit/nextcloud)
+[![Docker Stars](https://img.shields.io/docker/stars/tiredofit/nextcloud.svg)](https://hub.docker.com/r/tiredofit/nextcloud)
+[![Docker Layers](https://images.microbadger.com/badges/image/tiredofit/nextcloud.svg)](https://microbadger.com/images/tiredofit/nextcloud)
+[![Image Size](https://img.shields.io/microbadger/image-size/tiredofit/nextcloud.svg)](https://microbadger.com/images/tiredofit/nextcloud)
+
 # Introduction
 
 Dockerfile to build a [Nextcloud](https://nextcloud.com) container image.

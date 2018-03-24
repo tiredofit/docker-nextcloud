@@ -1,3 +1,7 @@
+## 1.7 2017-02-06 <dave at tiredofit dot ca>
+
+* Switch to PHP 7.23 and not rely on nginx-php-fpm due to LDAP regression
+
 ## 1.6 2017-02-06 <dave at tiredofit dot ca>
 
 * Bump to 13.0.0
