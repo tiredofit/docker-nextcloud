@@ -1,2 +1,0 @@
- */<CRON_PERIOD> * * * * sudo -u nginx php -d memory_limit=<PHP_MEMORY_LIMIT> -f /www/nextcloud/cron.php  >/dev/null 2>&1
- 

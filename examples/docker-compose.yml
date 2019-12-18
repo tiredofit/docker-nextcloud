@@ -1,0 +1,91 @@
+version: '3.7'
+services:
+
+  nextcloud-app:
+    image: tiredofit/nextcloud
+    container_name: nextcloud-app
+    labels:
+    - traefik.enable=true
+    - traefik.frontend.rule=Host:nextcloud.example.com
+    - traefik.port=80
+    - traefik.protocol=http
+    - traefik.docker.network=proxy
+    - traefik.backend=nextcloud-app
+    volumes:
+    - ./data/data:/www/nextcloud/data
+    - ./data/config:/www/nextcloud/config
+    - ./data/apps:/www/nextcloud/custom-apps
+    - ./data/themes:/www/nextcloud/themes
+    - ./logs:/www/logs
+    environment:
+    - VIRTUAL_HOST=nextcloud.example.com
+    - VIRTUAL_NETWORK=proxy
+    - LETSENCRYPT_HOST=nextcloud.example.com
+    - LETSENCRYPT_EMAIL=email@Hostname.com
+
+    - CRON_PERIOD=15
+      
+    - ADMIN_USER=admin
+    - ADMIN_PASS=pass
+    - DOMAIN=example.com
+      
+    - DB_TYPE=mysql
+    - DB_NAME=nextcloud
+    - DB_USER=nextcloud
+    - DB_PASS=password
+    - DB_HOST=nextcloud-db
+    
+    networks:
+    - proxy
+    - services
+    restart: always
+
+  nextcloud-db:
+    image: tiredofit/mariadb:latest
+    container_name: nextcloud-db
+    volumes:
+    - /var/local/db/nextcloud:/var/lib/mysql
+    environment:
+    - ROOT_PASS=password
+    - DB_NAME=nextcloud
+    - DB_USER=nextcloud
+    - DB_PASS=password
+    networks:
+    - services
+    restart: always
+
+  nextcloud-redis:
+    image: tiredofit/redis
+    container_name: nextcloud-redis
+    volumes:
+    - ./redis:/data
+    networks:
+    - services
+    restart: always
+
+  nextcloud-db-backup:
+    image: tiredofit/db-backup
+    container_name: nextcloud-db-backup
+    links:
+    - nextcloud-db
+    volumes:
+    - ./dbbackup:/backup
+    environment:
+    - DB_HOST=nextcloud-db
+    - DB_TYPE=mariadb
+    - DB_NAME=nextcloud
+    - DB_USER=nextcloud
+    - DB_PASS=password
+    - DB_DUMP_FREQ=1440
+    - DB_DUMP_BEGIN=0000
+    - DB_CLEANUP_TIME=8640
+    - COMPRESSION=BZ
+    networks:
+    - services
+    restart: always
+
+networks:
+  proxy:
+    external: true
+  services:
+    external: true

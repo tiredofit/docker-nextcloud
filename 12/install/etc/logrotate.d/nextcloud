@@ -1,8 +1,0 @@
-/www/logs/nextcloud/*.log {
-    daily
-    ifempty
-    rotate 7
-    missingok
-    compress
-    dateext
-}

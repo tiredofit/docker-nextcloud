@@ -1,0 +1,8 @@
+<LOG_DIR>/*.log {
+    daily
+    ifempty
+    rotate 7
+    missingok
+    compress
+    dateext
+}
