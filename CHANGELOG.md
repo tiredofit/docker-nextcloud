@@ -1,3 +1,9 @@
+## 2.0.2 2019-12-21 <dave at tiredofit dot ca>
+
+   ### Added
+      - Nextcloud 17.0.2
+
+
 ## 2.0.1 2019-12-18 <dave at tiredofit dot ca>
 
    ### Changed

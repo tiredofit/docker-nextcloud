@@ -54,7 +54,7 @@ services:
     - services
     restart: always
 
-  nextcloud-redis:
+d  nextcloud-redis:
     image: tiredofit/redis
     container_name: nextcloud-redis
     volumes:
