@@ -1,14 +1,12 @@
 #!/usr/bin/with-contenv bash
 
+source /assets/functions/*
+PROCESS_NAME="nextcloud"
+
 while [ ! -f /tmp/state/init-20-php-fpm ]
 do
   sleep 1
 done
-
-### Set Debug Mode
-if [ "$DEBUG_MODE" = "TRUE" ] || [ "$DEBUG_MODE" = "true" ]; then
-    set -x
-fi
 
 ### Set Defaults
 ANIMATED_GIFS_MAX_FILESIZE=${ANIMATED_GIFS_MAX_FILESIZE:-10}
@@ -88,14 +86,6 @@ fi
 # return true if specified directory is empty
 directory_empty() {
     [ -n "$(find "$1"/ -prune -empty)" ]
-}
-
-silent() {
-  if [ "$DEBUG_MODE" = "TRUE" ] || [ "$DEBUG_MODE" = "true" ];  then
-    "$@"
-  else
-    "$@" > /dev/null 2>&1
-  fi
 }
 
 update_config() {
@@ -209,74 +199,21 @@ case "$DB_TYPE" in
         DB_PORT=${DB_PORT:-3306}
         DB_TYPE=mysql
         
-        if [ ! -n "$DB_HOST" ]; then
-            echo '** [nextcloud] ERROR: No Database Host Entered!'
-            exit 1
-        fi
-
-        if [ ! -n "$DB_NAME" ]; then
-            echo '** [nextcloud] ERROR: No Database Pass Entered!'
-            exit 1
-        fi
-
-        if [ ! -n "$DB_USER" ]; then
-            echo '** [nextcloud] ERROR: No Database User Entered!'
-            exit 1
-        fi
-
-        if [ ! -n "$DB_PASS" ]; then
-            echo '** [nextcloud] ERROR: No Database Pass Entered!'
-            exit 1
-        fi
-
-        ### Make sure that DB is accessible
-        while true; do
-          mysqlcmd="mysql -u$DB_USER -h$DB_HOST -p$DB_PASS -P$DB_PORT"
-          out="`$mysqlcmd -e "SELECT COUNT(*) FROM information_schema.FILES;" 2>&1`"
-          echo "$out" | grep -E "COUNT|Enter" 2>&1 > /dev/null
-          if [ $? -eq 0 ]; then
-              echo "** [nextcloud] MariaDB Server '"$DB_HOST"' is available"
-              break
-          fi
-          echo "** [nextcloud] MariaDB Server '"$DB_HOST"' unavailable. Sleeping a little bit ..."
-          sleep 5
-        done
+        sanity_db mariadb
+        db_check mariadb
+        
      ;;
     "sqlite" | "SQLITE" | "sqlite3" | "SQLITE3" )     
         DB_TYPE="sqlite3"
      ;;
     "postgres" | "postgresql" | "POSTGRES" | "POSTGRESQL" )
         DB_PORT=${DB_PORT:-5432}
-        if [ ! -n "$DB_HOST" ]; then
-            echo '** [nextcloud] ERROR: No Database Host Entered!'
-            exit 1
-        fi
+        sanity_db
 
-        if [ ! -n "$DB_NAME" ]; then
-            echo '** [nextcloud] ERROR: No Database Pass Entered!'
-            exit 1
-        fi
-
-        if [ ! -n "$DB_USER" ]; then
-            echo '** [nextcloud] ERROR: No Database User Entered!'
-            exit 1
-        fi
-
-        if [ ! -n "$DB_PASS" ]; then
-            echo '** [nextcloud] ERROR: No Database Pass Entered!'
-            exit 1
-        fi
-
-        ### Check to see if DB Is Ready
-        DB_TYPE=pgsql
-        until PGPASSWORD=${DB_PASS} psql --host=${DB_HOST} --port=${DB_PORT} --username=${DB_USER} ${DB_NAME} -w &>/dev/null
-        do
-            echo "** [nextcloud] Waiting for ${DB_HOST} to be avaialable"
-            sleep 5
-        done
+        db_check postgres
      ;;
    *)
-        echo "** [nextcloud] Unknown DB_TYPE Variable - Exiting"
+        print_error "Unknown DB_TYPE Variable - Exiting"
         exit 1
      ;;
 esac    
@@ -308,7 +245,7 @@ if [ -f "${NGINX_WEBROOT}/data/.version" ]; then
 fi
 
 if version_greater "$installed_version" "${NEXTCLOUD_VERSION}"; then
-    echo "** [nextcloud] ERROR: Can't start Nextcloud because the version of the data ($installed_version) is higher than the docker image version (${NEXTCLOUD_VERSION}) and downgrading is not supported. Are you sure you have pulled the newest image version?"
+    print_error "Can't start Nextcloud because the version of the data ($installed_version) is higher than the docker image version (${NEXTCLOUD_VERSION}) and downgrading is not supported. Are you sure you have pulled the newest image version?"
     exit 1
 fi
 
@@ -319,7 +256,7 @@ if [ "$ENABLE_AUTO_UPGRADE" = "TRUE" ]; then
         sudo -u ${NGINX_USER} php ${NGINX_WEBROOT}/occ upgrade
         sudo -u ${NGINX_USER} php ${NGINX_WEBROOT}/occ app:list > /tmp/list_after
         echo $NEXTCLOUD_VERSION 'automatically upgraded on '`date` | cat - ${NGINX_WEBROOT}/data/.version > /tmp/.version && mv /tmp/.version ${NGINX_WEBROOT}/data/.version
-        echo "** [nextcloud] The following apps have beed disabled:"
+        print_warn "The following apps have beed disabled:"
         diff <(sed -n "/Enabled:/,/Disabled:/p" /tmp/list_before) <(sed -n "/Enabled:/,/Disabled:/p" /tmp/list_after) | grep '<' | cut -d- -f2 | cut -d: -f1
         rm -f /tmp/list_before /tmp/list_after
       fi
@@ -328,18 +265,11 @@ fi
 
 ### Check to see if this is a new install, if yes create directories...
 if [ ! -f ${NGINX_WEBROOT}/config/config.php ]; then
-  echo "** [nextcloud] New Installation Detected"
+  print_warn "New Installation Detected"
 
-  if [ ! -n "$ADMIN_USER" ]; then
-      echo '** [nextcloud] ERROR: ADMIN_USER Entered!'
-      exit 1
-  fi
-
-  if [ ! -n "$ADMIN_PASS" ]; then
-      echo '** [nextcloud] ERROR: No ADMIN_PASS Entered!'
-      exit 1
-  fi
-
+  sanity_var ADMIN_USER "Administrative User"
+  sanity_var ADMIN_PASS "Administrative Password"
+  
   chown -R ${NGINX_USER}:${NGINX_GROUP} /www 
   chown -R ${NGINX_USER}:${NGINX_GROUP} /assets/nextcloud
 
@@ -386,11 +316,11 @@ EOF
 ?>
 EOF
 
-  echo "** [nextcloud] Starting automatic configuration for Nextcloud version ${NEXTCLOUD_VERSION}"
+  print_warn "Starting automatic configuration for Nextcloud version ${NEXTCLOUD_VERSION}"
   chown -R ${NGINX_USER}:${NGINX_GROUP} ${NGINX_WEBROOT} 
   silent sudo -u ${NGINX_USER} php ${NGINX_WEBROOT}/occ maintenance:install --admin-user ${ADMIN_USER} --admin-pass ${ADMIN_PASS}
   rm -rf ${NGINX_WEBROOT}/config/autoconfig.php
-  echo "** [nextcloud] Automatic configuration finished."
+  print_warn "Automatic configuration finished."
   chown -R ${NGINX_USER}:${NGINX_GROUP} ${NGINX_WEBROOT}/
   
   # Enable/disable apps. Note that this must be done after the Nextcloud setup.
@@ -405,7 +335,7 @@ if [ -z "ADMIN_MEMBERS" ]; then
   for admin_user in $admin_users
     do
         silent sudo -u ${NGINX_USER} php ${NGINX_WEBROOT}/occ group:adduser admin $admin_user
-        echo "** [nextcloud] Added '$admin_user' to admin group"
+        print_warn "Added '$admin_user' to admin group"
   done
 fi
 
@@ -427,5 +357,5 @@ mkdir -p ${TEMP_DIRECTORY}
 ### Force Reset Permissions for Security
 chown -R ${NGINX_USER}:${NGINX_GROUP} ${NGINX_WEBROOT}
 
-echo "** [nextcloud] Nextcloud Version ${NEXTCLOUD_VERSION} ready to be accessed!"
-touch /tmp/state/init-30-nextcloud
+print_info "Nextcloud Version ${NEXTCLOUD_VERSION} ready to be accessed!"
+liftoff

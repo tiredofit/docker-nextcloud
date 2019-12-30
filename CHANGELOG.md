@@ -1,3 +1,9 @@
+## 2.1.0 2019-12-29 <dave at tiredofit dot ca>
+
+   ### Added
+      - Changes to support new tiredofit/alpine and tiredofit/nginx images
+
+
 ## 2.0.2 2019-12-21 <dave at tiredofit dot ca>
 
    ### Added
