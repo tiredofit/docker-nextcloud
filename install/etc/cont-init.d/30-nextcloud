@@ -128,7 +128,7 @@ case "$DB_TYPE" in
         DB_TYPE=mysql
         
         sanity_db mariadb
-        db_check mariadb
+        db_ready mariadb
         
      ;;
     "sqlite" | "SQLITE" | "sqlite3" | "SQLITE3" )     
@@ -138,7 +138,7 @@ case "$DB_TYPE" in
         DB_PORT=${DB_PORT:-5432}
         sanity_db
 
-        db_check postgres
+        db_ready postgres
      ;;
    *)
         print_error "Unknown DB_TYPE Variable - Exiting"
