@@ -1,6 +1,7 @@
 #!/usr/bin/with-contenv bash
 
-for s in /assets/functions/*; do source $s; done
+source /assets/functions/00-container
+prepare_service
 PROCESS_NAME="nextcloud"
 
 check_service_initialized init 20-php-fpm
@@ -180,9 +181,9 @@ fi
 if [ "$ENABLE_AUTO_UPGRADE" = "TRUE" ]; then
   if version_greater "${NEXTCLOUD_VERSION}" "$installed_version"; then
       if [ "$installed_version" != "0.0.0~unknown" ]; then
-        sudo -u ${NGINX_USER} php ${NGINX_WEBROOT}/occ app:list > /tmp/list_before
-        sudo -u ${NGINX_USER} php ${NGINX_WEBROOT}/occ upgrade
-        sudo -u ${NGINX_USER} php ${NGINX_WEBROOT}/occ app:list > /tmp/list_after
+        silent sudo -u ${NGINX_USER} php ${NGINX_WEBROOT}/occ app:list > /tmp/list_before
+        silent sudo -u ${NGINX_USER} php ${NGINX_WEBROOT}/occ upgrade
+        silent sudo -u ${NGINX_USER} php ${NGINX_WEBROOT}/occ app:list > /tmp/list_after
         echo $NEXTCLOUD_VERSION 'automatically upgraded on '`date` | cat - ${NGINX_WEBROOT}/data/.version > /tmp/.version && mv /tmp/.version ${NGINX_WEBROOT}/data/.version
         print_warn "The following apps have beed disabled:"
         diff <(sed -n "/Enabled:/,/Disabled:/p" /tmp/list_before) <(sed -n "/Enabled:/,/Disabled:/p" /tmp/list_after) | grep '<' | cut -d- -f2 | cut -d: -f1

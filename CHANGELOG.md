@@ -1,3 +1,46 @@
+## 2.3.1 2020-06-15 <dave at tiredofit dot ca>
+
+   ### Added
+      - Update to support tiredofit/alpine base image 5.x changes
+
+
+## 2.3.0 2020-06-05 <dave at tiredofit dot ca>
+
+   ### Added
+      - Nextcloud 19.0.0
+      - Added PHP exntesions to support passwordless login
+
+
+## 2.2.4 2020-05-06 <dave at tiredofit dot ca>
+
+   ### Added
+      - Nextcloud 18.0.4
+
+
+## 2.2.3 2020-04-15 <dave at tiredofit dot ca>
+
+   ### Added
+      - Nextcloud 18.0.3
+
+
+## 2.2.2 2020-03-13 <dave at tiredofit dot ca>
+
+   ### Added
+      - Nextcloud 18.0.2
+
+
+## 2.2.1 2020-02-13 <dave at tiredofit dot ca>
+
+   ### Added
+      - Nextcloud 18.0.1
+
+
+## 2.2.0 2020-01-21 <dave at tiredofit dot ca>
+
+   ### Added
+      - Nextcloud 18.0.0
+
+
 ## 2.1.1 2020-01-02 <dave at tiredofit dot ca>
 
    ### Changed
