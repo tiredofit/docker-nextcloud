@@ -11,6 +11,13 @@ services:
     - traefik.protocol=http
     - traefik.docker.network=proxy
     - traefik.backend=nextcloud-app
+    - "traefik.http.middlewares.nextcloud-rep.redirectregex.regex=https://(.*)/.well-known/(card|cal)dav"
+    - "traefik.http.middlewares.nextcloud-rep.redirectregex.replacement=https://$$1/remote.php/dav/"
+    - "traefik.http.middlewares.nextcloud-rep.redirectregex.permanent=true"
+    - "traefik.http.middlewares.nextcloud-header.headers.stsIncludeSubdomains=true"
+    - "traefik.http.middlewares.nextcloud-header.headers.stsSeconds=15552000"
+    - "traefik.http.routers.nextcloud-app.middlewares=nextcloud-rep,nextcloud-header"
+
     volumes:
     - ./data/data:/www/nextcloud/data
     - ./data/config:/www/nextcloud/config
