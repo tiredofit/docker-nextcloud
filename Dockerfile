@@ -27,31 +27,31 @@ RUN set -x && \
     apk update && \
     apk upgrade && \
     apk add -t .nextcloud-run-dependencies \
-        bzip2-dev \
-        c-client \
-        coreutils \
-        ffmpeg \
-        findutils \
-        freetype \
-        gd \
-        gmp \
-        icu \
-        imagemagick \
-        libedit \
-        openssl \
-        libmcrypt \
-        libreoffice \
-        libsmbclient \
-        libwebp \
-        libxml2 \
-        libzip \
-        openldap \
-        pcre \
-        rsync \
-        sqlite \
-        zlib \
-        && \
-    \
+                bzip2-dev \
+                c-client \
+                coreutils \
+                ffmpeg \
+                findutils \
+                freetype \
+                gd \
+                gmp \
+                icu \
+                imagemagick \
+                libedit \
+                openssl \
+                libmcrypt \
+                libreoffice \
+                libsmbclient \
+                libwebp \
+                libxml2 \
+                libzip \
+                openldap \
+                pcre \
+                rsync \
+                sqlite \
+                zlib \
+                && \
+            \
 ### Nextcloud Installation
     mkdir -p /assets/nextcloud/custom-apps && \
     NEXTCLOUD_SRC="nextcloud-${NEXTCLOUD_VERSION}.tar.bz2" && \
