@@ -1,7 +1,7 @@
 FROM tiredofit/nginx-php-fpm:7.3
 LABEL maintainer="Dave Conroy (dave at tiredofit dot ca)"
 
-ENV NEXTCLOUD_VERSION=19.0.0 \
+ENV NEXTCLOUD_VERSION=19.0.1 \
     NGINX_WEBROOT="/www/nextcloud" \
     PHP_ENABLE_CREATE_SAMPLE_PHP=FALSE \
     PHP_ENABLE_BCMATH=TRUE \
