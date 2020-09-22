@@ -1,3 +1,9 @@
+## 2.3.4 2020-09-22 <dave at tiredofit dot ca>
+
+   ### Added
+      - Nextcloud 19.0.3
+
+
 ## 2.3.3 2020-08-19 <joergmschulz@github>
 
    ### Changed
