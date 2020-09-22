@@ -1,3 +1,8 @@
+## 2.3.3 2020-08-19 <joergmschulz@github>
+
+   ### Changed
+      - Fix first run wizard not showing videos on startup
+
 ## 2.3.2 2020-08-19 <dave at tiredofit dot ca>
 
    ### Added
