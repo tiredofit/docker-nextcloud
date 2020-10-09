@@ -45,7 +45,7 @@ This image also relies on an optional MariaDB/MySQL Server, and optionally, a Re
 
 ## Installation
 
-Automated builds of the image are available on [Docker Hub](https://hub.docker.com/tiredofit/nextcloud) and is the recommended method of installation.
+Automated builds of the image are available on [Docker Hub](https://hub.docker.com/r/tiredofit/nextcloud) and is the recommended method of installation.
 
 
 ```bash
@@ -54,14 +54,7 @@ docker pull tiredofit/nextcloud
 
 The following image tags are available:
 
-* `latest` - Nextcloud 17
-* `17`,`17-latest` - Nextcloud 15
-* `16`,`16-latest` - Nextcloud 15
-* `15`,`15-latest` - Nextcloud 15
-* `14`,`14-latest` - Nextcloud 14
-* `13`,`13-latest` - Nextcloud 13
-* `12`,`12-latest` - Nextcloud 12
-
+* `latest` - Nextcloud 20
 ### Quick Start
 
 * The quickest way to get started is using [docker-compose](https://docs.docker.com/compose/). See
@@ -97,7 +90,7 @@ If you there are features that you wish to override based on the defaults and fo
 | `ADMIN_USER` | Admin user e.g. `admin`                                                   |           |
 | `ADMIN_PASS` | Admin pass e.g. `password`                                                |           |
 | `DOMAIN`     | The Domain that this is configured for e.g. 'example.org'                 |           |
-| `DB_TYPE`    | Set the DB_TYPE - e.g. `mysql`, `postgres`, `sqlite3` - Default `sqlite3` | `sqlite3` |
+| `DB_TYPE`    | Set the DB_TYPE - e.g. `mysql`, `postgres`, `sqlite3`                     | `sqlite3` |
 | `DB_HOST`    | Hostname of DB Server e.g. `nextcloud-db`                                 |           |
 | `DB_NAME`    | Database name e.g. `nextcloud`                                            |           |
 | `DB_PORT`    | Database port e.g. `3306`                                                 |           |
