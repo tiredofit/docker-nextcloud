@@ -30,7 +30,7 @@ services:
     - LETSENCRYPT_HOST=nextcloud.example.com
     - LETSENCRYPT_EMAIL=email@Hostname.com
 
-    - CRON_PERIOD=15
+    - CRON_PERIOD=5
       
     - ADMIN_USER=admin
     - ADMIN_PASS=pass
