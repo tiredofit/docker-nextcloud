@@ -1,3 +1,9 @@
+## 2.3.6 2021-02-11 <dave at tiredofit dot ca>
+
+   ### Added
+      - Switch to PHP 7.4 as base
+
+
 ## 2.3.5 2021-02-08 <dave at tiredofit dot ca>
 
    ### Added
