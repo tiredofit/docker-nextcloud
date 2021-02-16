@@ -31,18 +31,22 @@ services:
     - LETSENCRYPT_EMAIL=email@Hostname.com
 
     - CRON_PERIOD=5
-      
+
     - ADMIN_USER=admin
     - ADMIN_PASS=pass
     - DOMAIN=example.com
-      
+
     - DB_TYPE=mysql
     - DB_NAME=nextcloud
     - DB_USER=nextcloud
     - DB_PASS=password
     - DB_HOST=nextcloud-db
-    
-    networks:
+
+
+### These lines are for Fail2ban. If you don't want, comment and also add ENABLE_FAIL2BAN=FALSE to your environment
+cap_add:
+    - NET_ADMIN
+networks:
     - proxy
     - services
     restart: always
@@ -62,7 +66,7 @@ services:
     restart: always
 
   nextcloud-redis:
-    image: tiredofit/redis
+    image: tiredofit/redis:latest
     container_name: nextcloud-redis
     volumes:
     - ./redis:/data
@@ -71,7 +75,7 @@ services:
     restart: always
 
   nextcloud-db-backup:
-    image: tiredofit/db-backup
+    image: tiredofit/db-backup:latest
     container_name: nextcloud-db-backup
     links:
     - nextcloud-db

@@ -8,7 +8,7 @@ check_service_initialized init 20-php-fpm
 
 if [ "$ENABLE_FILESYSTEM_CHECK_CHANGES" = "TRUE" ]; then
   ENABLE_FILESYSTEM_CHECK_CHANGES="1"
-else 
+else
   ENABLE_FILESYSTEM_CHECK_CHANGES="0"
 fi
 
@@ -28,9 +28,11 @@ include("${NGINX_WEBROOT}/config/config.php");
 \$CONFIG['appcodechecker'] = ${ENABLE_APP_CODE_CHECKER};
 \$CONFIG['appstoreenabled'] = ${ENABLE_APP_STORE};
 \$CONFIG['auth.bruteforce.protection.enabled'] = ${ENABLE_BRUTEFORCE_PROTECTION};
+\$CONFIG['cache_chunk_gc_ttl'] = '${CACHE_CHUNK_GC_TTL}';
+\$CONFIG['cache_path'] = '${CACHE_DIRECTORY}';
 \$CONFIG['check_data_directory_permissions'] = true;
-\$CONFIG['check_for_working_htaccess'] = 'false';
-\$CONFIG['check_for_working_wellknown_setup'] = true;
+\$CONFIG['check_for_working_htaccess'] = false;
+\$CONFIG['check_for_working_wellknown_setup'] = ${ENABLE_CHECK_WELLKNOWN};
 \$CONFIG['cipher'] = '${CIPHER}';
 \$CONFIG['debug'] = ${DEBUG_MODE:-FALSE};
 \$CONFIG['default_language'] = '${DEFAULT_LANGUAGE}';
@@ -72,7 +74,7 @@ include("${NGINX_WEBROOT}/config/config.php");
 \$CONFIG['mysql.utf8mb4'] = ${ENABLE_MYSQL_UTF8MB4};
 \$CONFIG['overwritehost'] = '${OVERWRITE_HOST}';
 \$CONFIG['overwriteprotocol'] = '${OVERWRITE_PROTOCOL}';
-\$CONFIG['part_file_in_storage'] = true;
+\$CONFIG['part_file_in_storage'] = ${ENABLE_PARTFILE_UPLOADS_STORAGE};
 \$CONFIG['preview_libreoffice_path'] = '/usr/bin/libreoffice';
 \$CONFIG['preview_max_filesize_image'] = 50;
 \$CONFIG['preview_max_x'] = ${PREVIEW_MAX_X};
@@ -80,12 +82,15 @@ include("${NGINX_WEBROOT}/config/config.php");
 \$CONFIG['session_keepalive'] = ${ENABLE_SESSION_KEEPALIVE};
 \$CONFIG['sharing.maxAutocompleteResults'] = ${SHARING_MAX_AUTOCOMPLETE_RESULTS};
 \$CONFIG['sharing.minSearchStringLength'] = ${SHARING_MIN_SEARCHSTRING_LENGTH};
+\$CONFIG['sharing.enable_share_accept'] = ${SHARING_ENABLE_ACCEPT};
+\$CONFIG['sharing.force_share_accept'] = ${SHARING_FORCE_ACCEPT};
+\$CONFIG['sharing.enable_share_mail'] = ${SHARING_ENABLE_MAIL};
 \$CONFIG['simpleSignUpLink.shown'] = ${ENABLE_SIGN_UP};
 \$CONFIG['skeletondirectory'] = '${SKELETON_DIRECTORY}';
 \$CONFIG['sort_groups_by_name'] = ${SORT_GROUPS_BY_NAME};
 \$CONFIG['sqlite.journal_mode'] = 'DELETE';
 \$CONFIG['tempdirectory'] = '${TEMP_DIRECTORY}';
-\$CONFIG['theme'] = '';
+\$CONFIG['theme'] = '${THEME}';
 \$CONFIG['token_auth_enforced'] = ${ENABLE_TOKEN_AUTH_ENFORCED};
 \$CONFIG['trashbin_retention_obligation'] = '${TRASHBIN_RETENTION}';
 \$CONFIG['updatechecker'] = true;
@@ -107,10 +112,10 @@ version_greater() {
   [[ "$(printf '%s\n' "$@" | sort -V | head -n 1)" != "$1" ]];
 }
 
-sed -i -e "s#<CRON_PERIOD>#${CRON_PERIOD}#g" /assets/cron/crontab.txt 
-sed -i -e "s#<MEMORY_LIMIT>#${PHP_MEMORY_LIMIT}#g" /assets/cron/crontab.txt 
-sed -i -e "s#<USER>#${NGINX_USER}#g" /assets/cron/crontab.txt 
-sed -i -e "s#<WEBROOT>#${NGINX_WEBROOT}#g" /assets/cron/crontab.txt 
+sed -i -e "s#<CRON_PERIOD>#${CRON_PERIOD}#g" /assets/cron/crontab.txt
+sed -i -e "s#<MEMORY_LIMIT>#${PHP_MEMORY_LIMIT}#g" /assets/cron/crontab.txt
+sed -i -e "s#<USER>#${NGINX_USER}#g" /assets/cron/crontab.txt
+sed -i -e "s#<WEBROOT>#${NGINX_WEBROOT}#g" /assets/cron/crontab.txt
 
 mkdir -p ${LOG_DIR}
 touch ${LOG_DIR}/${LOG_FILE}
@@ -121,18 +126,22 @@ mkdir -p ${TEMP_DIRECTORY}
 chown -R ${NGINX_USER}:${NGINX_GROUP} ${TEMP_DIRECTORY}
 
 mkdir -p ${SKELETON_DIRECTORY}
+chown -R ${NGINX_USER}:${NGINX_GROUP} ${SKELETON_DIRECTORY}
+
+mkdir -p ${CACHE_DIRECTORY}
+chown -R ${NGINX_USER}:${NGINX_GROUP} ${CACHE_DIRECTORY}
 
 ### Database Check
 case "$DB_TYPE" in
     "mysql" | "mariadb" | "MYSQL" | "MARIADB" )
         DB_PORT=${DB_PORT:-3306}
         DB_TYPE=mysql
-        
+
         sanity_db mariadb
         db_ready mariadb
-        
+
      ;;
-    "sqlite" | "SQLITE" | "sqlite3" | "SQLITE3" )     
+    "sqlite" | "SQLITE" | "sqlite3" | "SQLITE3" )
         DB_TYPE="sqlite3"
      ;;
     "postgres" | "postgresql" | "POSTGRES" | "POSTGRESQL" )
@@ -145,7 +154,7 @@ case "$DB_TYPE" in
         print_error "Unknown DB_TYPE Variable - Exiting"
         exit 1
      ;;
-esac    
+esac
 
 ### Sudo Hack for entering inside the container
 echo "alias occ='sudo -u ${NGINX_USER} php ${NGINX_WEBROOT}/occ'" > /root/.bashrc
@@ -170,7 +179,7 @@ if directory_empty ${NGINX_WEBROOT}/custom-apps; then
 fi
 
 if [ -f "${NGINX_WEBROOT}/data/.version" ]; then
-    installed_version=`head -n 1 ${NGINX_WEBROOT}/data/.version | awk '{print $1'}` ;
+    installed_version=$(head -n 1 ${NGINX_WEBROOT}/data/.version | awk '{print $1'})
 fi
 
 if version_greater "$installed_version" "${NEXTCLOUD_VERSION}"; then
@@ -184,7 +193,7 @@ if [ "$ENABLE_AUTO_UPGRADE" = "TRUE" ]; then
         silent sudo -u ${NGINX_USER} php ${NGINX_WEBROOT}/occ app:list > /tmp/list_before
         silent sudo -u ${NGINX_USER} php ${NGINX_WEBROOT}/occ upgrade
         silent sudo -u ${NGINX_USER} php ${NGINX_WEBROOT}/occ app:list > /tmp/list_after
-        echo $NEXTCLOUD_VERSION 'automatically upgraded on '`date` | cat - ${NGINX_WEBROOT}/data/.version > /tmp/.version && mv /tmp/.version ${NGINX_WEBROOT}/data/.version
+        echo "${NEXTCLOUD_VERSION} automatically upgraded on $(date)" | cat - ${NGINX_WEBROOT}/data/.version > /tmp/.version && mv /tmp/.version ${NGINX_WEBROOT}/data/.version
         print_warn "The following apps have beed disabled:"
         diff <(sed -n "/Enabled:/,/Disabled:/p" /tmp/list_before) <(sed -n "/Enabled:/,/Disabled:/p" /tmp/list_after) | grep '<' | cut -d- -f2 | cut -d: -f1
         rm -f /tmp/list_before /tmp/list_after
@@ -198,8 +207,8 @@ if [ ! -f ${NGINX_WEBROOT}/config/config.php ]; then
 
   sanity_var ADMIN_USER "Administrative User"
   sanity_var ADMIN_PASS "Administrative Password"
-  
-  chown -R ${NGINX_USER}:${NGINX_GROUP} /www 
+
+  chown -R ${NGINX_USER}:${NGINX_GROUP} /www
   chown -R ${NGINX_USER}:${NGINX_GROUP} /assets/nextcloud
 
   # Create an initial configuration file.
@@ -246,17 +255,17 @@ EOF
 EOF
 
   print_warn "Starting automatic configuration for Nextcloud version ${NEXTCLOUD_VERSION}"
-  chown -R ${NGINX_USER}:${NGINX_GROUP} ${NGINX_WEBROOT} 
+  chown -R ${NGINX_USER}:${NGINX_GROUP} ${NGINX_WEBROOT}
   silent sudo -u ${NGINX_USER} php ${NGINX_WEBROOT}/occ maintenance:install --admin-user ${ADMIN_USER} --admin-pass ${ADMIN_PASS}
   rm -rf ${NGINX_WEBROOT}/config/autoconfig.php
   print_warn "Automatic configuration finished."
   chown -R ${NGINX_USER}:${NGINX_GROUP} ${NGINX_WEBROOT}/
-  
+
   # Enable/disable apps. Note that this must be done after the Nextcloud setup.
   silent sudo -u ${NGINX_USER} php ${NGINX_WEBROOT}/occ app:disable firstrunwizard
-  echo $NEXTCLOUD_VERSION 'first installed on '`date`> ${NGINX_WEBROOT}/data/.version
+  echo "${NEXTCLOUD_VERSION} first installed on $(date)" > ${NGINX_WEBROOT}/data/.version
 fi
-  
+
 update_config
 
 if [ -z "ADMIN_MEMBERS" ]; then
@@ -268,23 +277,42 @@ if [ -z "ADMIN_MEMBERS" ]; then
   done
 fi
 
-if [ "$ENABLE_CRON" = "FALSE" ]; then
+if var_false ${ENABLE_CRON} ; then
   silent sudo -u ${NGINX_USER} php ${NGINX_WEBROOT}/occ background:ajax
 else
-  silent sudo -u ${NGINX_USER} php ${NGINX_WEBROOT}/occ background:cron              
+  silent sudo -u ${NGINX_USER} php ${NGINX_WEBROOT}/occ background:cron
 fi
 
 ### Support legacy images
 if [ ! -f ${NGINX_WEBROOT}/data/.version ]; then
-  echo $NEXTCLOUD_VERSION 'migrated from existing install on '`date`> ${NGINX_WEBROOT}/data/.version
+  echo "${NEXTCLOUD_VERSION} migrated from existing install on $(date)" > ${NGINX_WEBROOT}/data/.version
+fi
+
+## Copy over any custom files overtop of source
+if [ -d "/assets/custom" ]; then
+    print_warn "Detected Custom Source - Copying over to application"
+    cp -R /assets/custom/* "${NGINX_WEBROOT}"/
+    chown -R "${NGINX_USER}":"${NGINX_GROUP}" "${NGINX_WEBROOT}"
+fi
+
+## Execute Custom Scripts
+if [ -d /assets/custom-scripts/ ] ; then
+    print_warn "Found Custom Scripts to Execute"
+    for f in $(find /assets/custom-scripts/ -name \*.sh -type f); do
+        print_warn "Running Script ${f}"
+        chmod +x "${f}"
+        ${f}
+    done
 fi
 
 ### Language Fix for templates when using LibreOffice Online/Colalbora ## This needs work
 #cp -R /assets/www ${NGINX_WEBROOT}
 
-mkdir -p ${TEMP_DIRECTORY}
 ### Force Reset Permissions for Security
 chown -R ${NGINX_USER}:${NGINX_GROUP} ${NGINX_WEBROOT}
+
+### Add alias for running artisan
+echo "alias occ='cd ""${NGINX_WEBROOT}""; sudo -u ""${NGINX_USER}"" php occ'" > /root/.bashrc
 
 print_info "Nextcloud Version ${NEXTCLOUD_VERSION} ready to be accessed!"
 liftoff

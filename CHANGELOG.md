@@ -1,3 +1,10 @@
+## 3.0.0 2021-02-15 <dave at tiredofit dot ca>##
+   ### Added
+      - Additional environment variables for cache directory
+      - Additional environment variables for File sharing enforcement and email notifications
+      - Add fail2ban Support
+      - General Refresh and Cleanup
+
 ## 2.3.6 2021-02-11 <dave at tiredofit dot ca>
 
    ### Added
@@ -150,7 +157,7 @@
 
 ## 1.4.0 2019-05-16 <dave at tiredofit dot ca>
 
-* Nextcloud 16.0 
+* Nextcloud 16.0
 * PHP 7.3.5
 
 ## 1.3.4 2019-04-09 <dave at tiredofit dot ca>
@@ -267,7 +274,7 @@
 
 ## 1.2 2017-08-19 <dave at tiredofit dot ca>
 
-* Added Logrotate 
+* Added Logrotate
 * Add entries for custom logging
 
 ## 1.1 2017-07-23 <dave at tiredofit dot ca>

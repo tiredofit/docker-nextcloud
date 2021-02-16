@@ -31,6 +31,7 @@ RUN set -x && \
                 bzip2-dev \
                 c-client \
                 coreutils \
+                fail2ban \
                 ffmpeg \
                 findutils \
                 freetype \
@@ -60,7 +61,9 @@ RUN set -x && \
     chown -R nginx:www-data /assets/nextcloud && \
     \
 ## Cleanup
-    rm -rf /var/cache/apk/*
+    rm -rf /var/cache/apk/* && \
+    cd /etc/fail2ban && \
+    rm -rf fail2ban.conf fail2ban.d jail.conf jail.d paths-*.conf
 
 ### Add Files
 ADD install /
