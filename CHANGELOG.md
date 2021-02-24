@@ -1,6 +1,9 @@
-## 3.0.0 2021-02-15 <dave at tiredofit dot ca>##
+## 3.0.0 2021-02-22 <dave at tiredofit dot ca>
    ### Added
-      - Additional environment variables for cache directory
+      - Nextcloud 21
+      - PHP 8.x
+      - Nextcloud Rust Files Backend component included
+      - Additional environment variables for cache, tmp, data directory ** BREAKING CHANGES ** See README
       - Additional environment variables for File sharing enforcement and email notifications
       - Add fail2ban Support
       - General Refresh and Cleanup

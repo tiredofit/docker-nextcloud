@@ -9,9 +9,9 @@
     </groups>
     <templates>
         <template>
-            <template>APP - PHP-FPM7</template>
-            <name>APP - PHP-FPM7</name>
-            <description>php-fpm Template - http://www.netkiller.cn</description>
+            <template>APP - PHP-FPM8</template>
+            <name>APP - PHP-FPM8</name>
+            <description>php-fpm Template</description>
             <groups>
                 <group>
                     <name>Templates</name>
@@ -484,7 +484,7 @@
                     <type>0</type>
                     <snmp_community/>
                     <snmp_oid/>
-                    <key>proc.num[php-fpm7,,,]</key>
+                    <key>proc.num[PHP-FPM8,,,]</key>
                     <delay>1m</delay>
                     <history>30d</history>
                     <trends>365d</trends>
@@ -532,7 +532,7 @@
     </templates>
     <triggers>
         <trigger>
-            <expression>{APP - PHP-FPM7:proc.num[php-fpm7,,,].last()}=0</expression>
+            <expression>{APP - PHP-FPM8:proc.num[PHP-FPM8,,,].last()}=0</expression>
             <recovery_mode>0</recovery_mode>
             <recovery_expression/>
             <name>PHP-FPM is down</name>
@@ -575,7 +575,7 @@
                     <calc_fnc>2</calc_fnc>
                     <type>0</type>
                     <item>
-                        <host>APP - PHP-FPM7</host>
+                        <host>APP - PHP-FPM8</host>
                         <key>php-fpm.status[active-processes]</key>
                     </item>
                 </graph_item>
@@ -587,7 +587,7 @@
                     <calc_fnc>2</calc_fnc>
                     <type>0</type>
                     <item>
-                        <host>APP - PHP-FPM7</host>
+                        <host>APP - PHP-FPM8</host>
                         <key>php-fpm.status[idle-processes]</key>
                     </item>
                 </graph_item>
@@ -599,7 +599,7 @@
                     <calc_fnc>2</calc_fnc>
                     <type>0</type>
                     <item>
-                        <host>APP - PHP-FPM7</host>
+                        <host>APP - PHP-FPM8</host>
                         <key>php-fpm.status[max-active-processes]</key>
                     </item>
                 </graph_item>
@@ -611,7 +611,7 @@
                     <calc_fnc>2</calc_fnc>
                     <type>0</type>
                     <item>
-                        <host>APP - PHP-FPM7</host>
+                        <host>APP - PHP-FPM8</host>
                         <key>php-fpm.status[total-processes]</key>
                     </item>
                 </graph_item>
@@ -643,7 +643,7 @@
                     <calc_fnc>2</calc_fnc>
                     <type>0</type>
                     <item>
-                        <host>APP - PHP-FPM7</host>
+                        <host>APP - PHP-FPM8</host>
                         <key>php-fpm.status[slow-requests]</key>
                     </item>
                 </graph_item>
@@ -675,7 +675,7 @@
                     <calc_fnc>2</calc_fnc>
                     <type>0</type>
                     <item>
-                        <host>APP - PHP-FPM7</host>
+                        <host>APP - PHP-FPM8</host>
                         <key>php-fpm.status[listen-queue]</key>
                     </item>
                 </graph_item>
@@ -687,7 +687,7 @@
                     <calc_fnc>2</calc_fnc>
                     <type>0</type>
                     <item>
-                        <host>APP - PHP-FPM7</host>
+                        <host>APP - PHP-FPM8</host>
                         <key>php-fpm.status[listen-queue-len]</key>
                     </item>
                 </graph_item>
@@ -699,7 +699,7 @@
                     <calc_fnc>2</calc_fnc>
                     <type>0</type>
                     <item>
-                        <host>APP - PHP-FPM7</host>
+                        <host>APP - PHP-FPM8</host>
                         <key>php-fpm.status[max-listen-queue]</key>
                     </item>
                 </graph_item>

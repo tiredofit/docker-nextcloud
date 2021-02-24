@@ -20,7 +20,7 @@ directory_empty() {
 update_config() {
 # Update config.php.
   CONFIG_TEMP=$(/bin/mktemp)
-  sudo -u ${NGINX_USER} php <<EOF > $CONFIG_TEMP && chown ${NGINX_USER}:${NGINX_GROUP} $CONFIG_TEMP && mv $CONFIG_TEMP $CONFIG_FILE
+  sudo -u "${NGINX_USER}" php <<EOF > "$CONFIG_TEMP" && chown "${NGINX_USER}":"${NGINX_GROUP}" "$CONFIG_TEMP" && mv "$CONFIG_TEMP" "$CONFIG_FILE"
 <?php
 include("${NGINX_WEBROOT}/config/config.php");
 \$CONFIG['maintenance'] = false;
@@ -38,6 +38,7 @@ include("${NGINX_WEBROOT}/config/config.php");
 \$CONFIG['default_language'] = '${DEFAULT_LANGUAGE}';
 \$CONFIG['default_locale'] = '${DEFAULT_LOCALE}';
 \$CONFIG['defaultapp'] = '${DEFAULT_APPLICATION}';
+\$CONFIG['default_phone_region'] = '${ISO_CODE}';
 \$CONFIG['enable_previews'] = ${ENABLE_PREVIEWS};
 \$CONFIG['filelocking.debug'] = ${FILE_LOCKING_DEBUG};
 \$CONFIG['filelocking.enabled'] = ${ENABLE_FILE_LOCKING};
@@ -97,12 +98,11 @@ include("${NGINX_WEBROOT}/config/config.php");
 \$CONFIG['upgrade.disable-web'] = false;
 \$CONFIG['versions_retention_obligation'] = '${VERSIONS_RETENTION}';
 
-echo "<?php\n// The following options are dynamically changed via environment variables - Please see Documentation\n";
+echo "<?php\n";
 echo "\\\$CONFIG = ";
 var_export(\$CONFIG);
 
 echo ";";
-echo "\n // Add your custom configuration here that will not be affected by the environment variables";
 ?>
 EOF
 }
@@ -117,38 +117,49 @@ sed -i -e "s#<MEMORY_LIMIT>#${PHP_MEMORY_LIMIT}#g" /assets/cron/crontab.txt
 sed -i -e "s#<USER>#${NGINX_USER}#g" /assets/cron/crontab.txt
 sed -i -e "s#<WEBROOT>#${NGINX_WEBROOT}#g" /assets/cron/crontab.txt
 
-mkdir -p ${LOG_DIR}
-touch ${LOG_DIR}/${LOG_FILE}
-chown -R ${NGINX_USER}:${NGINX_GROUP} ${LOG_DIR}/${LOG_FILE}
+mkdir -p "${LOG_DIR}"
+touch "${LOG_DIR}"/"${LOG_FILE}"
+chown -R "${NGINX_USER}":"${NGINX_GROUP}" "${LOG_DIR}"/"${LOG_FILE}"
 sed -i "s#<LOG_DIR>#${LOG_DIR}#g" /etc/logrotate.d/nextcloud
 
-mkdir -p ${TEMP_DIRECTORY}
-chown -R ${NGINX_USER}:${NGINX_GROUP} ${TEMP_DIRECTORY}
+mkdir -p "${APP_DIRECTORY}"
+chown -R "${NGINX_USER}":"${NGINX_GROUP}" "${APP_DIRECTORY}"
 
-mkdir -p ${SKELETON_DIRECTORY}
-chown -R ${NGINX_USER}:${NGINX_GROUP} ${SKELETON_DIRECTORY}
+mkdir -p "${CACHE_DIRECTORY}"
+chown -R "${NGINX_USER}":"${NGINX_GROUP}" "${CACHE_DIRECTORY}"
 
-mkdir -p ${CACHE_DIRECTORY}
-chown -R ${NGINX_USER}:${NGINX_GROUP} ${CACHE_DIRECTORY}
+mkdir -p "${DATA_DIRECTORY}"
+chown "${NGINX_USER}":"${NGINX_GROUP}" "${DATA_DIRECTORY}"
+
+if var_true ${ENABLE_RESET_PERMISSIONS_DATA} ; then
+  chown -R "${NGINX_USER}":"${NGINX_GROUP}" "${DATA_DIRECTORY}"
+fi
+
+mkdir -p "${SKELETON_DIRECTORY}"
+chown -R "${NGINX_USER}":"${NGINX_GROUP}" "${SKELETON_DIRECTORY}"
+
+mkdir -p "${TEMP_DIRECTORY}"
+chown -R "${NGINX_USER}":"${NGINX_GROUP}" "${TEMP_DIRECTORY}"
 
 ### Database Check
 case "$DB_TYPE" in
     "mysql" | "mariadb" | "MYSQL" | "MARIADB" )
         DB_PORT=${DB_PORT:-3306}
-        DB_TYPE=mysql
 
         sanity_db mariadb
         db_ready mariadb
 
+        install_options="--database=mysql --database-host=${DB_HOST} --database-name=${DB_NAME} --database-user=${DB_USER} --database-pass=${DB_PASS} --database-table-space=${DB_PREFIX} --database-port=${DB_PORT}"
      ;;
     "sqlite" | "SQLITE" | "sqlite3" | "SQLITE3" )
         DB_TYPE="sqlite3"
+        install_options="--database-name $SQLITE_DATABASE"
      ;;
     "postgres" | "postgresql" | "POSTGRES" | "POSTGRESQL" )
         DB_PORT=${DB_PORT:-5432}
         sanity_db
-
         db_ready postgres
+        install_options="--database=pgsql --database-host=${DB_HOST} --database-name=${DB_NAME} --database-user=${DB_USER} --database-pass=${DB_PASS} --database-table-space=${DB_PREFIX} --database-port=${DB_PORT}"
      ;;
    *)
         print_error "Unknown DB_TYPE Variable - Exiting"
@@ -159,27 +170,32 @@ esac
 ### Sudo Hack for entering inside the container
 echo "alias occ='sudo -u ${NGINX_USER} php ${NGINX_WEBROOT}/occ'" > /root/.bashrc
 
-mkdir -p ${NGINX_WEBROOT}
-chown -R ${NGINX_USER}:${NGINX_GROUP} ${NGINX_WEBROOT}
+mkdir -p "${NGINX_WEBROOT}"
+chown -R "${NGINX_USER}":"${NGINX_GROUP}" "${NGINX_WEBROOT}"
 
 installed_version="0.0.0~unknown"
 
-rsync -a --delete --exclude /config/ --exclude /data/ --exclude /custom-apps/ --exclude /themes/ /assets/nextcloud/ ${NGINX_WEBROOT}/
-mkdir -p ${NGINX_WEBROOT}/data ${NGINX_WEBROOT}/config ${NGINX_WEBROOT}/themes ${NGINX_WEBROOT}/custom-apps
-chown -R nginx ${NGINX_WEBROOT}
+rsync -a --delete --exclude /config/ --exclude /data/ --exclude /custom-apps/ --exclude /themes/ /assets/nextcloud/ "${NGINX_WEBROOT}"/
+mkdir -p "${NGINX_WEBROOT}"/data "${NGINX_WEBROOT}"/config "${NGINX_WEBROOT}"/themes "${NGINX_WEBROOT}"/custom-apps
+chown -R nginx "${NGINX_WEBROOT}"
 
 for dir in config themes; do
-    if directory_empty ${NGINX_WEBROOT}/"$dir"; then
-        cp -arT /assets/nextcloud/"$dir" ${NGINX_WEBROOT}/"$dir"
+    if directory_empty "${NGINX_WEBROOT}"/"$dir"; then
+        cp -arT /assets/nextcloud/"$dir" "${NGINX_WEBROOT}"/"$dir"
     fi
 done
 
-if directory_empty ${NGINX_WEBROOT}/custom-apps; then
-    cp -arT /assets/nextcloud/custom-apps ${NGINX_WEBROOT}/custom-apps
+if [ "${APP_DIRECTORY}" != "${NGINX_WEBROOT}/custom-apps}" ]; then
+    rm -rf ${NGINX_WEBROOT}/custom-apps
+    ln -sf ${APP_DIRECTORY} ${NGINX_WEBROOT}/custom-apps
 fi
 
-if [ -f "${NGINX_WEBROOT}/data/.version" ]; then
-    installed_version=$(head -n 1 ${NGINX_WEBROOT}/data/.version | awk '{print $1'})
+if directory_empty "${APP_DIRECTORY}"; then
+    cp -arT /assets/nextcloud/custom-apps "${APP_DIRECTORY}"
+fi
+
+if [ -f "${DATA_DIRECTORY}/.version" ]; then
+    installed_version=$(head -n 1 "${DATA_DIRECTORY}"/.version | awk '{print $1'})
 fi
 
 if version_greater "$installed_version" "${NEXTCLOUD_VERSION}"; then
@@ -190,10 +206,11 @@ fi
 if [ "$ENABLE_AUTO_UPGRADE" = "TRUE" ]; then
   if version_greater "${NEXTCLOUD_VERSION}" "$installed_version"; then
       if [ "$installed_version" != "0.0.0~unknown" ]; then
-        silent sudo -u ${NGINX_USER} php ${NGINX_WEBROOT}/occ app:list > /tmp/list_before
-        silent sudo -u ${NGINX_USER} php ${NGINX_WEBROOT}/occ upgrade
-        silent sudo -u ${NGINX_USER} php ${NGINX_WEBROOT}/occ app:list > /tmp/list_after
-        echo "${NEXTCLOUD_VERSION} automatically upgraded on $(date)" | cat - ${NGINX_WEBROOT}/data/.version > /tmp/.version && mv /tmp/.version ${NGINX_WEBROOT}/data/.version
+        silent sudo -u "${NGINX_USER}" php "${NGINX_WEBROOT}"/occ app:list > /tmp/list_before
+        silent sudo -u "${NGINX_USER}" php "${NGINX_WEBROOT}"/occ upgrade
+        silent sudo -u "${NGINX_USER}" php "${NGINX_WEBROOT}"/db:add-missing-indices
+        silent sudo -u "${NGINX_USER}" php "${NGINX_WEBROOT}"/occ app:list > /tmp/list_after
+        echo "${NEXTCLOUD_VERSION} automatically upgraded on $(date)" | cat - "${DATA_DIRECTORY}"/.version > /tmp/.version && mv /tmp/.version "${DATA_DIRECTORY}"/.version
         print_warn "The following apps have beed disabled:"
         diff <(sed -n "/Enabled:/,/Disabled:/p" /tmp/list_before) <(sed -n "/Enabled:/,/Disabled:/p" /tmp/list_after) | grep '<' | cut -d- -f2 | cut -d: -f1
         rm -f /tmp/list_before /tmp/list_after
@@ -202,23 +219,23 @@ if [ "$ENABLE_AUTO_UPGRADE" = "TRUE" ]; then
 fi
 
 ### Check to see if this is a new install, if yes create directories...
-if [ ! -f ${NGINX_WEBROOT}/config/config.php ]; then
+if [ ! -f "${NGINX_WEBROOT}"/config/config.php ]; then
   print_warn "New Installation Detected"
 
   sanity_var ADMIN_USER "Administrative User"
   sanity_var ADMIN_PASS "Administrative Password"
 
-  chown -R ${NGINX_USER}:${NGINX_GROUP} /www
-  chown -R ${NGINX_USER}:${NGINX_GROUP} /assets/nextcloud
+  chown -R "${NGINX_USER}":"${NGINX_GROUP}" /www
+  chown -R "${NGINX_USER}":"${NGINX_GROUP}" /assets/nextcloud
 
   # Create an initial configuration file.
   instanceid=nc$(dd if=/dev/urandom bs=1 count=40 2>/dev/null | sha1sum | fold -w 10 | head -n 1)
 
-  cat > $CONFIG_FILE <<EOF;
+  cat > "$CONFIG_FILE" <<EOF;
 <?php
 \$CONFIG = array (
   'instanceid' => '$instanceid',
-  'datadirectory' => '${NGINX_WEBROOT}/data',
+  'datadirectory' => '${DATA_DIRECTORY}',
 
   "apps_paths" => array (
       0 => array (
@@ -227,7 +244,7 @@ if [ ! -f ${NGINX_WEBROOT}/config/config.php ]; then
               "writable" => false,
       ),
       1 => array (
-              "path"     => "${NGINX_WEBROOT}/custom-apps",
+              "path"     => "${APP_DIRECTORY}",
               "url"      => "/custom-apps",
               "writable" => true,
       ),
@@ -236,56 +253,61 @@ if [ ! -f ${NGINX_WEBROOT}/config/config.php ]; then
 ?>
 EOF
 
-  cat > ${NGINX_WEBROOT}/config/autoconfig.php <<EOF;
-<?php
-\$AUTOCONFIG = array (
-  # storage/database
-  'directory'     => '${NGINX_WEBROOT}/data',
-  'dbtype'        => '${DB_TYPE}',
-  'dbname'        => '${DB_NAME}',
-  'dbuser'        => '${DB_USER}',
-  'dbpass'        => '${DB_PASS}',
-  'dbhost'        => '${DB_HOST}:${DB_PORT}',
-  'dbtableprefix' => '${DB_PREFIX}',
-EOF
-
-  cat >> ${NGINX_WEBROOT}/config/autoconfig.php <<EOF;
-);
-?>
-EOF
-
   print_warn "Starting automatic configuration for Nextcloud version ${NEXTCLOUD_VERSION}"
-  chown -R ${NGINX_USER}:${NGINX_GROUP} ${NGINX_WEBROOT}
-  silent sudo -u ${NGINX_USER} php ${NGINX_WEBROOT}/occ maintenance:install --admin-user ${ADMIN_USER} --admin-pass ${ADMIN_PASS}
-  rm -rf ${NGINX_WEBROOT}/config/autoconfig.php
+  chown -R "${NGINX_USER}":"${NGINX_GROUP}" "${NGINX_WEBROOT}"
+  silent sudo -u "${NGINX_USER}" php "${NGINX_WEBROOT}"/occ maintenance:install \
+                                                    -n -q \
+                                                    --admin-user "${ADMIN_USER}" \
+                                                    --admin-pass "${ADMIN_PASS}" \
+                                                    --data-dir="${DATA_DIRECTORY}" \
+                                                    $install_options
+  rm -rf "${NGINX_WEBROOT}"/config/CAN_INSTALL
   print_warn "Automatic configuration finished."
-  chown -R ${NGINX_USER}:${NGINX_GROUP} ${NGINX_WEBROOT}/
+  chown -R "${NGINX_USER}":"${NGINX_GROUP}" "${NGINX_WEBROOT}"/
 
   # Enable/disable apps. Note that this must be done after the Nextcloud setup.
-  silent sudo -u ${NGINX_USER} php ${NGINX_WEBROOT}/occ app:disable firstrunwizard
-  echo "${NEXTCLOUD_VERSION} first installed on $(date)" > ${NGINX_WEBROOT}/data/.version
+  silent sudo -u "${NGINX_USER}" php "${NGINX_WEBROOT}"/occ app:disable firstrunwizard
+  echo "${NEXTCLOUD_VERSION} first installed on $(date)" > "${DATA_DIRECTORY}"/.version
 fi
 
 update_config
 
-if [ -z "ADMIN_MEMBERS" ]; then
-  admin_users=$(echo $ADMIN_MEMBERS | tr "," "\n")
+if [ -n "${ADMIN_MEMBERS}" ]; then
+  admin_users=$(echo "$ADMIN_MEMBERS" | tr "," "\n")
   for admin_user in $admin_users
     do
-        silent sudo -u ${NGINX_USER} php ${NGINX_WEBROOT}/occ group:adduser admin $admin_user
+        silent sudo -u "${NGINX_USER}" php "${NGINX_WEBROOT}"/occ group:adduser admin $admin_user
         print_warn "Added '$admin_user' to admin group"
   done
 fi
 
-if var_false ${ENABLE_CRON} ; then
-  silent sudo -u ${NGINX_USER} php ${NGINX_WEBROOT}/occ background:ajax
+if var_false "${ENABLE_CRON}" ; then
+  silent sudo -u "${NGINX_USER}" php "${NGINX_WEBROOT}"/occ background:ajax
 else
-  silent sudo -u ${NGINX_USER} php ${NGINX_WEBROOT}/occ background:cron
+  silent sudo -u "${NGINX_USER}" php "${NGINX_WEBROOT}"/occ background:cron
 fi
 
+### Set Trusted Domains
+tindex=1
+trusted_domains=$(echo "$TRUSTED_DOMAINS" | tr "," "\n")
+for domain in ${trusted_domains} ; do
+    domain=$(echo "$domain" | sed -e 's/^[[:space:]]*//' -e 's/[[:space:]]*$//')
+    silent sudo -u "${NGINX_USER}" php /www/nextcloud/occ config:system:set trusted_domains $tindex --value="${domain}"
+    (( tindex+=1 ))
+done
+
+### Set Trusted Domains
+silent sudo -u "${NGINX_USER}" php /www/nextcloud/occ config:system:set trusted_proxies 0 --value="127.0.0.1"
+tindex=1
+trusted_proxies=$(echo "$TRUSTED_PROXIES" | tr "," "\n")
+for proxy in ${trusted_proxies} ; do
+    silent sudo -u "${NGINX_USER}" php /www/nextcloud/occ config:system:set trusted_proxies $tindex --value="${proxy}"
+    (( tindex+=1 ))
+done
+
 ### Support legacy images
-if [ ! -f ${NGINX_WEBROOT}/data/.version ]; then
-  echo "${NEXTCLOUD_VERSION} migrated from existing install on $(date)" > ${NGINX_WEBROOT}/data/.version
+if [ ! -f "${DATA_DIRECTORY}"/.version ]; then
+  echo "${NEXTCLOUD_VERSION} migrated from existing install on $(date)" > "${DATA_DIRECTORY}"/.version
 fi
 
 ## Copy over any custom files overtop of source
@@ -308,8 +330,32 @@ fi
 ### Language Fix for templates when using LibreOffice Online/Colalbora ## This needs work
 #cp -R /assets/www ${NGINX_WEBROOT}
 
+if var_true "${ENABLE_FILES_BACKEND}" ; then
+  print_debug "Enabling Hi Performance Files Backend"
+  apkArch="$(apk --print-arch)"
+	case "$apkArch" in
+		x86_64) FBArch='x86_64' ; fbproceed=true ;;
+		armv7) FBArch='armv7' ; fbproceed=true ;;
+		aarch64) FBArch='aarch64' ; fbproceed=true ;;
+		*) echo >&2 "Can't run Files backend for: ($apkArch)"; fbproceed=false ;; \
+  esac
+
+  if var_true "${fbproceed}" ; then
+    sed -i "s|<FILES_BACKEND_PROTOCOL>|${FILES_BACKEND_PROTOCOL}|g" /etc/nginx/conf.available/files_backend.snippet
+    sed -i "s|<FILES_BACKEND_HOST>|${FILES_BACKEND_HOST}|g" /etc/nginx/conf.available/files_backend.snippet
+    sed -i "s|<FILES_BACKEND_PORT>|${FILES_BACKEND_PORT}|g" /etc/nginx/conf.available/files_backend.snippet
+  else
+    rm -rf /etc/services.available/30-nextcloud-files-backend
+    sed -i "/include \/etc\/nginx\/conf.available\/files_backend.snippet;/d" /etc/nginx/conf.d/default.conf
+  fi
+else
+  print_debug "Disabling Hi Performance Files Backend"
+  rm -rf /etc/services.available/30-nextcloud-files-backend
+  sed -i "/include \/etc\/nginx\/conf.available\/files_backend.snippet;/d" /etc/nginx/conf.d/default.conf
+fi
+
 ### Force Reset Permissions for Security
-chown -R ${NGINX_USER}:${NGINX_GROUP} ${NGINX_WEBROOT}
+chown -R "${NGINX_USER}":"${NGINX_GROUP}" "${NGINX_WEBROOT}"
 
 ### Add alias for running artisan
 echo "alias occ='cd ""${NGINX_WEBROOT}""; sudo -u ""${NGINX_USER}"" php occ'" > /root/.bashrc

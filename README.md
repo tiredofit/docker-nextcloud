@@ -13,6 +13,7 @@ Dockerfile to build a [Nextcloud](https://nextcloud.com) container image.
 * This Container uses a [customized Alpine Linux base](https://hub.docker.com/r/tiredofit/alpine) which includes [s6 overlay](https://github.com/just-containers/s6-overlay) enabled for PID 1 Init capabilities, [zabbix-agent](https://zabbix.org) based on TRUNK compiled for individual container monitoring, `Cron` also installed along with other tools (bash,curl, less, logrotate, mariadb-client, nano, vim) for easier management. It also supports sending to external SMTP servers..
 *    Logrotate Included to roll over log files at 23:59, compress and retain for 7 days
 *    Includes fail2ban
+*    Includes Nextcloud Hi Performance Files Backend
 
 
 [Changelog](CHANGELOG.md)
@@ -33,6 +34,7 @@ Dockerfile to build a [Nextcloud](https://nextcloud.com) container image.
   - [Data-Volumes](#data-volumes)
   - [Environment Variables](#environment-variables)
   - [Networking](#networking)
+- [Upgrading from the 2.x Series](#upgrading-from-the-2x-series)
 - [Maintenance](#maintenance)
   - [Shell Access](#shell-access)
 - [References](#references)
@@ -55,7 +57,7 @@ docker pull tiredofit/nextcloud
 
 The following image tags are available:
 
-* `latest` - Nextcloud 20
+* `latest` - Nextcloud 21
 ### Quick Start
 
 * The quickest way to get started is using [docker-compose](https://docs.docker.com/compose/). See
@@ -72,13 +74,18 @@ image.
 
 The following directories are used for configuration and can be mapped for persistent storage.
 
-| Directory                    | Description                              |
-| ---------------------------- | ---------------------------------------- |
-| `/www/nextcloud/data`        | Nextcloud Data                           |
-| `/www/nextcloud/config`      | Nextcloud Configuration Directory        |
-| `/www/nextcloud/custom-apps` | Custom Apps downloaded from Plugin Store |
-| `/www/nextcloud/themes`      | Custom Themes Directory                  |
-| `/www/logs`                  | Nginx / php-fpm / Nextcloud logfiles     |
+*Upgrading from an earlier version of this image running Nextcloud 20 or earlier? See [Upgrading from the 2.x Series](#upgrading-from-the-2x-series)*
+
+| Directory               | Description                              |
+| ----------------------- | ---------------------------------------- |
+| `/data/userdata`        | Nextcloud Data                           |
+| `/www/nextcloud/config` | Nextcloud Configuration Directory        |
+| `/data/apps`            | Custom Apps downloaded from Plugin Store |
+| `/data/themes`          | Custom Themes Directory                  |
+| `/data/cache`           | Cache Directory                          |
+| `/data/tmp`             | Temporary Directory                      |
+| `/data/templates/`      | Templates Directory                      |
+| `/www/logs`             | Nginx / php-fpm / Nextcloud logfiles     |
 
 ### Environment Variables
 
@@ -167,6 +174,26 @@ The following ports are exposed.
 | Port | Description |
 | ---- | ----------- |
 | `80` | HTTP        |
+
+## Upgrading from the 2.x Series
+- If you are upgrading from the 2.x series of images (Nextcloud 20 and below) please note that the following environment variables have been introduced
+
+- `TEMP_DIRECTORY` - For holding temporary files
+- `CACHE_DIRECTORY` - Moving the "Cache" per user out of their user data folder for those using S3 Backend for performance reasons
+- `APP_DIRECTORY` - Applications downloaded from the App Store
+- `DATA_DIRECTORY` - Users Data Directory
+
+- You will also need to export new volumes if you are using the new defaults to these paths above:
+
+| Environment Variable | 2.x Images volume mapping        | New Image mapping          |
+| -------------------- | -------------------------------- | -------------------------- |
+| `APP_DIRECTORY`      | `/www/nextcloud/custom-apps`     | `/data/apps`               |
+| `CACHE_DIRECTORY`    | unset                            | `/data/cache`              |
+| `DATA_DIRECTORY`     | `/www/nextcloud/data`            | `/data/userdata`           |
+| `SKELETON_DIRECTORY` | `${NGINX_WEBROOT}/core/skeleton` | `/data/templates/skeleton` |
+| `TEMP_DIRECTORY`     | unset                            | `/data/tmp`                |
+
+- Additionally you will need to make a change to the database to support the change of the data location as listed [here](https://docs.nextcloud.com/server/21/admin_manual/issues/general_troubleshooting.html#troubleshooting-data-directory).
 
 ## Maintenance
 ### Shell Access

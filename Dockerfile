@@ -1,10 +1,12 @@
-FROM tiredofit/nginx-php-fpm:7.4
+FROM tiredofit/nginx-php-fpm:8.0
 LABEL maintainer="Dave Conroy (dave at tiredofit dot ca)"
 
-ENV NEXTCLOUD_VERSION=20.0.7 \
+ENV NEXTCLOUD_VERSION=21.0.0 \
+    NEXTCLOUD_FILES_BACKEND_VERSION=0.1.3 \
     NGINX_WEBROOT="/www/nextcloud" \
     PHP_ENABLE_CREATE_SAMPLE_PHP=FALSE \
     PHP_ENABLE_BCMATH=TRUE \
+    PHP_ENABLE_EXIF=TRUE \
     PHP_ENABLE_FILEINFO=TRUE \
     PHP_ENABLE_GEARMAN=TRUE \
     PHP_ENABLE_GMP=TRUE \
@@ -28,7 +30,6 @@ RUN set -x && \
     apk update && \
     apk upgrade && \
     apk add -t .nextcloud-run-dependencies \
-                bzip2-dev \
                 c-client \
                 coreutils \
                 fail2ban \
@@ -47,10 +48,13 @@ RUN set -x && \
                 libwebp \
                 libxml2 \
                 libzip \
-                openldap \
+                ocrmypdf \
+                openldap-clients \
+                p7zip \
                 pcre \
                 rsync \
                 sqlite \
+                unrar \
                 zlib \
                 && \
             \
@@ -60,7 +64,11 @@ RUN set -x && \
     curl -ssL https://download.nextcloud.com/server/releases/nextcloud-${NEXTCLOUD_VERSION}.tar.bz2 | tar xvfj - --strip 1 -C /assets/nextcloud && \
     chown -R nginx:www-data /assets/nextcloud && \
     \
-## Cleanup
+    mkdir -p /opt/nextcloud_files_backend && \
+    curl -ssL https://github.com/nextcloud/notify_push/releases/download/v${NEXTCLOUD_FILES_BACKEND_VERSION}/notify_push.tar.gz | tar xvfz - --strip 1 -C /opt/nextcloud_files_backend && \
+    chown -R ${NGINX_USER}:${NGINX_GROUP} /opt/nextcloud_files_backend && \
+    \
+    ## Cleanup
     rm -rf /var/cache/apk/* && \
     cd /etc/fail2ban && \
     rm -rf fail2ban.conf fail2ban.d jail.conf jail.d paths-*.conf
