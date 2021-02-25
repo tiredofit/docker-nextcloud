@@ -2,12 +2,13 @@ FROM tiredofit/nginx-php-fpm:8.0
 LABEL maintainer="Dave Conroy (dave at tiredofit dot ca)"
 
 ENV NEXTCLOUD_VERSION=21.0.0 \
-    NEXTCLOUD_FILES_BACKEND_VERSION=0.1.3 \
+    NEXTCLOUD_FILES_BACKEND_VERSION=0.1.4 \
     NGINX_WEBROOT="/www/nextcloud" \
     PHP_ENABLE_CREATE_SAMPLE_PHP=FALSE \
     PHP_ENABLE_BCMATH=TRUE \
     PHP_ENABLE_EXIF=TRUE \
     PHP_ENABLE_FILEINFO=TRUE \
+    PHP_ENABLE_FTP=TRUE \
     PHP_ENABLE_GEARMAN=TRUE \
     PHP_ENABLE_GMP=TRUE \
     PHP_ENABLE_IMAGICK=TRUE \
@@ -53,6 +54,7 @@ RUN set -x && \
                 p7zip \
                 pcre \
                 rsync \
+                samba-client \
                 sqlite \
                 unrar \
                 zlib \
