@@ -16,4 +16,4 @@ case "$apkArch" in
 esac
 
 print_info "Starting Nextcloud High Performance Files Backend"
-sudo -u nginx PORT=${FILES_BACKEND_PORT} /opt/nextcloud_files_backend/bin/${FBArch}/notify_push /www/nextcloud/config/config.php
+sudo -u nginx /opt/nextcloud_files_backend/bin/${FBArch}/notify_push --port ${FILES_BACKEND_PORT} /www/nextcloud/config/config.php
