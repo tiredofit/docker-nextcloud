@@ -2,7 +2,7 @@ FROM tiredofit/nginx-php-fpm:8.0
 LABEL maintainer="Dave Conroy (dave at tiredofit dot ca)"
 
 ENV NEXTCLOUD_VERSION=21.0.0 \
-    NEXTCLOUD_FILES_BACKEND_VERSION=0.1.5 \
+    NEXTCLOUD_FILES_BACKEND_VERSION=0.1.6 \
     NGINX_WEBROOT="/www/nextcloud" \
     PHP_ENABLE_CREATE_SAMPLE_PHP=FALSE \
     PHP_ENABLE_BCMATH=TRUE \

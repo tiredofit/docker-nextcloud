@@ -305,6 +305,15 @@ for proxy in ${trusted_proxies} ; do
     (( tindex+=1 ))
 done
 
+### Adjust source to allow Iframes (optional)
+if [ -n "${IFRAME_DOMAINS}" ] ; then
+  iframe_domains=$(echo "$IFRAME_DOMAINS" | tr "," "\n")
+  for iframe_domain in ${iframe_domains} ; do
+      print_debug "Adding {$iframe_domain} as a source to be able to load Iframes"
+      sed -i "/protected \$allowedFrameAncestors = \[/a\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \'${iframe_domain}\'," ${NGINX_WEBROOT}/lib/public/AppFramework/Http/ContentSecurityPolicy.php
+  done
+fi
+
 ### Support legacy images
 if [ ! -f "${DATA_DIRECTORY}"/.version ]; then
   echo "${NEXTCLOUD_VERSION} migrated from existing install on $(date)" > "${DATA_DIRECTORY}"/.version
