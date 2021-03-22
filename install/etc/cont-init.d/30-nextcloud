@@ -309,8 +309,8 @@ done
 if [ -n "${IFRAME_DOMAINS}" ] ; then
   iframe_domains=$(echo "$IFRAME_DOMAINS" | tr "," "\n")
   for iframe_domain in ${iframe_domains} ; do
-      print_debug "Adding {$iframe_domain} as a source to be able to load Iframes"
-      sed -i "/protected \$allowedFrameAncestors = \[/a\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \'${iframe_domain}\'," ${NGINX_WEBROOT}/lib/public/AppFramework/Http/ContentSecurityPolicy.php
+      print_debug "Adding '${iframe_domain}' as a source to be able to load oframes"
+      sed -i "/protected \$allowedFrameAncestors = \[/a\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \'${iframe_domain}\'," ${NGINX_WEBROOT}/lib/public/AppFramework/Http/ContentSecurityPolicy.php
   done
 fi
 
@@ -334,6 +334,12 @@ if [ -d /assets/custom-scripts/ ] ; then
         chmod +x "${f}"
         ${f}
     done
+fi
+
+if [ -n "${ADMIN_PASS}" ] && [ -n "${ADMIN_USER}" ]; then
+  export OC_PASS="${ADMIN_PASS}"
+  print_debug "Resetting Admin Password"
+  php ${NGINX_WEBROOT}/occ user:resetpassword --password-from-env ${ADMIN_USER}
 fi
 
 ### Language Fix for templates when using LibreOffice Online/Colalbora ## This needs work

@@ -1,4 +1,4 @@
-FROM tiredofit/nginx-php-fpm:8.0
+FROM tiredofit/nginx-php-fpm:7.4
 LABEL maintainer="Dave Conroy (dave at tiredofit dot ca)"
 
 ENV NEXTCLOUD_VERSION=21.0.0 \
@@ -69,6 +69,11 @@ RUN set -x && \
     mkdir -p /opt/nextcloud_files_backend && \
     curl -ssL https://github.com/nextcloud/notify_push/releases/download/v${NEXTCLOUD_FILES_BACKEND_VERSION}/notify_push.tar.gz | tar xvfz - --strip 1 -C /opt/nextcloud_files_backend && \
     chown -R ${NGINX_USER}:${NGINX_GROUP} /opt/nextcloud_files_backend && \
+    ##
+    mkdir -p /data/userdata && \
+    touch /data/userdata/audit.log && \
+    touch /data/userdata/flow.log && \
+    touch /data/userdata/nextcloud.log && \
     \
     ## Cleanup
     rm -rf /var/cache/apk/* && \

@@ -92,17 +92,18 @@ Along with the Environment Variables from the [Base image](https://hub.docker.co
 
 If you there are features that you wish to override based on the defaults and for some reason the environment variables are not working, create a file called `custom.config.php` in your `data/config` directory
 
-| Parameter    | Description                                               | Default   |
-| ------------ | --------------------------------------------------------- | --------- |
-| `ADMIN_USER` | Admin user e.g. `admin`                                   |           |
-| `ADMIN_PASS` | Admin pass e.g. `password`                                |           |
-| `DOMAIN`     | The Domain that this is configured for e.g. 'example.org' |           |
-| `DB_TYPE`    | Set the DB_TYPE - e.g. `mysql`, `postgres`, `sqlite3`     | `sqlite3` |
-| `DB_HOST`    | Hostname of DB Server e.g. `nextcloud-db`                 |           |
-| `DB_NAME`    | Database name e.g. `nextcloud`                            |           |
-| `DB_PORT`    | Database port e.g. `3306`                                 |           |
-| `DB_USER`    | Username for Database e.g. `nextcloud`                    |           |
-| `DB_PASS`    | Password for Database e.g. `password`                     |           |
+| Parameter        | Description                                                                                                         | Default   |
+| ---------------- | ------------------------------------------------------------------------------------------------------------------- | --------- |
+| `ADMIN_USER`     | Admin user e.g. `admin`                                                                                             |           |
+| `ADMIN_PASS`     | Admin pass e.g. `password`                                                                                          |           |
+| `DOMAIN`         | The Domain that this is configured for e.g. 'example.org'                                                           |           |
+| `DB_TYPE`        | Set the DB_TYPE - e.g. `mysql`, `postgres`, `sqlite3`                                                               | `sqlite3` |
+| `DB_HOST`        | Hostname of DB Server e.g. `nextcloud-db`                                                                           |           |
+| `DB_NAME`        | Database name e.g. `nextcloud`                                                                                      |           |
+| `DB_PORT`        | Database port e.g. `3306`                                                                                           |           |
+| `DB_USER`        | Username for Database e.g. `nextcloud`                                                                              |           |
+| `DB_PASS`        | Password for Database e.g. `password`                                                                               |           |
+| `IFRAME_DOMAINS` | Comma seperated value of domains/hostnames you want to allow loading the site via an IFrame e.g. `site.example.com` |           |
 
 This image automatically configures nextcloud with the following options as defined in [config.sample.php](https://github.com/nextcloud/server/blob/master/config/config.sample.php).
 
