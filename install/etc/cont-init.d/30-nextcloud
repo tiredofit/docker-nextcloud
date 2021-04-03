@@ -119,7 +119,9 @@ sed -i -e "s#<WEBROOT>#${NGINX_WEBROOT}#g" /assets/cron/crontab.txt
 
 mkdir -p "${LOG_DIR}"
 touch "${LOG_DIR}"/"${LOG_FILE}"
-chown -R "${NGINX_USER}":"${NGINX_GROUP}" "${LOG_DIR}"/"${LOG_FILE}"
+touch "${LOG_DIR}"/"${LOG_FILE_AUDIT}"
+touch "${LOG_DIR}"/"${LOG_FILE_FLOW}"
+chown -R "${NGINX_USER}":"${NGINX_GROUP}" "${LOG_DIR}"
 sed -i "s#<LOG_DIR>#${LOG_DIR}#g" /etc/logrotate.d/nextcloud
 
 mkdir -p "${APP_DIRECTORY}"
@@ -287,6 +289,9 @@ else
   silent sudo -u "${NGINX_USER}" php "${NGINX_WEBROOT}"/occ background:cron
 fi
 
+### Set Audit Logfile location
+silent sudo -i ${NGINX_USER} php /www/nextcloud/occ config:app:set admin_audit logfile --value=${LOG_DIR}/${LOG_FILE_AUDIT}
+
 ### Set Trusted Domains
 tindex=1
 trusted_domains=$(echo "$TRUSTED_DOMAINS" | tr "," "\n")
@@ -296,7 +301,7 @@ for domain in ${trusted_domains} ; do
     (( tindex+=1 ))
 done
 
-### Set Trusted Domains
+### Set Trusted Proxies
 silent sudo -u "${NGINX_USER}" php /www/nextcloud/occ config:system:set trusted_proxies 0 --value="127.0.0.1"
 tindex=1
 trusted_proxies=$(echo "$TRUSTED_PROXIES" | tr "," "\n")
