@@ -81,6 +81,7 @@ include("${NGINX_WEBROOT}/config/config.php");
 \$CONFIG['preview_max_x'] = ${PREVIEW_MAX_X};
 \$CONFIG['preview_max_y'] = ${PREVIEW_MAX_Y};
 \$CONFIG['session_keepalive'] = ${ENABLE_SESSION_KEEPALIVE};
+\$CONFIG['share_folder'] = '${SHARE_FOLDER}';
 \$CONFIG['sharing.maxAutocompleteResults'] = ${SHARING_MAX_AUTOCOMPLETE_RESULTS};
 \$CONFIG['sharing.minSearchStringLength'] = ${SHARING_MIN_SEARCHSTRING_LENGTH};
 \$CONFIG['sharing.enable_share_accept'] = ${SHARING_ENABLE_ACCEPT};
