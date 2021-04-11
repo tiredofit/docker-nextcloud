@@ -291,7 +291,7 @@ else
 fi
 
 ### Set Audit Logfile location
-silent sudo -i ${NGINX_USER} php /www/nextcloud/occ config:app:set admin_audit logfile --value=${LOG_DIR}/${LOG_FILE_AUDIT}
+silent sudo -u ${NGINX_USER} php /www/nextcloud/occ config:app:set admin_audit logfile --value=${LOG_DIR}/${LOG_FILE_AUDIT}
 
 ### Set Trusted Domains
 tindex=1
