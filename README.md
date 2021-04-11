@@ -2,8 +2,7 @@
 
 [![Docker Pulls](https://img.shields.io/docker/pulls/tiredofit/nextcloud.svg)](https://hub.docker.com/r/tiredofit/nextcloud)
 [![Docker Stars](https://img.shields.io/docker/stars/tiredofit/nextcloud.svg)](https://hub.docker.com/r/tiredofit/nextcloud)
-[![Docker
-Layers](https://images.microbadger.com/badges/image/tiredofit/nextcloud.svg)](https://microbadger.com/images/tiredofit/nextcloud)
+[![Docker Layers](https://images.microbadger.com/badges/image/tiredofit/nextcloud.svg)](https://microbadger.com/images/tiredofit/nextcloud)
 
 ## Introduction
 
@@ -146,6 +145,7 @@ This image automatically configures nextcloud with the following options as defi
 | `OVERWRITE_PROTOCOL`               | Override the Protocol if behind proxy                     | `overwriteprotocol`                         | ``                               |
 | `PREVIEW_MAX_X`                    | Maximum Pixels for Previews (X)                           | `preview_max_x`                             | `200`                            |
 | `PREVIEW_MAX_Y`                    | Maximum Pixels for Previews (Y)                           | `preview_max_y`                             | `200`                            |
+| `SHARE_FOLDER` | Change root path of all shares to users | `/` |
 | `SHARING_ENABLE_ACCEPT`            | Enable Sharing Acceptance features                        | `FALSE`                                     |
 | `SHARING_ENABLE_MAIL`              | Enable Sharing Mail Notification                          | `TRUE`                                      |
 | `SHARING_FORCE_ACCEPT`             | Force Sharing Acceptance features                         | `FALSE`                                     |

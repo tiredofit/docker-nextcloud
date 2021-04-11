@@ -211,7 +211,7 @@ if [ "$ENABLE_AUTO_UPGRADE" = "TRUE" ]; then
       if [ "$installed_version" != "0.0.0~unknown" ]; then
         silent sudo -u "${NGINX_USER}" php "${NGINX_WEBROOT}"/occ app:list > /tmp/list_before
         silent sudo -u "${NGINX_USER}" php "${NGINX_WEBROOT}"/occ upgrade
-        silent sudo -u "${NGINX_USER}" php "${NGINX_WEBROOT}"/db:add-missing-indices
+        silent sudo -u "${NGINX_USER}" php "${NGINX_WEBROOT}"/occ db:add-missing-indices
         silent sudo -u "${NGINX_USER}" php "${NGINX_WEBROOT}"/occ app:list > /tmp/list_after
         echo "${NEXTCLOUD_VERSION} automatically upgraded on $(date)" | cat - "${DATA_DIRECTORY}"/.version > /tmp/.version && mv /tmp/.version "${DATA_DIRECTORY}"/.version
         print_warn "The following apps have beed disabled:"
