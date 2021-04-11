@@ -345,7 +345,7 @@ fi
 if [ -n "${ADMIN_PASS}" ] && [ -n "${ADMIN_USER}" ]; then
   export OC_PASS="${ADMIN_PASS}"
   print_debug "Resetting Admin Password"
-  php ${NGINX_WEBROOT}/occ user:resetpassword --password-from-env ${ADMIN_USER}
+  sudo -u ${NGINX_USER} php ${NGINX_WEBROOT}/occ user:resetpassword --password-from-env ${ADMIN_USER}
 fi
 
 ### Language Fix for templates when using LibreOffice Online/Colalbora ## This needs work
