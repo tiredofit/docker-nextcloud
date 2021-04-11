@@ -139,13 +139,15 @@ This image automatically configures nextcloud with the following options as defi
 | `LDAP_CLEANUP_INTERVAL`            | How many minutes to cleanup LDAP users                    | `ldapUserCleanupInterval`                   | `51`                             |
 | `LOG_DATE_FORMAT`                  | Format for Date and Time in logs                          | `logdateformat`                             | `Y-m-d H:i:s`                    |
 | `LOG_DIR`                          | Log Directory                                             | `logfile`                                   | `/www/logs/nextcloud`            |
+| `LOG_FILE_AUDIT`                   | Audit Log file                                            | `audit.log`                                 |
+| `LOG_FILE_FLOW`                    | Workflow Log File                                         | `flow.log`                                  |
 | `LOG_LEVEL`                        | Log Level                                                 | `loglevel`                                  | `2`                              |
 | `LOG_TIMEZONE`                     | Timezone for Logfile                                      | `logtimezone`                               | Container Timezone               |
 | `OVERWRITE_HOST`                   | Override the hostname for URLs                            | `overwritehost`                             | ``                               |
 | `OVERWRITE_PROTOCOL`               | Override the Protocol if behind proxy                     | `overwriteprotocol`                         | ``                               |
 | `PREVIEW_MAX_X`                    | Maximum Pixels for Previews (X)                           | `preview_max_x`                             | `200`                            |
 | `PREVIEW_MAX_Y`                    | Maximum Pixels for Previews (Y)                           | `preview_max_y`                             | `200`                            |
-| `SHARE_FOLDER` | Change root path of all shares to users | `/` |
+| `SHARE_FOLDER`                     | Change root path of all shares to users                   | `/`                                         |
 | `SHARING_ENABLE_ACCEPT`            | Enable Sharing Acceptance features                        | `FALSE`                                     |
 | `SHARING_ENABLE_MAIL`              | Enable Sharing Mail Notification                          | `TRUE`                                      |
 | `SHARING_FORCE_ACCEPT`             | Force Sharing Acceptance features                         | `FALSE`                                     |
