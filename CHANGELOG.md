@@ -1,11 +1,15 @@
-## 3.0.0 2021-02-22 <dave at tiredofit dot ca>
+## 3.0.0 2021-04-11 <dave at tiredofit dot ca>
    ### Added
-      - Nextcloud 21
-      - PHP 8.x
+      - Nextcloud 21.0.1
+      - PHP 7.4 (Some plugins are not compatible with 8 yet)
       - Nextcloud Rust Files Backend component included
       - Additional environment variables for cache, tmp, data directory ** BREAKING CHANGES ** See README
       - Additional environment variables for File sharing enforcement and email notifications
       - Add fail2ban Support
+      - Configurable Audit File Location
+      - Auto Reset ADMIN Password on restart
+      - Allow Application to be displayed in IFrames
+      - Add Sharing Folder customization
       - General Refresh and Cleanup
 
 ## 2.3.6 2021-02-11 <dave at tiredofit dot ca>
