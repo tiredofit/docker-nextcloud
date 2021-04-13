@@ -1,4 +1,14 @@
+## 3.0.1 2021-04-13 <dave at tiredofit dot ca>
+
+   ### Added
+      - notify_push plugin 0.17
+
+   ### Changed
+      - Change to nginx configuration for notify_push plugin/Files backend
+
+
 ## 3.0.0 2021-04-11 <dave at tiredofit dot ca>
+
    ### Added
       - Nextcloud 21.0.1
       - PHP 7.4 (Some plugins are not compatible with 8 yet)

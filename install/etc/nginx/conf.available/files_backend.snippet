@@ -1,4 +1,4 @@
-location /push/ {
+location ^~ /push/ {
     proxy_pass <FILES_BACKEND_PROTOCOL>://<FILES_BACKEND_HOST>:<FILES_BACKEND_PORT>/;
     proxy_http_version 1.1;
     proxy_set_header Upgrade $http_upgrade;
