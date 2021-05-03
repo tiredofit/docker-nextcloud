@@ -1,22 +1,19 @@
-# hub.docker.com/r/tiredofit/nextcloud
+# github.com/tiredofit/docker-nextcloud
 
-[![Docker Pulls](https://img.shields.io/docker/pulls/tiredofit/nextcloud.svg)](https://hub.docker.com/r/tiredofit/nextcloud)
-[![Docker Stars](https://img.shields.io/docker/stars/tiredofit/nextcloud.svg)](https://hub.docker.com/r/tiredofit/nextcloud)
-[![Docker Layers](https://images.microbadger.com/badges/image/tiredofit/nextcloud.svg)](https://microbadger.com/images/tiredofit/nextcloud)
+[![GitHub release](https://img.shields.io/github/v/tag/tiredofit/docker-nextcloud?style=flat-square)](https://github.com/tiredofit/docker-nextcloud/releases/latest)
+[![Build Status](https://img.shields.io/github/workflow/status/tiredofit/docker-nextcloud/build?style=flat-square)](https://github.com/tiredofit/docker-nextcloud/actions?query=workflow%3Abuild)
+[![Docker Stars](https://img.shields.io/docker/stars/tiredofit/nextcloud.svg?style=flat-square&logo=docker)](https://hub.docker.com/r/tiredofit/nextcloud/)
+[![Docker Pulls](https://img.shields.io/docker/pulls/tiredofit/nextcloud.svg?style=flat-square&logo=docker)](https://hub.docker.com/r/tiredofit/nextcloud/)
+[![Become a sponsor](https://img.shields.io/badge/sponsor-tiredofit-181717.svg?logo=github&style=flat-square)](https://github.com/sponsors/tiredofit)
+[![Paypal Donate](https://img.shields.io/badge/donate-paypal-00457c.svg?logo=paypal&style=flat-square)](https://www.paypal.me/tiredofit)
+## About
 
-## Introduction
+This will build a Dockerfile for [Nextcloud](https://nextcloud.com) - a web based groupware solution.
 
-Dockerfile to build a [Nextcloud](https://nextcloud.com) container image.
-
-* This Container uses a [customized Alpine Linux base](https://hub.docker.com/r/tiredofit/alpine) which includes [s6 overlay](https://github.com/just-containers/s6-overlay) enabled for PID 1 Init capabilities, [zabbix-agent](https://zabbix.org) based on TRUNK compiled for individual container monitoring, `Cron` also installed along with other tools (bash,curl, less, logrotate, mariadb-client, nano, vim) for easier management. It also supports sending to external SMTP servers..
-*    Logrotate Included to roll over log files at 23:59, compress and retain for 7 days
-*    Includes fail2ban
+*    Includes fail2ban for bad authentication blocking
 *    Includes Nextcloud Hi Performance Files Backend
 
-
-[Changelog](CHANGELOG.md)
-
-## Authors
+## Maintainer
 
 - [Dave Conroy][https://github.com/tiredofit]
 
@@ -37,38 +34,41 @@ Dockerfile to build a [Nextcloud](https://nextcloud.com) container image.
   - [Shell Access](#shell-access)
 - [References](#references)
 
-## Prerequisites
-
-This image assumes that you are using a reverse proxy such as [jwilder/nginx-proxy](https://github.com/jwilder/nginx-proxy) or [traefik](https://github.com/traefik/traefik).
-
-This image also relies on an optional MariaDB/MySQL Server, and optionally, a Redis server
-
-
+# Prerequisites and Assumptions
+*  Assumes you are using some sort of SSL terminating reverse proxy such as:
+   *  [Traefik](https://github.com/tiredofit/docker-traefik)
+   *  [Nginx](https://github.com/jc21/nginx-proxy-manager)
+   *  [Caddy](https://github.com/caddyserver/caddy)
+   *
 ## Installation
 
-Automated builds of the image are available on [Docker Hub](https://hub.docker.com/r/tiredofit/nextcloud) and is the recommended method of installation.
+### Build from Source
+Clone this repository and build the image with `docker build <arguments> (imagename) .`
+### Prebuilt Images
+Builds of the image are available on [Docker Hub](https://hub.docker.com/r/tiredofit/nextcloud) and is the recommended method of installation.
 
+The following image tags are available along with their taged release based on what's written in the [Changelog](CHANGELOG.md):
 
-```bash
-docker pull tiredofit/nextcloud
-```
+| Version | Container OS | Tag       |
+| ------- | ------------ | --------- |
+| latest  | Alpine       | `:latest` |
 
-The following image tags are available:
-
-* `latest` - Nextcloud 21
-### Quick Start
-
-* The quickest way to get started is using [docker-compose](https://docs.docker.com/compose/). See
-the examples folder for a working [docker-compose.yml](examples/docker-compose.yml) that can be
-modified for development or production use.
-
-* Set various [environment variables](#environment-variables) to understand the capabilities of this
-image.
-* Map [persistent storage](#data-volumes) for access to configuration and data files for backup.
+#### Multi Archictecture
+Images are built primarily for `amd64` architecture, and may also include builds for `arm/v6`, `arm/v7`, `arm64` and others. These variants are all unsupported. Consider [sponsoring](https://github.com/sponsors/tiredofit) my work so that I can work with various hardware. To see if this image supports multiple architecures, type `docker manifest (image):(tag)`
 
 ## Configuration
 
-### Data-Volumes
+### Quick Start
+
+* The quickest way to get started is using [docker-compose](https://docs.docker.com/compose/). See the examples folder for a working [docker-compose.yml](examples/docker-compose.yml) that can be modified for development or production use.
+
+* Set various [environment variables](#environment-variables) to understand the capabilities of this image.
+* Map [persistent storage](#data-volumes) for access to configuration and data files for backup.
+- Make [networking ports](#networking) available for public access if necessary
+
+**The first boot can take from 2 minutes - 5 minutes depending on your CPU to setup the proper schemas.**
+
+### Persistent Storage
 
 The following directories are used for configuration and can be mapped for persistent storage.
 
@@ -85,9 +85,17 @@ The following directories are used for configuration and can be mapped for persi
 | `/data/templates/`      | Templates Directory                      |
 | `/www/logs`             | Nginx / php-fpm / Nextcloud logfiles     |
 
-### Environment Variables
+#### Base Images used
 
-Along with the Environment Variables from the [Base image](https://hub.docker.com/r/tiredofit/alpine), the [Nginx]https://hub.docker.com/r/tiredofit/nginx), and the [https://hub.docker.com/r/tiredofit/nginx-php-fpm)PHP-FPM Engine](https://hub.docker.com/r/tiredofit/nginx-php-fpm) below is the complete list of available options that can be used to customize your installation.
+This image relies on an [Alpine Linux](https://hub.docker.com/r/tiredofit/alpine) base image that relies on an [init system](https://github.com/just-containers/s6-overlay) for added capabilities. Outgoing SMTP capabilities are handlded via `msmtp`. Individual container performance monitoring is performed by [zabbix-agent](https://zabbix.org). Additional tools include: `bash`,`curl`,`less`,`logrotate`,`nano`,`vim`.
+
+Be sure to view the following repositories to understand all the customizable options:
+
+| Image                                                         | Description                            |
+| ------------------------------------------------------------- | -------------------------------------- |
+| [OS Base](https://github.com/tiredofit/docker-alpine/)        | Customized Image based on Alpine Linux |
+| [Nginx](https://github.com/tiredofit/docker-nginx/)           | Nginx webserver                        |
+| [PHP-FPM](https://github.com/tiredofit/docker-nginx-php-fpm/) | PHP Interpreter                        |
 
 If you there are features that you wish to override based on the defaults and for some reason the environment variables are not working, create a file called `custom.config.php` in your `data/config` directory
 
@@ -197,14 +205,36 @@ The following ports are exposed.
 
 - Additionally you will need to make a change to the database to support the change of the data location as listed [here](https://docs.nextcloud.com/server/21/admin_manual/issues/general_troubleshooting.html#troubleshooting-data-directory).
 
+* * *
 ## Maintenance
+
 ### Shell Access
 
 For debugging and maintenance purposes you may want access the containers shell.
 
-```bash
-docker exec -it (whatever your container name is e.g. nextcloud) bash
-```
+``bash
+docker exec -it (whatever your container name is) bash
+``
+## Support
+
+These images were built to serve a specific need in a production environment and gradually have had more functionality added based on requests from the community.
+### Usage
+- The [Discussions board](../../discussions) is a great place for working with the community on tips and tricks of using this image.
+- Consider [sponsoring me](https://github.com/sponsors/tiredofit) personalized support.
+### Bugfixes
+- Please, submit a [Bug Report](issues/new) if something isn't working as expected. I'll do my best to issue a fix in short order.
+
+### Feature Requests
+- Feel free to submit a feature request, however there is no guarantee that it will be added, or at what timeline.
+- Consider [sponsoring me](https://github.com/sponsors/tiredofit) regarding development of features.
+
+### Updates
+- Best effort to track upstream changes, More priority if I am actively using the image in a production environment.
+- Consider [sponsoring me](https://github.com/sponsors/tiredofit) for up to date releases.
+
+## License
+MIT. See [LICENSE](LICENSE) for more details.
+
 
 ## References
 
