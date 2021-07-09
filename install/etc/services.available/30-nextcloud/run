@@ -15,5 +15,5 @@ case "$apkArch" in
     *) echo >&2 "Can't run Files backend for: ($apkArch)" ;; \
 esac
 
-print_info "Starting Nextcloud High Performance Files Backend"
+print_start "Starting Nextcloud High Performance Files Backend"
 sudo -u nginx /opt/nextcloud_files_backend/bin/${FBArch}/notify_push --port ${FILES_BACKEND_PORT} /www/nextcloud/config/config.php
