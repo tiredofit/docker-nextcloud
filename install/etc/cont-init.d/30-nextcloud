@@ -113,10 +113,11 @@ version_greater() {
   [[ "$(printf '%s\n' "$@" | sort -V | head -n 1)" != "$1" ]];
 }
 
-sed -i -e "s#<CRON_PERIOD>#${CRON_PERIOD}#g" /assets/cron/crontab.txt
-sed -i -e "s#<MEMORY_LIMIT>#${PHP_MEMORY_LIMIT}#g" /assets/cron/crontab.txt
-sed -i -e "s#<USER>#${NGINX_USER}#g" /assets/cron/crontab.txt
-sed -i -e "s#<WEBROOT>#${NGINX_WEBROOT}#g" /assets/cron/crontab.txt
+sed -i -e "s#<CRON_PERIOD>#${CRON_PERIOD}#g" /assets/cron/nextcloud
+sed -i -e "s#<TIMEZONE>#${TIMEZONE}#g" /assets/cron/nextcloud
+sed -i -e "s#<MEMORY_LIMIT>#${PHP_MEMORY_LIMIT}#g" /assets/cron/nextcloud
+sed -i -e "s#<USER>#${NGINX_USER}#g" /assets/cron/nextcloud
+sed -i -e "s#<WEBROOT>#${NGINX_WEBROOT}#g" /assets/cron/nextcloud
 
 mkdir -p "${LOG_DIR}"
 touch "${LOG_DIR}"/"${LOG_FILE}"
