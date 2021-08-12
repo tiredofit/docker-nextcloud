@@ -1,3 +1,9 @@
+## 3.0.5 2021-08-12 <dave at tiredofit dot ca>
+
+   ### Added
+      - client_push 0.2.2
+
+
 ## 3.0.4 2021-07-12 <dave at tiredofit dot ca>
 
    ### Added
