@@ -2,9 +2,11 @@
 
 fail2ban_configure_logging() {
 	print_debug "Fail2ban: Configure Logging"
-	mkdir -p $(dirname ${FAIL2BAN_LOG_FILE})
-	touch ${FAIL2BAN_LOG_FILE}
-	sed -i "s|<FAIL2BAN_LOG_LOCATION>|$(dirname ${FAIL2BAN_LOG_FILE})|g" /etc/logrotate.d/fail2ban
+	if [ "$FAIL2BAN_LOG_TYPE" = "FILE" ] ; then
+		mkdir -p ${FAIL2BAN_LOG_PATH}
+		touch ${FAIL2BAN_LOG_PATH}/${FAIL2BAN_LOG_FILE}
+		create_logrotate fail2ban ${FAIL2BAN_LOG_PATH}/${FAIL2BAN_LOG_FILE} none
+	fi
 }
 
 fail2ban_create_data_dir() {
@@ -14,13 +16,6 @@ fail2ban_create_data_dir() {
 	print_debug "Fail2ban: Creating Data Dir"
 	mkdir -p ${FAIL2BAN_DB_PATH}
 
-	if [ "$FAIL2BAN_LOG_TYPE" = "FILE" ] ; then
-		print_debug "Fail2ban: Creating Log Directory"
-		mkdir -p $(dirname ${FAIL2BAN_LOG_FILE})
-		sed -i "s|<FAIL2BAN_LOG_PATH>|$(dirname ${FAIL2BAN_LOG_FILE})|g" /etc/logrotate.d/fail2ban
-	else
-		rm -rf /etc/logrotate.d/fail2ban
-	fi
 }
 
 fail2ban_create_config_jail() {
@@ -93,7 +88,7 @@ fail2ban_create_config_main(){
 [Definition]
 loglevel = ${FAIL2BAN_LOG_LEVEL}
 # Values: [ STDOUT | STDERR | SYSLOG | SYSOUT | FILE ]  Default: STDERR
-logtarget = ${FAIL2BAN_LOG_FILE}
+logtarget = ${FAIL2BAN_LOG_PATH}/${FAIL2BAN_LOG_FILE}
 syslogsocket = auto
 socket = /var/run/fail2ban/fail2ban.sock
 pidfile = /var/run/fail2ban/fail2ban.pid
@@ -142,6 +137,6 @@ filter = nextcloud
 maxretry = ${FAIL2BAN_MAX_RETRY}
 bantime = ${FAIL2BAN_TIME_BAN}
 findtime = ${FAIL2BAN_TIME_FIND}
-logpath = ${LOG_DIR}/${LOG_FILE}
+logpath = ${LOG_PATH}/${LOG_FILE}
 EOF
 }

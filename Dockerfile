@@ -25,7 +25,7 @@ ENV NEXTCLOUD_VERSION=21.0.4 \
     PHP_ENABLE_XMLWRITER=TRUE \
     PHP_ENABLE_ZIP=TRUE \
     PHP_MEMORY_LIMIT="512M" \
-    ZABBIX_HOSTNAME=nextcloud-app
+    CONTAINER_NAME=nextcloud-app
 
 RUN set -x && \
     apk update && \

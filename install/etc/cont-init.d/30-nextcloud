@@ -52,7 +52,7 @@ include("${NGINX_WEBROOT}/config/config.php");
 \$CONFIG['log_query'] = ${ENABLE_LOG_QUERY};
 \$CONFIG['log_type'] = 'file';
 \$CONFIG['logdateformat'] = '${LOG_DATE_FORMAT}';
-\$CONFIG['logfile'] = '${LOG_DIR}/${LOG_FILE}';
+\$CONFIG['logfile'] = '${LOG_PATH}/${LOG_FILE}';
 \$CONFIG['logfilemode'] = 0640;
 \$CONFIG['login_form_autocomplete'] = ${ENABLE_LOGIN_FORM_AUTOCOMPLETE};
 \$CONFIG['loglevel'] = ${LOG_LEVEL};
@@ -119,12 +119,14 @@ sed -i -e "s#<MEMORY_LIMIT>#${PHP_MEMORY_LIMIT}#g" /assets/cron/nextcloud
 sed -i -e "s#<USER>#${NGINX_USER}#g" /assets/cron/nextcloud
 sed -i -e "s#<WEBROOT>#${NGINX_WEBROOT}#g" /assets/cron/nextcloud
 
-mkdir -p "${LOG_DIR}"
-touch "${LOG_DIR}"/"${LOG_FILE}"
-touch "${LOG_DIR}"/"${LOG_FILE_AUDIT}"
-touch "${LOG_DIR}"/"${LOG_FILE_FLOW}"
-chown -R "${NGINX_USER}":"${NGINX_GROUP}" "${LOG_DIR}"
-sed -i "s#<LOG_DIR>#${LOG_DIR}#g" /etc/logrotate.d/nextcloud
+mkdir -p "${LOG_PATH}"
+touch "${LOG_PATH}"/"${LOG_FILE}"
+touch "${LOG_PATH}"/"${LOG_FILE_AUDIT}"
+touch "${LOG_PATH}"/"${LOG_FILE_FLOW}"
+chown -R "${NGINX_USER}":"${NGINX_GROUP}" "${LOG_PATH}"
+create_logrotate nextcloud ${LOG_PATH}/${LOG_FILE} none ${NGINX_USER} ${NGINX_GROUP}
+create_logrotate nextcloud-audit ${LOG_PATH}/${LOG_FILE_AUDIT} none ${NGINX_USER} ${NGINX_GROUP}
+create_logrotate nextcloud-flow ${LOG_PATH}/${LOG_FILE_FLOW} none ${NGINX_USER} ${NGINX_GROUP}
 
 mkdir -p "${APP_DIRECTORY}"
 chown -R "${NGINX_USER}":"${NGINX_GROUP}" "${APP_DIRECTORY}"
@@ -292,7 +294,7 @@ else
 fi
 
 ### Set Audit Logfile location
-silent sudo -u ${NGINX_USER} php /www/nextcloud/occ config:app:set admin_audit logfile --value=${LOG_DIR}/${LOG_FILE_AUDIT}
+silent sudo -u ${NGINX_USER} php /www/nextcloud/occ config:app:set admin_audit logfile --value=${LOG_PATH}/${LOG_FILE_AUDIT}
 
 ### Set Trusted Domains
 tindex=1
