@@ -1,3 +1,9 @@
+## 3.0.7 2021-09-12 <dave at tiredofit dot ca>
+
+   ### Added
+      - notify_push bumped to 0.23
+
+
 ## 3.0.6 2021-08-16 <dave at tiredofit dot ca>
 
    ### Added
