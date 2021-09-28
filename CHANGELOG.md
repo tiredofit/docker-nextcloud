@@ -1,3 +1,9 @@
+## 3.0.8 2021-09-28 <dave at tiredofit dot ca>
+
+   ### Added
+      - notify_push backend 0.2.4
+
+
 ## 3.0.7 2021-09-12 <dave at tiredofit dot ca>
 
    ### Added
