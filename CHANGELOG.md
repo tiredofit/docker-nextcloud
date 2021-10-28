@@ -1,3 +1,10 @@
+## 3.0.10 2021-10-28 <dave at tiredofit dot ca>
+
+   ### Changed
+      - Adjust Parsing for Nextcloud logs (Fluent-bit)
+      - Rework the alias for the occ
+
+
 ## 3.0.9 2021-10-14 <dave at tiredofit dot ca>
 
    ### Added

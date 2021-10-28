@@ -124,7 +124,7 @@ touch "${LOG_PATH}"/"${LOG_FILE}"
 touch "${LOG_PATH}"/"${LOG_FILE_AUDIT}"
 touch "${LOG_PATH}"/"${LOG_FILE_FLOW}"
 chown -R "${NGINX_USER}":"${NGINX_GROUP}" "${LOG_PATH}"
-create_logrotate nextcloud ${LOG_PATH}/${LOG_FILE} none ${NGINX_USER} ${NGINX_GROUP}
+create_logrotate nextcloud ${LOG_PATH}/${LOG_FILE} nextcloud ${NGINX_USER} ${NGINX_GROUP}
 create_logrotate nextcloud-audit ${LOG_PATH}/${LOG_FILE_AUDIT} none ${NGINX_USER} ${NGINX_GROUP}
 create_logrotate nextcloud-flow ${LOG_PATH}/${LOG_FILE_FLOW} none ${NGINX_USER} ${NGINX_GROUP}
 
@@ -351,9 +351,6 @@ if [ -n "${ADMIN_PASS}" ] && [ -n "${ADMIN_USER}" ]; then
   sudo -u ${NGINX_USER} php ${NGINX_WEBROOT}/occ user:resetpassword --password-from-env ${ADMIN_USER}
 fi
 
-### Language Fix for templates when using LibreOffice Online/Colalbora ## This needs work
-#cp -R /assets/www ${NGINX_WEBROOT}
-
 if var_true "${ENABLE_FILES_BACKEND}" ; then
   print_debug "Enabling Hi Performance Files Backend"
   apkArch="$(apk --print-arch)"
@@ -381,8 +378,15 @@ fi
 ### Force Reset Permissions for Security
 chown -R "${NGINX_USER}":"${NGINX_GROUP}" "${NGINX_WEBROOT}"
 
-### Add alias for running artisan
-echo "alias occ='cd ""${NGINX_WEBROOT}""; sudo -u ""${NGINX_USER}"" php occ'" > /root/.bashrc
+### Add alias for running occ
+cat >> /root/.bashrc <<EOF
+function occ() {
+      export oldpwd="\$(pwd)"
+      cd ${NGINX_WEBROOT}
+      sudo -u ${NGINX_USER} php occ "\$@"
+      cd "\${oldpwd}"
+}
+EOF
 
 print_info "Nextcloud Version ${NEXTCLOUD_VERSION} ready to be accessed!"
 liftoff
