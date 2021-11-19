@@ -1,3 +1,9 @@
+## 3.0.12 2021-11-19 <dave at tiredofit dot ca>
+
+   ### Added
+      - notify_push plugin 0.3.0
+
+
 ## 3.0.11 2021-11-11 <dave at tiredofit dot ca>
 
    ### Added
