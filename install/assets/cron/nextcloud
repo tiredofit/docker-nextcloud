@@ -1,2 +1,0 @@
- */<CRON_PERIOD> * * * * sudo -u <USER> TZ=<TIMEZONE> php -d memory_limit=<MEMORY_LIMIT> -f <WEBROOT>/cron.php >/dev/null 2>&1
- 
