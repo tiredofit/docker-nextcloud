@@ -2,90 +2,98 @@ version: '2.4'
 services:
 
   nextcloud-app:
-    image: tiredofit/nextcloud
+    image: tiredofit/nextcloud:21-latest
     container_name: nextcloud-app
+    ### These labels are for Traefik Reverse Proxies
     labels:
-    - "traefik.http.middlewares.nextcloud-rep.redirectregex.regex=https://(.*)/.well-known/(card|cal)dav"
-    - "traefik.http.middlewares.nextcloud-rep.redirectregex.replacement=https://$$1/remote.php/dav/"
-    - "traefik.http.middlewares.nextcloud-rep.redirectregex.permanent=true"
-    - "traefik.http.middlewares.nextcloud-header.headers.stsIncludeSubdomains=true"
-    - "traefik.http.middlewares.nextcloud-header.headers.stsSeconds=15552000"
-    - "traefik.http.routers.nextcloud-app.middlewares=nextcloud-rep,nextcloud-header"
+      - traefik.enable=true
+      - traefik.http.routers.files-board-selfdesign-org.rule=Host(`files.board.selfdesign.org`)
+      - traefik.http.services.files-board-selfdesign-org.loadbalancer.server.port=80
+      - traefik.http.middlewares.files-board-selfdesign-org-caldav.redirectregex.permanent=true
+      - traefik.http.middlewares.nextcloud-rep.redirectregex.regex=https://(.*)/.well-known/(card|cal)dav
+      - traefik.http.middlewares.nextcloud-rep.redirectregex.replacement=https://$$1/remote.php/dav/
+      - traefik.http.middlewares.nextcloud-rep.redirectregex.permanent=true
+      - traefik.http.middlewares.nextcloud-header.headers.stsIncludeSubdomains=true
+      - traefik.http.middlewares.nextcloud-header.headers.stsSeconds=15552000
+      - traefik.http.routers.nextcloud-app.middlewares=nextcloud-rep,nextcloud-header
     volumes:
-    - ./data/data:/data/userdata
-    - ./data/config:/www/nextcloud/config
-    - ./data/apps:/data/apps
-    - ./data/themes:/www/nextcloud/themes
-    - ./logs:/www/logs
-    - ./data/templates:/data/templates
+      - ./data/data:/data/userdata
+      - ./data/config:/www/nextcloud/config
+      - ./data/apps:/data/apps
+      - ./data/themes:/www/nextcloud/themes
+      - ./logs:/www/logs
+      - ./data/templates:/data/templates
     environment:
-    - VIRTUAL_HOST=nextcloud.example.com
-    - VIRTUAL_NETWORK=proxy
-    - LETSENCRYPT_HOST=nextcloud.example.com
-    - LETSENCRYPT_EMAIL=email@Hostname.com
+      ### These 4 lines below are for jwilder/nginx-proxy and
+      - VIRTUAL_HOST=nextcloud.example.com
+      - VIRTUAL_NETWORK=proxy
+      - LETSENCRYPT_HOST=nextcloud.example.com
+      - LETSENCRYPT_EMAIL=email@Hostname.com
+      ###
 
-    - CRON_PERIOD=5
+      - CRON_PERIOD=5
 
-    - ADMIN_USER=admin
-    - ADMIN_PASS=pass
-    - DOMAIN=example.com
+      - ADMIN_USER=admin
+      - ADMIN_PASS=pass
+      - DOMAIN=example.com
 
-    - DB_TYPE=mysql
-    - DB_NAME=nextcloud
-    - DB_USER=nextcloud
-    - DB_PASS=password
-    - DB_HOST=nextcloud-db
+      - DB_TYPE=mysql
+      - DB_NAME=nextcloud
+      - DB_USER=nextcloud
+      - DB_PASS=password
+      - DB_HOST=nextcloud-db
 
-### These lines are for Fail2ban. If you don't want, comment and also add ENABLE_FAIL2BAN=FALSE to your environment
-cap_add:
-    - NET_ADMIN
-networks:
-    - proxy
-    - services
+    ### These lines are for Fail2ban. If you don't want, comment and also add ENABLE_FAIL2BAN=FALSE to your environment
+    cap_add:
+      - NET_ADMIN
+    ###
+    networks:
+      - proxy
+      - services
     restart: always
 
   nextcloud-db:
     image: tiredofit/mariadb:latest
     container_name: nextcloud-db
     volumes:
-    - /var/local/db/nextcloud:/var/lib/mysql
+      - /var/local/db/nextcloud:/var/lib/mysql
     environment:
-    - ROOT_PASS=password
-    - DB_NAME=nextcloud
-    - DB_USER=nextcloud
-    - DB_PASS=password
+      - ROOT_PASS=password
+      - DB_NAME=nextcloud
+      - DB_USER=nextcloud
+      - DB_PASS=password
     networks:
-    - services
+      - services
     restart: always
 
   nextcloud-redis:
     image: tiredofit/redis:latest
     container_name: nextcloud-redis
     volumes:
-    - ./redis:/data
+      - ./redis:/data
     networks:
-    - services
+      - services
     restart: always
 
   nextcloud-db-backup:
     image: tiredofit/db-backup:latest
     container_name: nextcloud-db-backup
     links:
-    - nextcloud-db
+      - nextcloud-db
     volumes:
-    - ./dbbackup:/backup
+      - ./dbbackup:/backup
     environment:
-    - DB_HOST=nextcloud-db
-    - DB_TYPE=mariadb
-    - DB_NAME=nextcloud
-    - DB_USER=nextcloud
-    - DB_PASS=password
-    - DB_DUMP_FREQ=1440
-    - DB_DUMP_BEGIN=0000
-    - DB_CLEANUP_TIME=8640
-    - COMPRESSION=BZ
+      - DB_HOST=nextcloud-db
+      - DB_TYPE=mariadb
+      - DB_NAME=nextcloud
+      - DB_USER=nextcloud
+      - DB_PASS=password
+      - DB_DUMP_FREQ=1440
+      - DB_DUMP_BEGIN=0000
+      - DB_CLEANUP_TIME=8640
+      - COMPRESSION=ZSTD
     networks:
-    - services
+      - services
     restart: always
 
 networks:
