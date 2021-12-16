@@ -1,3 +1,9 @@
+## 3.0.15 2021-12-15 <dave at tiredofit dot ca>
+
+   ### Changed
+      - Remove unrar temporarily
+
+
 ## 3.0.14 2021-12-14 <dave at tiredofit dot ca>
 
    ### Changed
