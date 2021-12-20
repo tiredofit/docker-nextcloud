@@ -1,3 +1,9 @@
+## 3.1.1 2021-12-20 <dave at tiredofit dot ca>
+
+   ### Added
+      - Add Zabbix Autoregister for Nextcloud
+
+
 ## 3.1.0 2021-12-20 <dave at tiredofit dot ca>
 
    ### Added
