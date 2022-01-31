@@ -57,7 +57,7 @@ RUN set -x && \
                 rsync \
                 samba-client \
                 sqlite \
-                unrar \
+#                unrar \
                 zlib \
                 && \
             \

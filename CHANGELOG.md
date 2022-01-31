@@ -1,3 +1,9 @@
+## 3.1.2 2022-01-31 <dave at tiredofit dot ca>
+
+   ### Changed
+      - Temporarily stop installing unrar
+
+
 ## 3.1.1 2022-01-31 <dave at tiredofit dot ca>
 
    ### Added
