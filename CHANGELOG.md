@@ -1,3 +1,10 @@
+## 3.1.1 2022-01-31 <dave at tiredofit dot ca>
+
+   ### Added
+      - Nextclouid 23.0.1
+      - PHP 8.0 backend
+
+
 ## 3.1.0 2021-12-01 <dave at tiredofit dot ca>
 
    ### Added
