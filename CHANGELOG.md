@@ -1,3 +1,9 @@
+## 3.1.4 2022-02-10 <dave at tiredofit dot ca>
+
+   ### Changed
+      - Additional upstream image update
+
+
 ## 3.1.3 2022-02-10 <dave at tiredofit dot ca>
 
    ### Changed
