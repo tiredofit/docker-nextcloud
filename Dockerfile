@@ -25,7 +25,9 @@ ENV NEXTCLOUD_VERSION=23.0.1 \
     PHP_ENABLE_XMLWRITER=TRUE \
     PHP_ENABLE_ZIP=TRUE \
     PHP_MEMORY_LIMIT="512M" \
-    CONTAINER_NAME=nextcloud-app
+    CONTAINER_NAME=nextcloud-app \
+    IMAGE_NAME="tiredofit/nextcloud:23" \
+    IMAGE_REPO_URL="https://github.com/tiredofit/docker-nextcloud/"
 
 RUN set -x && \
     apk update && \
