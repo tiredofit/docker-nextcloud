@@ -1,4 +1,4 @@
-#!/usr/bin/with-contenv bash
+#!/command/with-contenv bash
 
 fail2ban_configure_logging() {
 	print_debug "Fail2ban: Configure Logging"

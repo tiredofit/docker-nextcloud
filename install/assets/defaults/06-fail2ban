@@ -1,4 +1,4 @@
-#!/usr/bin/with-contenv bash
+#!/command/with-contenv bash
 
 ENABLE_FAIL2BAN=${ENABLE_FAIL2BAN:-"TRUE"}
 FAIL2BAN_BACKEND=${FAIL2BAN_BACKEND:-"AUTO"}
