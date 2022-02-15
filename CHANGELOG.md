@@ -1,3 +1,9 @@
+## 3.1.5 2022-02-10 <joergmschulz@github>
+
+   ### Changed
+      - Update for resetting admin password
+
+
 ## 3.1.4 2022-02-10 <dave at tiredofit dot ca>
 
    ### Changed
