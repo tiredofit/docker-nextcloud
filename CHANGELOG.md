@@ -1,3 +1,9 @@
+## 3.1.4 2022-02-11 <joergmschulz@github>
+
+   ### Changed
+      - Fix for updating admin password on container boot
+
+
 ## 3.1.3 2022-02-10 <dave at tiredofit dot ca>
 
    ### Changed
