@@ -348,7 +348,7 @@ fi
 if [ -n "${ADMIN_PASS}" ] && [ -n "${ADMIN_USER}" ]; then
   export OC_PASS="${ADMIN_PASS}"
   print_debug "Resetting Admin Password"
-  sudo -u ${NGINX_USER} php ${NGINX_WEBROOT}/occ user:resetpassword --password-from-env ${ADMIN_USER}
+  sudo --preserve-env=OC_PASS -u ${NGINX_USER} php ${NGINX_WEBROOT}/occ user:resetpassword --password-from-env ${ADMIN_USER}
 fi
 
 if var_true "${ENABLE_FILES_BACKEND}" ; then
