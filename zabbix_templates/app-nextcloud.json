@@ -1,0 +1,961 @@
+{
+    "zabbix_export": {
+        "version": "6.0",
+        "date": "2022-02-24T22:51:59Z",
+        "groups": [
+            {
+                "uuid": "2da53c57ec654fd3813e6ea429176c31",
+                "name": "Templates/Webapps"
+            }
+        ],
+        "templates": [
+            {
+                "uuid": "48cc1a80142e478eaf4359d3e2e7298a",
+                "template": "Nextcloud",
+                "name": "Nextcloud",
+                "description": "Nextcloud Monitoring Template for version >22\n\nThis template is meant for use specifically with https://github.com/tiredofit/docker-nextcloud.\n\nSteps for usage:\n- Ensure Server Info Plugin is installed and enabled\n- Create a secure application token\n- Set token via console 'occ config:app:set serverinfo token --value \"yourtoken\"'\n- Assign Template to Host and set macros\n    - {$NEXTCLOUD_URL} - This is the base URL of your nextcloud installation e.g  \n      https://nextcloud.example.com\n    - {$NEXTCLOUD_TOKEN} - This is the token that you have generated",
+                "groups": [
+                    {
+                        "name": "Templates/Webapps"
+                    }
+                ],
+                "items": [
+                    {
+                        "uuid": "271e399536b04d2a9d64e60248d468fd",
+                        "name": "Nextcloud: Applications - Updatable",
+                        "type": "DEPENDENT",
+                        "key": "nextcloud.applications.updates",
+                        "delay": "0",
+                        "history": "7d",
+                        "description": "Count of Applications that have an update available",
+                        "preprocessing": [
+                            {
+                                "type": "JSONPATH",
+                                "parameters": [
+                                    "$.ocs.data.nextcloud.system.apps.num_updates_available"
+                                ]
+                            }
+                        ],
+                        "master_item": {
+                            "key": "nextcloud.get_statistics"
+                        },
+                        "tags": [
+                            {
+                                "tag": "Application",
+                                "value": "Nextcloud"
+                            }
+                        ]
+                    },
+                    {
+                        "uuid": "319cf88269654eb98abbb45c492087a0",
+                        "name": "Nextcloud: Applications - Installed",
+                        "type": "DEPENDENT",
+                        "key": "nextcloud.apps.installed",
+                        "delay": "0",
+                        "history": "7d",
+                        "description": "Count of Applications that are installed",
+                        "preprocessing": [
+                            {
+                                "type": "JSONPATH",
+                                "parameters": [
+                                    "$.ocs.data.nextcloud.system.apps.num_installed"
+                                ]
+                            }
+                        ],
+                        "master_item": {
+                            "key": "nextcloud.get_statistics"
+                        },
+                        "tags": [
+                            {
+                                "tag": "Application",
+                                "value": "Nextcloud"
+                            }
+                        ]
+                    },
+                    {
+                        "uuid": "f368ee516b8843598a04495a84761956",
+                        "name": "Nextcloud: Files",
+                        "type": "DEPENDENT",
+                        "key": "nextcloud.files",
+                        "delay": "0",
+                        "history": "7d",
+                        "description": "Amount of files available",
+                        "preprocessing": [
+                            {
+                                "type": "JSONPATH",
+                                "parameters": [
+                                    "$.ocs.data.nextcloud.storage.num_files"
+                                ]
+                            }
+                        ],
+                        "master_item": {
+                            "key": "nextcloud.get_statistics"
+                        },
+                        "tags": [
+                            {
+                                "tag": "Application",
+                                "value": "Nextcloud"
+                            }
+                        ]
+                    },
+                    {
+                        "uuid": "90d10fe2b5f2439ebe360cd86037206f",
+                        "name": "Nextcloud: Get Statistics",
+                        "type": "HTTP_AGENT",
+                        "key": "nextcloud.get_statistics",
+                        "history": "1h",
+                        "trends": "0",
+                        "value_type": "TEXT",
+                        "description": "Fetch Statistics from Nextclouds Server Info Plugin to be utilized by other dependent items.",
+                        "timeout": "15s",
+                        "url": "{$NEXTCLOUD_URL}//ocs/v2.php/apps/serverinfo/api/v1/info",
+                        "query_fields": [
+                            {
+                                "name": "format",
+                                "value": "json"
+                            }
+                        ],
+                        "status_codes": "200,503",
+                        "headers": [
+                            {
+                                "name": "NC-Token",
+                                "value": "{$NEXTCLOUD_TOKEN}"
+                            }
+                        ]
+                    },
+                    {
+                        "uuid": "04027275ef1e4ab5b7b84d569d4feec1",
+                        "name": "Nextcloud: Shares",
+                        "type": "DEPENDENT",
+                        "key": "nextcloud.shares",
+                        "delay": "0",
+                        "history": "7d",
+                        "description": "Amount of Shares",
+                        "preprocessing": [
+                            {
+                                "type": "JSONPATH",
+                                "parameters": [
+                                    "$.ocs.data.nextcloud.shares.num_shares"
+                                ]
+                            }
+                        ],
+                        "master_item": {
+                            "key": "nextcloud.get_statistics"
+                        },
+                        "tags": [
+                            {
+                                "tag": "Application",
+                                "value": "Nextcloud"
+                            }
+                        ]
+                    },
+                    {
+                        "uuid": "aa15ee05ae5d415fa83a252c5beaf802",
+                        "name": "Nextcloud: Shares - Federated Received",
+                        "type": "DEPENDENT",
+                        "key": "nextcloud.shares.federated.received",
+                        "delay": "0",
+                        "history": "7d",
+                        "description": "Share count of shares received from federated servers",
+                        "preprocessing": [
+                            {
+                                "type": "JSONPATH",
+                                "parameters": [
+                                    "$.ocs.data.nextcloud.shares.num_fed_shares_received"
+                                ]
+                            }
+                        ],
+                        "master_item": {
+                            "key": "nextcloud.get_statistics"
+                        },
+                        "tags": [
+                            {
+                                "tag": "Application",
+                                "value": "Nextcloud"
+                            }
+                        ]
+                    },
+                    {
+                        "uuid": "6284776f72ce4fbf84868e5742abb193",
+                        "name": "Nextcloud: Shares - Federated Sent",
+                        "type": "DEPENDENT",
+                        "key": "nextcloud.shares.federated.sent",
+                        "delay": "0",
+                        "history": "7d",
+                        "description": "Share count of shares sent to federated servers",
+                        "preprocessing": [
+                            {
+                                "type": "JSONPATH",
+                                "parameters": [
+                                    "$.ocs.data.nextcloud.shares.num_fed_shares_sent"
+                                ]
+                            }
+                        ],
+                        "master_item": {
+                            "key": "nextcloud.get_statistics"
+                        },
+                        "tags": [
+                            {
+                                "tag": "Application",
+                                "value": "Nextcloud"
+                            }
+                        ]
+                    },
+                    {
+                        "uuid": "6788156cefa442838fc49f18635ab70f",
+                        "name": "Nextcloud: Shares - Group",
+                        "type": "DEPENDENT",
+                        "key": "nextcloud.shares.group",
+                        "delay": "0",
+                        "history": "7d",
+                        "description": "Share count (Group)",
+                        "preprocessing": [
+                            {
+                                "type": "JSONPATH",
+                                "parameters": [
+                                    "$.ocs.data.nextcloud.shares.num_shares_groups"
+                                ]
+                            }
+                        ],
+                        "master_item": {
+                            "key": "nextcloud.get_statistics"
+                        },
+                        "tags": [
+                            {
+                                "tag": "Application",
+                                "value": "Nextcloud"
+                            }
+                        ]
+                    },
+                    {
+                        "uuid": "dadb008898b447d885ecaf8e568cc352",
+                        "name": "Nextcloud: Shares - Shares",
+                        "type": "DEPENDENT",
+                        "key": "nextcloud.shares.link",
+                        "delay": "0",
+                        "history": "7d",
+                        "description": "Amount of shares by link",
+                        "preprocessing": [
+                            {
+                                "type": "JSONPATH",
+                                "parameters": [
+                                    "$.ocs.data.nextcloud.shares.num_shares_link"
+                                ]
+                            }
+                        ],
+                        "master_item": {
+                            "key": "nextcloud.get_statistics"
+                        },
+                        "tags": [
+                            {
+                                "tag": "Application",
+                                "value": "Nextcloud"
+                            }
+                        ]
+                    },
+                    {
+                        "uuid": "61b5e187972140fda0c5a137dfab41cb",
+                        "name": "Nextcloud: Shares - Mail",
+                        "type": "DEPENDENT",
+                        "key": "nextcloud.shares.mail",
+                        "delay": "0",
+                        "history": "7d",
+                        "description": "Amount of shares by mail",
+                        "preprocessing": [
+                            {
+                                "type": "JSONPATH",
+                                "parameters": [
+                                    "$.ocs.data.nextcloud.shares.num_shares_mail"
+                                ]
+                            }
+                        ],
+                        "master_item": {
+                            "key": "nextcloud.get_statistics"
+                        },
+                        "tags": [
+                            {
+                                "tag": "Application",
+                                "value": "Nextcloud"
+                            }
+                        ]
+                    },
+                    {
+                        "uuid": "f2799387cdc1403d97e82faf30642b52",
+                        "name": "Nextcloud: Shares - Passwordless",
+                        "type": "DEPENDENT",
+                        "key": "nextcloud.shares.passwordless",
+                        "delay": "0",
+                        "history": "7d",
+                        "description": "Share Count of Passwordless Link Shares",
+                        "preprocessing": [
+                            {
+                                "type": "JSONPATH",
+                                "parameters": [
+                                    "$.ocs.data.nextcloud.shares.num_shares_link_no_password"
+                                ]
+                            }
+                        ],
+                        "master_item": {
+                            "key": "nextcloud.get_statistics"
+                        },
+                        "tags": [
+                            {
+                                "tag": "Application",
+                                "value": "Nextcloud"
+                            }
+                        ]
+                    },
+                    {
+                        "uuid": "49f6b7847d41449bbf4fc5f03abdcb35",
+                        "name": "Nextcloud: Shares - Room",
+                        "type": "DEPENDENT",
+                        "key": "nextcloud.shares.room",
+                        "delay": "0",
+                        "history": "7d",
+                        "status": "DISABLED",
+                        "description": "Number of Shares via room (Talk)",
+                        "preprocessing": [
+                            {
+                                "type": "JSONPATH",
+                                "parameters": [
+                                    "$.ocs.data.nextcloud.shares.num_shares_room"
+                                ]
+                            }
+                        ],
+                        "master_item": {
+                            "key": "nextcloud.get_statistics"
+                        },
+                        "tags": [
+                            {
+                                "tag": "Application",
+                                "value": "Nextcloud"
+                            }
+                        ]
+                    },
+                    {
+                        "uuid": "c1e9b3a546f5446980784ff0db476836",
+                        "name": "Nextcloud: Shares - User",
+                        "type": "DEPENDENT",
+                        "key": "nextcloud.shares.user",
+                        "delay": "0",
+                        "history": "7d",
+                        "description": "Share Count by Users",
+                        "preprocessing": [
+                            {
+                                "type": "JSONPATH",
+                                "parameters": [
+                                    "$.ocs.data.nextcloud.shares.num_shares_user"
+                                ]
+                            }
+                        ],
+                        "master_item": {
+                            "key": "nextcloud.get_statistics"
+                        },
+                        "tags": [
+                            {
+                                "tag": "Application",
+                                "value": "Nextcloud"
+                            }
+                        ]
+                    },
+                    {
+                        "uuid": "0cc28b62be414e98b29c1ccd80add8e9",
+                        "name": "Nextcloud: Database size",
+                        "type": "DEPENDENT",
+                        "key": "nextcloud.size.database",
+                        "delay": "0",
+                        "history": "7d",
+                        "units": "B",
+                        "description": "Size of the Nextcloud Database as reported by application",
+                        "preprocessing": [
+                            {
+                                "type": "JSONPATH",
+                                "parameters": [
+                                    "$.ocs.data.server.database.size"
+                                ]
+                            }
+                        ],
+                        "master_item": {
+                            "key": "nextcloud.get_statistics"
+                        },
+                        "tags": [
+                            {
+                                "tag": "Application",
+                                "value": "Nextcloud"
+                            }
+                        ]
+                    },
+                    {
+                        "uuid": "ba862770d092419390a630c1559ee3f1",
+                        "name": "Nextcloud: Status",
+                        "type": "DEPENDENT",
+                        "key": "nextcloud.status",
+                        "delay": "0",
+                        "history": "7d",
+                        "trends": "0",
+                        "status": "DISABLED",
+                        "value_type": "TEXT",
+                        "description": "Status Response (Good = 'ok')",
+                        "preprocessing": [
+                            {
+                                "type": "JSONPATH",
+                                "parameters": [
+                                    "$.ocs.meta.status"
+                                ]
+                            }
+                        ],
+                        "master_item": {
+                            "key": "nextcloud.get_statistics"
+                        },
+                        "tags": [
+                            {
+                                "tag": "Application",
+                                "value": "Nextcloud"
+                            }
+                        ]
+                    },
+                    {
+                        "uuid": "93beefe32ac64793a8031ec82299ab27",
+                        "name": "Nextcloud: Status - Code",
+                        "type": "DEPENDENT",
+                        "key": "nextcloud.status.code",
+                        "delay": "0",
+                        "history": "7d",
+                        "description": "HTTP Status Code returned",
+                        "preprocessing": [
+                            {
+                                "type": "JSONPATH",
+                                "parameters": [
+                                    "$.ocs.meta.statuscode"
+                                ]
+                            }
+                        ],
+                        "master_item": {
+                            "key": "nextcloud.get_statistics"
+                        },
+                        "tags": [
+                            {
+                                "tag": "Application",
+                                "value": "Nextcloud"
+                            }
+                        ],
+                        "triggers": [
+                            {
+                                "uuid": "ba83b093c14c495fbf20c23b11aec402",
+                                "expression": "last(/Nextcloud/nextcloud.status.code)<>200",
+                                "name": "Nextcloud: Server is reporting bad status code",
+                                "priority": "DISASTER",
+                                "manual_close": "YES"
+                            }
+                        ]
+                    },
+                    {
+                        "uuid": "e289e42438944cb5a826d617e70205a1",
+                        "name": "Nextcloud: Status - Message",
+                        "type": "DEPENDENT",
+                        "key": "nextcloud.status.message",
+                        "delay": "0",
+                        "history": "7d",
+                        "trends": "0",
+                        "status": "DISABLED",
+                        "value_type": "TEXT",
+                        "description": "Status Message (Good = OK)",
+                        "preprocessing": [
+                            {
+                                "type": "JSONPATH",
+                                "parameters": [
+                                    "$.ocs.meta.message"
+                                ]
+                            }
+                        ],
+                        "master_item": {
+                            "key": "nextcloud.get_statistics"
+                        },
+                        "tags": [
+                            {
+                                "tag": "Application",
+                                "value": "Nextcloud"
+                            }
+                        ]
+                    },
+                    {
+                        "uuid": "a6d955d3d50a4c97ba7c59df6f15391c",
+                        "name": "Nextcloud: Storage",
+                        "type": "DEPENDENT",
+                        "key": "nextcloud.storage",
+                        "delay": "0",
+                        "history": "7d",
+                        "preprocessing": [
+                            {
+                                "type": "JSONPATH",
+                                "parameters": [
+                                    "$.ocs.data.nextcloud.storage.num_storages"
+                                ]
+                            }
+                        ],
+                        "master_item": {
+                            "key": "nextcloud.get_statistics"
+                        },
+                        "tags": [
+                            {
+                                "tag": "Application",
+                                "value": "Nextcloud"
+                            }
+                        ]
+                    },
+                    {
+                        "uuid": "f5e3b888642a4e26957eaa08b0e3d048",
+                        "name": "Nextcloud: Storage - Home",
+                        "type": "DEPENDENT",
+                        "key": "nextcloud.storage.home",
+                        "delay": "0",
+                        "history": "7d",
+                        "description": "Number of Home Directories / Storage",
+                        "preprocessing": [
+                            {
+                                "type": "JSONPATH",
+                                "parameters": [
+                                    "$.ocs.data.nextcloud.storage.num_storages_home"
+                                ]
+                            }
+                        ],
+                        "master_item": {
+                            "key": "nextcloud.get_statistics"
+                        },
+                        "tags": [
+                            {
+                                "tag": "Application",
+                                "value": "Nextcloud"
+                            }
+                        ]
+                    },
+                    {
+                        "uuid": "22c648e218934d4f826465d67fa1c4e0",
+                        "name": "Nextcloud: Storage - Local",
+                        "type": "DEPENDENT",
+                        "key": "nextcloud.storage.local",
+                        "delay": "0",
+                        "history": "7d",
+                        "description": "Amount of Local Storages",
+                        "preprocessing": [
+                            {
+                                "type": "JSONPATH",
+                                "parameters": [
+                                    "$.ocs.data.nextcloud.storage.num_storages_local"
+                                ]
+                            }
+                        ],
+                        "master_item": {
+                            "key": "nextcloud.get_statistics"
+                        },
+                        "tags": [
+                            {
+                                "tag": "Application",
+                                "value": "Nextcloud"
+                            }
+                        ]
+                    },
+                    {
+                        "uuid": "4ffcc627172f46e781651eb3f98f9d80",
+                        "name": "Nextcloud: Storage - Other",
+                        "type": "DEPENDENT",
+                        "key": "nextcloud.storage.other",
+                        "delay": "0",
+                        "history": "7d",
+                        "preprocessing": [
+                            {
+                                "type": "JSONPATH",
+                                "parameters": [
+                                    "$.ocs.data.nextcloud.storage.num_storages_other"
+                                ]
+                            }
+                        ],
+                        "master_item": {
+                            "key": "nextcloud.get_statistics"
+                        },
+                        "tags": [
+                            {
+                                "tag": "Application",
+                                "value": "Nextcloud"
+                            }
+                        ]
+                    },
+                    {
+                        "uuid": "fe8ecbec854d4d99bd1afee5da2c1700",
+                        "name": "Nextcloud: Users",
+                        "type": "DEPENDENT",
+                        "key": "nextcloud.users",
+                        "delay": "0",
+                        "history": "7d",
+                        "description": "Count of how many users are registered on the system",
+                        "preprocessing": [
+                            {
+                                "type": "JSONPATH",
+                                "parameters": [
+                                    "$.ocs.data.nextcloud.storage.num_users"
+                                ]
+                            }
+                        ],
+                        "master_item": {
+                            "key": "nextcloud.get_statistics"
+                        },
+                        "tags": [
+                            {
+                                "tag": "Application",
+                                "value": "Nextcloud"
+                            }
+                        ]
+                    },
+                    {
+                        "uuid": "25705057aa3b4b2c89a16925c83e91b2",
+                        "name": "Nextcloud: Users - Active",
+                        "type": "DEPENDENT",
+                        "key": "nextcloud.users.active",
+                        "delay": "0",
+                        "history": "7d",
+                        "description": "Active Users over the past minute",
+                        "preprocessing": [
+                            {
+                                "type": "JSONPATH",
+                                "parameters": [
+                                    "$.ocs.data.activeUsers.last5minutes"
+                                ]
+                            }
+                        ],
+                        "master_item": {
+                            "key": "nextcloud.get_statistics"
+                        },
+                        "tags": [
+                            {
+                                "tag": "Application",
+                                "value": "Nextcloud"
+                            }
+                        ]
+                    },
+                    {
+                        "uuid": "eb222a1e086d4e1c8e4c09948fe2cc8a",
+                        "name": "Nextcloud: Users - Active (Past day)",
+                        "type": "DEPENDENT",
+                        "key": "nextcloud.users.active.day",
+                        "delay": "0",
+                        "history": "7d",
+                        "description": "Active Users over the past 24 hours",
+                        "preprocessing": [
+                            {
+                                "type": "JSONPATH",
+                                "parameters": [
+                                    "$.ocs.data.activeUsers.last24hours"
+                                ]
+                            }
+                        ],
+                        "master_item": {
+                            "key": "nextcloud.get_statistics"
+                        },
+                        "tags": [
+                            {
+                                "tag": "Application",
+                                "value": "Nextcloud"
+                            }
+                        ]
+                    },
+                    {
+                        "uuid": "d909f3209aea49ecb265b807bc632a45",
+                        "name": "Nextcloud: Users - Active (Past Hour)",
+                        "type": "DEPENDENT",
+                        "key": "nextcloud.users.active.hour",
+                        "delay": "0",
+                        "history": "7d",
+                        "description": "Active Users over the past hour",
+                        "preprocessing": [
+                            {
+                                "type": "JSONPATH",
+                                "parameters": [
+                                    "$.ocs.data.activeUsers.last1hour"
+                                ]
+                            }
+                        ],
+                        "master_item": {
+                            "key": "nextcloud.get_statistics"
+                        },
+                        "tags": [
+                            {
+                                "tag": "Application",
+                                "value": "Nextcloud"
+                            }
+                        ]
+                    },
+                    {
+                        "uuid": "0e874a314ddc40b3b91f47a42abb6786",
+                        "name": "Nextcloud: Version",
+                        "type": "DEPENDENT",
+                        "key": "nextcloud.version",
+                        "delay": "0",
+                        "history": "7d",
+                        "trends": "0",
+                        "value_type": "TEXT",
+                        "description": "Nextcloud Version",
+                        "preprocessing": [
+                            {
+                                "type": "JSONPATH",
+                                "parameters": [
+                                    "$.ocs.data.nextcloud.system.version"
+                                ]
+                            }
+                        ],
+                        "master_item": {
+                            "key": "nextcloud.get_statistics"
+                        },
+                        "tags": [
+                            {
+                                "tag": "Application",
+                                "value": "Nextcloud"
+                            }
+                        ],
+                        "triggers": [
+                            {
+                                "uuid": "d3066ab434c7434fb1c8daff5ec3df56",
+                                "expression": "last(/Nextcloud/nextcloud.version,#1)<>last(/Nextcloud/nextcloud.version,#2) and length(last(/Nextcloud/nextcloud.version))>0",
+                                "name": "Nextcloud: Version has changed (new version: {ITEM.VALUE}",
+                                "priority": "INFO",
+                                "manual_close": "YES"
+                            }
+                        ]
+                    }
+                ],
+                "tags": [
+                    {
+                        "tag": "Application",
+                        "value": "Nextcloud"
+                    }
+                ],
+                "dashboards": [
+                    {
+                        "uuid": "f151e391f1734fb2a58fd58c4feb2217",
+                        "name": "Nextcloud",
+                        "pages": [
+                            {
+                                "widgets": [
+                                    {
+                                        "type": "GRAPH_CLASSIC",
+                                        "width": "24",
+                                        "height": "5",
+                                        "fields": [
+                                            {
+                                                "type": "GRAPH",
+                                                "name": "graphid",
+                                                "value": {
+                                                    "name": "Nextcloud: Shares",
+                                                    "host": "Nextcloud"
+                                                }
+                                            }
+                                        ]
+                                    },
+                                    {
+                                        "type": "GRAPH_CLASSIC",
+                                        "y": "5",
+                                        "width": "24",
+                                        "height": "5",
+                                        "fields": [
+                                            {
+                                                "type": "GRAPH",
+                                                "name": "graphid",
+                                                "value": {
+                                                    "name": "Nextcloud: Storages",
+                                                    "host": "Nextcloud"
+                                                }
+                                            }
+                                        ]
+                                    },
+                                    {
+                                        "type": "GRAPH_CLASSIC",
+                                        "y": "10",
+                                        "width": "24",
+                                        "height": "5",
+                                        "fields": [
+                                            {
+                                                "type": "GRAPH",
+                                                "name": "graphid",
+                                                "value": {
+                                                    "name": "Nextcloud: Users",
+                                                    "host": "Nextcloud"
+                                                }
+                                            }
+                                        ]
+                                    }
+                                ]
+                            }
+                        ]
+                    }
+                ]
+            }
+        ],
+        "graphs": [
+            {
+                "uuid": "1fddcb0d8c5e4b23921dd01070885b9d",
+                "name": "Nextcloud: Shares",
+                "ymax_type_1": "ITEM",
+                "ymax_item_1": {
+                    "host": "Nextcloud",
+                    "key": "nextcloud.shares"
+                },
+                "graph_items": [
+                    {
+                        "color": "AC8C14",
+                        "item": {
+                            "host": "Nextcloud",
+                            "key": "nextcloud.shares"
+                        }
+                    },
+                    {
+                        "sortorder": "1",
+                        "color": "2774A4",
+                        "item": {
+                            "host": "Nextcloud",
+                            "key": "nextcloud.shares.group"
+                        }
+                    },
+                    {
+                        "sortorder": "2",
+                        "color": "FC6EA3",
+                        "item": {
+                            "host": "Nextcloud",
+                            "key": "nextcloud.shares.link"
+                        }
+                    },
+                    {
+                        "sortorder": "3",
+                        "color": "7EC25C",
+                        "item": {
+                            "host": "Nextcloud",
+                            "key": "nextcloud.shares.mail"
+                        }
+                    },
+                    {
+                        "sortorder": "4",
+                        "color": "F230E0",
+                        "item": {
+                            "host": "Nextcloud",
+                            "key": "nextcloud.shares.passwordless"
+                        }
+                    },
+                    {
+                        "sortorder": "5",
+                        "color": "5CCD18",
+                        "item": {
+                            "host": "Nextcloud",
+                            "key": "nextcloud.shares.user"
+                        }
+                    },
+                    {
+                        "sortorder": "6",
+                        "color": "BB2A02",
+                        "item": {
+                            "host": "Nextcloud",
+                            "key": "nextcloud.shares.federated.received"
+                        }
+                    },
+                    {
+                        "sortorder": "7",
+                        "color": "5A2B57",
+                        "item": {
+                            "host": "Nextcloud",
+                            "key": "nextcloud.shares.federated.sent"
+                        }
+                    },
+                    {
+                        "sortorder": "8",
+                        "color": "89ABF8",
+                        "item": {
+                            "host": "Nextcloud",
+                            "key": "nextcloud.shares.room"
+                        }
+                    }
+                ]
+            },
+            {
+                "uuid": "0082e7cc5fb847aa8b479513f933ef4f",
+                "name": "Nextcloud: Storages",
+                "ymax_type_1": "ITEM",
+                "ymax_item_1": {
+                    "host": "Nextcloud",
+                    "key": "nextcloud.storage"
+                },
+                "graph_items": [
+                    {
+                        "color": "A54F10",
+                        "item": {
+                            "host": "Nextcloud",
+                            "key": "nextcloud.storage"
+                        }
+                    },
+                    {
+                        "sortorder": "1",
+                        "color": "1A7C11",
+                        "item": {
+                            "host": "Nextcloud",
+                            "key": "nextcloud.storage.home"
+                        }
+                    },
+                    {
+                        "sortorder": "2",
+                        "color": "F63100",
+                        "item": {
+                            "host": "Nextcloud",
+                            "key": "nextcloud.storage.local"
+                        }
+                    },
+                    {
+                        "sortorder": "3",
+                        "color": "2774A4",
+                        "item": {
+                            "host": "Nextcloud",
+                            "key": "nextcloud.storage.other"
+                        }
+                    }
+                ]
+            },
+            {
+                "uuid": "6b96105f7c144ae1b37b1a4598a236c3",
+                "name": "Nextcloud: Users",
+                "ymax_type_1": "ITEM",
+                "ymax_item_1": {
+                    "host": "Nextcloud",
+                    "key": "nextcloud.users"
+                },
+                "graph_items": [
+                    {
+                        "color": "A54F10",
+                        "item": {
+                            "host": "Nextcloud",
+                            "key": "nextcloud.users"
+                        }
+                    },
+                    {
+                        "sortorder": "1",
+                        "color": "F63100",
+                        "item": {
+                            "host": "Nextcloud",
+                            "key": "nextcloud.users.active"
+                        }
+                    },
+                    {
+                        "sortorder": "2",
+                        "color": "1A7C11",
+                        "item": {
+                            "host": "Nextcloud",
+                            "key": "nextcloud.users.active.day"
+                        }
+                    },
+                    {
+                        "sortorder": "3",
+                        "color": "2774A4",
+                        "item": {
+                            "host": "Nextcloud",
+                            "key": "nextcloud.users.active.hour"
+                        }
+                    }
+                ]
+            }
+        ]
+    }
+}
