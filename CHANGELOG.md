@@ -1,3 +1,9 @@
+## 3.2.0 2022-02-24 <dave at tiredofit dot ca>
+
+   ### Added
+      - Add MONITORING_APPLICATION_TOKEN for dynamically updating credfentials if serverinfo application installed for monitoring purposes
+
+
 ## 3.1.5 2022-02-16 <dave at tiredofit dot ca>
 
    ### Added
