@@ -13,7 +13,7 @@
                 "uuid": "48cc1a80142e478eaf4359d3e2e7298a",
                 "template": "Nextcloud",
                 "name": "Nextcloud",
-                "description": "Nextcloud Monitoring Template for version >22\n\nThis template is meant for use specifically with https://github.com/tiredofit/docker-nextcloud.\n\nSteps for usage:\n- Ensure Server Info Plugin is installed and enabled\n- Create a secure application token\n- Set token via console 'occ config:app:set serverinfo token --value \"yourtoken\"'\n- Assign Template to Host and set macros\n    - {$NEXTCLOUD_URL} - This is the base URL of your nextcloud installation e.g  \n      https://nextcloud.example.com\n    - {$NEXTCLOUD_TOKEN} - This is the token that you have generated",
+                "description": "Nextcloud Monitoring Template for version >22\n\nThis template is meant for use specifically with https://github.com/tiredofit/docker-nextcloud.\n\nSteps for usage:\n- Ensure Server Info Plugin is installed and enabled\n- Create a secure application token\n- Set token via console 'occ config:app:set serverinfo token --value \'yourtoken\''\n- Assign Template to Host and set macros\n    - {$NEXTCLOUD_URL} - This is the base URL of your nextcloud installation e.g  \n      https://nextcloud.example.com\n    - {$NEXTCLOUD_TOKEN} - This is the token that you have generated",
                 "groups": [
                     {
                         "name": "Templates/Webapps"
