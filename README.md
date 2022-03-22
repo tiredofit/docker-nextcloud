@@ -176,7 +176,7 @@ This image automatically configures nextcloud with the following options as defi
 | `SMTP_AUTHENTICATION_TYPE`         | Type of SMTP Authentication                               | `mail_smtpauthtype`                         | `NONE`                           |
 | `SMTP_DEBUG`                       | Debug SMTP activities                                     | `mail_smtpdebug`                            | `FALSE`                          |
 | `SMTP_DOMAIN`                      | Email Domain for Outbound mail                            | `mail_domain`                               | `example.org`                    |
-| `SMTP_FROM`                        | Account name for Outbound Email                           | `mail_from_address`                         | `noreply`                        |
+| `SMTP_FROM`                        | Account name for Outbound Email, SMTP_DOMAIN will be added | `mail_from_address`                         | `noreply`                        |
 | `SMTP_HOST`                        | Remote SMTP Host                                          | `mail_smtphost`                             | `postfix_relay`                  |
 | `SMTP_PASS`                        | SMTP Password                                             | `mail_smtppassword`                         | ``                               |
 | `SMTP_PORT`                        | SMTP Port                                                 | `mail_smtpport`                             | `25`                             |
