@@ -1,3 +1,10 @@
+## 3.2.2 2022-04-20 <dave at tiredofit dot ca>
+
+   ### Changed
+      - Change defaults for Previews
+      - Change defaults for Trusted Proxies for notify_push
+
+
 ## 3.2.1 2022-03-21 <dave at tiredofit dot ca>
 
    ### Added
