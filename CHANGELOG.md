@@ -1,3 +1,9 @@
+## 3.2.4 2022-05-06 <dave at tiredofit dot ca>
+
+   ### Added
+      - Notify Push 0.4.0
+
+
 ## 3.2.3 2022-04-22 <dave at tiredofit dot ca>
 
    ### Added
