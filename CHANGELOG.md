@@ -1,3 +1,9 @@
+## 3.2.5 2022-05-11 <dave at tiredofit dot ca>
+
+   ### Changed
+      - Tidying up some variables and removing old functions unnecessary
+
+
 ## 3.2.4 2022-05-06 <dave at tiredofit dot ca>
 
    ### Added
