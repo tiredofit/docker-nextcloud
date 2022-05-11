@@ -148,20 +148,18 @@ mkdir -p "${TEMP_DIRECTORY}"
 chown -R "${NGINX_USER}":"${NGINX_GROUP}" "${TEMP_DIRECTORY}"
 
 ### Database Check
-case "$DB_TYPE" in
-    "mysql" | "mariadb" | "MYSQL" | "MARIADB" )
+case "${DB_TYPE,,}" in
+    "mysql" | "mariadb" )
         DB_PORT=${DB_PORT:-3306}
-
         sanity_db mariadb
         db_ready mariadb
-
         install_options="--database=mysql --database-host=${DB_HOST} --database-name=${DB_NAME} --database-user=${DB_USER} --database-pass=${DB_PASS} --database-table-space=${DB_PREFIX} --database-port=${DB_PORT}"
      ;;
-    "sqlite" | "SQLITE" | "sqlite3" | "SQLITE3" )
+    sqlite* )
         DB_TYPE="sqlite3"
         install_options="--database-name $SQLITE_DATABASE"
      ;;
-    "postgres" | "postgresql" | "POSTGRES" | "POSTGRESQL" )
+    postgres* )
         DB_PORT=${DB_PORT:-5432}
         sanity_db
         db_ready postgres
@@ -173,17 +171,11 @@ case "$DB_TYPE" in
      ;;
 esac
 
-### Sudo Hack for entering inside the container
-echo "alias occ='sudo -u ${NGINX_USER} php ${NGINX_WEBROOT}/occ'" > /root/.bashrc
-
-mkdir -p "${NGINX_WEBROOT}"
-chown -R "${NGINX_USER}":"${NGINX_GROUP}" "${NGINX_WEBROOT}"
-
 installed_version="0.0.0~unknown"
-
+mkdir -p "${NGINX_WEBROOT}"
 rsync -a --delete --exclude /config/ --exclude /data/ --exclude /custom-apps/ --exclude /themes/ /assets/nextcloud/ "${NGINX_WEBROOT}"/
 mkdir -p "${NGINX_WEBROOT}"/data "${NGINX_WEBROOT}"/config "${NGINX_WEBROOT}"/themes "${NGINX_WEBROOT}"/custom-apps
-chown -R nginx "${NGINX_WEBROOT}"
+chown -R "${NGINX_USER}":"${NGINX_GROUP}" "${NGINX_WEBROOT}"
 
 for dir in config themes; do
     if directory_empty "${NGINX_WEBROOT}"/"$dir"; then
@@ -209,7 +201,7 @@ if version_greater "$installed_version" "${NEXTCLOUD_VERSION}"; then
     exit 1
 fi
 
-if [ "$ENABLE_AUTO_UPGRADE" = "TRUE" ]; then
+if var_true "${ENABLE_AUTO_UPGRADE}" ; then
   if version_greater "${NEXTCLOUD_VERSION}" "$installed_version"; then
       if [ "$installed_version" != "0.0.0~unknown" ]; then
         silent sudo -u "${NGINX_USER}" php "${NGINX_WEBROOT}"/occ app:list > /tmp/list_before

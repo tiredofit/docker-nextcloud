@@ -1,3 +1,9 @@
+## 3.3.2 2022-05-11 <dave at tiredofit dot ca>
+
+   ### Changed
+      - Code cleanup and remove old functions
+
+
 ## 3.3.1 2022-05-06 <dave at tiredofit dot ca>
 
    ### Added
