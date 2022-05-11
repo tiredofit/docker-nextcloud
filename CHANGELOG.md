@@ -1,3 +1,10 @@
+## 3.2.2 2022-05-11 <dave at tiredofit dot ca>
+
+   ### Changed
+      - Backport modifications and enhancements from 23 and 24 branch to 22
+      - Update Nextcloud to 22.2.7
+
+
 ## 3.2.1 2022-03-21 <dave at tiredofit dot ca>
 
    ### Added
