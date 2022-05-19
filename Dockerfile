@@ -1,7 +1,7 @@
 FROM docker.io/tiredofit/nginx-php-fpm:8.0
 LABEL maintainer="Dave Conroy (github.com/tiredofit)"
 
-ENV NEXTCLOUD_VERSION=24.0.0 \
+ENV NEXTCLOUD_VERSION=24.0.1 \
     NEXTCLOUD_FILES_BACKEND_VERSION=0.4.0 \
     NGINX_WEBROOT="/www/nextcloud" \
     PHP_ENABLE_CREATE_SAMPLE_PHP=FALSE \
@@ -26,7 +26,7 @@ ENV NEXTCLOUD_VERSION=24.0.0 \
     PHP_ENABLE_ZIP=TRUE \
     PHP_MEMORY_LIMIT="512M" \
     CONTAINER_NAME=nextcloud-app \
-    IMAGE_NAME="tiredofit/nextcloud:23" \
+    IMAGE_NAME="tiredofit/nextcloud:24" \
     IMAGE_REPO_URL="https://github.com/tiredofit/docker-nextcloud/"
 
 RUN set -x && \
