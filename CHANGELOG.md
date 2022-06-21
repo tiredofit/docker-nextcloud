@@ -1,3 +1,9 @@
+## 3.2.4 2022-06-21 <dave at tiredofit dot ca>
+
+   ### Added
+      - Enable PHP PCNTL extension
+
+
 ## 3.2.3 2022-06-20 <dave at tiredofit dot ca>
 
    ### Added
