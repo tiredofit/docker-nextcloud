@@ -1,3 +1,9 @@
+## 3.2.7 2022-06-23 <dave at tiredofit dot ca>
+
+   ### Added
+      - Patchup for 22-3.2.6
+
+
 ## 3.2.6 2022-06-23 <dave at tiredofit dot ca>
 
    ### Changed
