@@ -1,3 +1,9 @@
+## 3.2.6 2022-06-23 <dave at tiredofit dot ca>
+
+   ### Changed
+      - Fix bad release 22-3.2.5
+
+
 ## 3.2.5 2022-06-23 <dave at tiredofit dot ca>
 
    ### Added
