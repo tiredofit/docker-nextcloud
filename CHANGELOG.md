@@ -1,3 +1,9 @@
+## 3.2.10 2022-06-23 <dave at tiredofit dot ca>
+
+   ### Changed
+      - Fix for bad release supporting tiredofit/nginx:6.0.0 and nginx-php-fpm:7.0.0
+
+
 ## 3.2.9 2022-06-23 <dave at tiredofit dot ca>
 
    ### Added
