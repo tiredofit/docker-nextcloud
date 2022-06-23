@@ -1,3 +1,9 @@
+## 3.2.11 2022-06-23 <dave at tiredofit dot ca>
+
+   ### Changed
+      - Patchup for 23-3.2.10
+
+
 ## 3.2.10 2022-06-23 <dave at tiredofit dot ca>
 
    ### Changed

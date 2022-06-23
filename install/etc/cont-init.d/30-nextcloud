@@ -361,17 +361,17 @@ if var_true "${ENABLE_FILES_BACKEND}" ; then
   esac
 
   if var_true "${fbproceed}" ; then
-    sed -i "s|<FILES_BACKEND_PROTOCOL>|${FILES_BACKEND_PROTOCOL}|g" /etc/nginx/conf.available/files_backend.snippet
-    sed -i "s|<FILES_BACKEND_HOST>|${FILES_BACKEND_HOST}|g" /etc/nginx/conf.available/files_backend.snippet
-    sed -i "s|<FILES_BACKEND_PORT>|${FILES_BACKEND_PORT}|g" /etc/nginx/conf.available/files_backend.snippet
+    sed -i "s|<FILES_BACKEND_PROTOCOL>|${FILES_BACKEND_PROTOCOL}|g" /etc/nginx/sites.available/files_backend.snippet
+    sed -i "s|<FILES_BACKEND_HOST>|${FILES_BACKEND_HOST}|g" /etc/nginx/sites.available/files_backend.snippet
+    sed -i "s|<FILES_BACKEND_PORT>|${FILES_BACKEND_PORT}|g" /etc/nginx/sites.available/files_backend.snippet
   else
     rm -rf /etc/services.available/30-nextcloud-files-backend
-    sed -i "/include \/etc\/nginx\/conf.available\/files_backend.snippet;/d" /etc/nginx/conf.d/default.conf
+    sed -i "/include \/etc\/nginx\/sites.available\/files_backend.snippet;/d" /etc/nginx/sites.available/nextcloud.conf
   fi
 else
   print_debug "Disabling Hi Performance Files Backend"
   rm -rf /etc/services.available/30-nextcloud-files-backend
-  sed -i "/include \/etc\/nginx\/conf.available\/files_backend.snippet;/d" /etc/nginx/conf.d/default.conf
+  sed -i "/include \/etc\/nginx\/sites.available\/files_backend.snippet;/d" /etc/nginx/sites.avaialable/nextcloud.conf
 fi
 
 ### Force Reset Permissions for Security
