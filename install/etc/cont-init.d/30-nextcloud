@@ -319,7 +319,7 @@ fi
 if [ -n "${MONITORING_APPLICATION_TOKEN}" ] ; then
   if sudo -u ${NGINX_USER} php ${NGINX_WEBROOT}/occ app:list 2&>1 | sed '/Disabled:/q' | grep -qo 'serverinfo' ; then
     print_debug "Setting Application Token for Server Info Application"
-    sudo -u ${NGINX_USER} php ${NGINX_WEBROOT}/occ config:app:set serverinfo token --value "${MONITORING_APPLICATION_TOKEN}"
+    silent sudo -u ${NGINX_USER} php ${NGINX_WEBROOT}/occ config:app:set serverinfo token --value "${MONITORING_APPLICATION_TOKEN}"
   fi
 fi
 ### Support legacy images
@@ -347,7 +347,7 @@ fi
 if [ -n "${ADMIN_PASS}" ] && [ -n "${ADMIN_USER}" ]; then
   export OC_PASS="${ADMIN_PASS}"
   print_debug "Resetting Admin Password"
-  sudo --preserve-env=OC_PASS -u ${NGINX_USER} php ${NGINX_WEBROOT}/occ user:resetpassword --password-from-env ${ADMIN_USER}
+  silent sudo --preserve-env=OC_PASS -u ${NGINX_USER} php ${NGINX_WEBROOT}/occ user:resetpassword --password-from-env ${ADMIN_USER}
 fi
 
 if var_true "${ENABLE_FILES_BACKEND}" ; then

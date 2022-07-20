@@ -1,3 +1,10 @@
+## 3.3.10 2022-07-20 <dave at tiredofit dot ca>
+
+   ### Changed
+      - Quiet down some startup routines
+      - Disable Gearman Extension
+
+
 ## 3.3.9 2022-07-20 <dave at tiredofit dot ca>
 
    ### Changed
