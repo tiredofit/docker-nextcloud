@@ -1,3 +1,10 @@
+## 3.2.13 2022-07-20 <dave at tiredofit dot ca>
+
+   ### Changed
+      - Remove old PHP 7 configuration
+      - Stop loading Opcache twice
+
+
 ## 3.2.12 2022-07-18 <dave at tiredofit dot ca>
 
    ### Added
