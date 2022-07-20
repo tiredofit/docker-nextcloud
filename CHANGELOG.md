@@ -1,3 +1,10 @@
+## 3.2.14 2022-07-20 <dave at tiredofit dot ca>
+
+   ### Changed
+      - Silence some startup functions
+      - Disable Gearman
+
+
 ## 3.2.13 2022-07-20 <dave at tiredofit dot ca>
 
    ### Changed
