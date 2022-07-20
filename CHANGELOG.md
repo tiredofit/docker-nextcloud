@@ -1,3 +1,11 @@
+## 3.3.9 2022-07-20 <dave at tiredofit dot ca>
+
+   ### Changed
+      - Stop loading duplicate opcache entries
+      - Remove PHP7 configuration
+      - Switch to PHP 8.1 base
+
+
 ## 3.3.8 2022-07-18 <dave at tiredofit dot ca>
 
    ### Added

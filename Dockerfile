@@ -1,4 +1,4 @@
-FROM docker.io/tiredofit/nginx-php-fpm:8.0
+FROM docker.io/tiredofit/nginx-php-fpm:8.1
 LABEL maintainer="Dave Conroy (github.com/tiredofit)"
 
 ENV NEXTCLOUD_VERSION=24.0.3 \
