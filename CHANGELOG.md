@@ -1,3 +1,9 @@
+## 3.2.9 2022-07-20 <dave at tiredofit dot ca>
+
+   ### Changed
+      - Fix for files backend Nginx configuration
+
+
 ## 3.2.8 2022-07-18 <dave at tiredofit dot ca>
 
    ### Added
