@@ -36,7 +36,6 @@ RUN set -x && \
     apk add -t .nextcloud-run-dependencies \
                 c-client \
                 coreutils \
-                fail2ban \
                 ffmpeg \
                 findutils \
                 freetype \
@@ -80,9 +79,7 @@ RUN set -x && \
     touch /data/userdata/nextcloud.log && \
     \
     ## Cleanup
-    rm -rf /var/cache/apk/* && \
-    cd /etc/fail2ban && \
-    rm -rf fail2ban.conf fail2ban.d jail.conf jail.d paths-*.conf
+    rm -rf /var/cache/apk/*
 
 ### Add Files
 ADD install /
