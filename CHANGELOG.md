@@ -1,3 +1,12 @@
+## 3.4.0 2022-08-05 <dave at tiredofit dot ca>
+
+   ### Added
+      - Refactor and seperate into functions
+
+   ### Reverted
+      - Remove included Fail2ban and rely on base image instead
+
+
 ## 3.3.10 2022-07-20 <dave at tiredofit dot ca>
 
    ### Changed
