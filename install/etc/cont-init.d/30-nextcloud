@@ -14,7 +14,7 @@ if var_true "${CONTAINER_ENABLE_FIREWALL}" && var_true "${CONTAINER_ENABLE_FAIL2
 install_nextcloud
 create_configuration
 configure_application_settings
-custom_files "${NGINX_WEBROOT}"
+custom_files "${CONTAINER_CUSTOM_PATH}" "${NGINX_WEBROOT}" "${NGINX_USER}" "${NGINX_GROUP}"
 custom_scripts
 
 print_info "Nextcloud Version ${NEXTCLOUD_VERSION} ready to be accessed!"
