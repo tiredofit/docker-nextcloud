@@ -1,3 +1,9 @@
+## 3.3.3 2022-08-17 <dave at tiredofit dot ca>
+
+   ### Added
+      - Start using exec statements
+
+
 ## 3.3.2 2022-08-12 <dave at tiredofit dot ca>
 
    ### Added
