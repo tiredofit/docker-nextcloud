@@ -1,3 +1,12 @@
+## 3.4.4 2022-08-17 <dave at tiredofit dot ca>
+
+   ### Added
+      - Start using Exec statements
+
+   ### Changed
+      - Fix Dockerfile stating its still 24
+
+
 ## 3.4.3 2022-08-15 <dave at tiredofit dot ca>
 
    ### Added

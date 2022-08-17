@@ -28,7 +28,7 @@ ENV NEXTCLOUD_VERSION=25.0.0beta1 \
     PHP_ENABLE_ZIP=TRUE \
     PHP_MEMORY_LIMIT="512M" \
     CONTAINER_NAME=nextcloud-app \
-    IMAGE_NAME="tiredofit/nextcloud:24" \
+    IMAGE_NAME="tiredofit/nextcloud:25" \
     IMAGE_REPO_URL="https://github.com/tiredofit/docker-nextcloud/"
 
 RUN set -x && \
