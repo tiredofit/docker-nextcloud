@@ -1,7 +1,7 @@
 FROM docker.io/tiredofit/nginx-php-fpm:8.1
 LABEL maintainer="Dave Conroy (github.com/tiredofit)"
 
-ENV NEXTCLOUD_VERSION=25.0.0beta6 \
+ENV NEXTCLOUD_VERSION=25.0.0beta7 \
     NEXTCLOUD_FILES_BACKEND_VERSION=0.4.0 \
     NGINX_SITE_ENABLED=nextcloud \
     NGINX_WEBROOT="/www/nextcloud" \
