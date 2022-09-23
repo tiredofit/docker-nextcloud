@@ -1,3 +1,9 @@
+## 3.4.9 2022-09-23 <dave at tiredofit dot ca>
+
+   ### Added
+      - Nextcloud 25.0.0rc1
+
+
 ## 3.4.8 2022-09-19 <dave at tiredofit dot ca>
 
    ### Added
