@@ -1,3 +1,9 @@
+## 3.4.5 2022-10-05 <dave at tiredofit dot ca>
+
+   ### Changed
+      - Migrate legacy Nginx configuration
+
+
 ## 3.4.4 2022-09-11 <dave at tiredofit dot ca>
 
    ### Added
