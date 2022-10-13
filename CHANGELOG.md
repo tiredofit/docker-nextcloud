@@ -1,3 +1,9 @@
+## 3.4.13 2022-10-13 <dave at tiredofit dot ca>
+
+   ### Added
+      - Take advantage of new OPcache customizable features in tiredofit/nginx-php-fpm:7.2.0
+
+
 ## 3.4.12 2022-10-06 <dave at tiredofit dot ca>
 
    ### Added
