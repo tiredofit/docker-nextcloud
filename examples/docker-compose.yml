@@ -42,6 +42,9 @@ services:
       - DB_USER=nextcloud
       - DB_PASS=password
       - DB_HOST=nextcloud-db
+      
+      # if you have many apps enabled: 
+      # - PHP_OPCACHE_MAX_ACCELERATED_FILES=10000
 
     ### These lines are for Fail2ban. If you don't want, comment and also add ENABLE_FAIL2BAN=FALSE to your environment
     cap_add:
