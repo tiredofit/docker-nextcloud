@@ -319,7 +319,7 @@ install_nextcloud() {
                 silent sudo -u "${NGINX_USER}" php "${NGINX_WEBROOT}"/occ db:add-missing-indices
                 silent sudo -u "${NGINX_USER}" php "${NGINX_WEBROOT}"/occ app:list >/tmp/list_after
                 echo "${NEXTCLOUD_VERSION} automatically upgraded on $(date)" | cat - "${DATA_DIRECTORY}"/.version >/tmp/.version && mv /tmp/.version "${DATA_DIRECTORY}"/.version
-                print_warn "The following apps have beed disabled:"
+                print_warn "The following apps have been disabled:"
                 diff <(sed -n "/Enabled:/,/Disabled:/p" /tmp/list_before) <(sed -n "/Enabled:/,/Disabled:/p" /tmp/list_after) | grep '<' | cut -d- -f2 | cut -d: -f1
                 rm -f /tmp/list_before /tmp/list_after
             fi
