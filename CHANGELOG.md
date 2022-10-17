@@ -1,3 +1,9 @@
+## 3.4.8 2022-10-17 <dave at tiredofit dot ca>
+
+   ### Changed
+      - Fix spelling mistake that appears during a version upgrade
+
+
 ## 3.4.7 2022-10-13 <dave at tiredofit dot ca>
 
    ### Added
