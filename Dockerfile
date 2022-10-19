@@ -1,7 +1,7 @@
 FROM docker.io/tiredofit/nginx-php-fpm:8.1
 LABEL maintainer="Dave Conroy (github.com/tiredofit)"
 
-ENV NEXTCLOUD_VERSION=25.0.0rc5 \
+ENV NEXTCLOUD_VERSION=25.0.0 \
     NEXTCLOUD_FILES_BACKEND_VERSION=0.4.0 \
     NGINX_SITE_ENABLED=nextcloud \
     NGINX_WEBROOT="/www/nextcloud" \
@@ -66,8 +66,7 @@ RUN set -x && \
             \
 ### Nextcloud Installation
     mkdir -p /assets/nextcloud/custom-apps && \
-    #curl -sSL https://download.nextcloud.com/server/releases/nextcloud-${NEXTCLOUD_VERSION}.tar.bz2 | tar xvfj - --strip 1 -C /assets/nextcloud && \
-    curl -sSL https://download.nextcloud.com/server/prereleases/nextcloud-${NEXTCLOUD_VERSION}.tar.bz2 | tar xvfj - --strip 1 -C /assets/nextcloud && \
+    curl -sSL https://download.nextcloud.com/server/releases/nextcloud-${NEXTCLOUD_VERSION}.tar.bz2 | tar xvfj - --strip 1 -C /assets/nextcloud && \
     chown -R nginx:www-data /assets/nextcloud && \
     \
     mkdir -p /opt/nextcloud_files_backend && \
