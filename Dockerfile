@@ -2,7 +2,7 @@ FROM docker.io/tiredofit/nginx-php-fpm:8.0
 LABEL maintainer="Dave Conroy (github.com/tiredofit)"
 
 ENV NEXTCLOUD_VERSION=23.0.11 \
-    NEXTCLOUD_FILES_BACKEND_VERSION=0.4.0 \
+    NEXTCLOUD_FILES_BACKEND_VERSION=0.5.0 \
     NGINX_SITE_ENABLED=nextcloud \
     NGINX_WEBROOT="/www/nextcloud" \
     PHP_ENABLE_CREATE_SAMPLE_PHP=FALSE \
