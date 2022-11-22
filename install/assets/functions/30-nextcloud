@@ -264,6 +264,7 @@ include("${NGINX_WEBROOT}/config/config.php");
 \$CONFIG['mail_smtptimeout'] = ${SMTP_TIMEOUT};
 \$CONFIG['max_filesize_animated_gifs_public_sharing'] = ${ANIMATED_GIFS_MAX_FILESIZE};
 \$CONFIG['mysql.utf8mb4'] = ${ENABLE_MYSQL_UTF8MB4};
+\$CONFIG['overwrite.cli.url'] = '${OVERWRITE_CLI_URL}';
 \$CONFIG['overwritehost'] = '${OVERWRITE_HOST}';
 \$CONFIG['overwriteprotocol'] = '${OVERWRITE_PROTOCOL}';
 \$CONFIG['part_file_in_storage'] = ${ENABLE_PARTFILE_UPLOADS_STORAGE};

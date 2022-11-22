@@ -162,6 +162,7 @@ This image automatically configures nextcloud with the following options as defi
 | `LOG_FILE_FLOW`                    | Workflow Log File                                         | `flow.log`                                  |                                  |
 | `LOG_LEVEL`                        | Log Level                                                 | `loglevel`                                  | `2`                              |
 | `LOG_TIMEZONE`                     | Timezone for Logfile                                      | `logtimezone`                               | Container Timezone               |
+| `OVERWRITE_CLI_URL`                | Overwrite the CLI URL                                     | `overwrite.cli.url`                         | ``                               | 
 | `OVERWRITE_HOST`                   | Override the hostname for URLs                            | `overwritehost`                             | ``                               |
 | `OVERWRITE_PROTOCOL`               | Override the Protocol if behind proxy                     | `overwriteprotocol`                         | ``                               |
 | `PREVIEW_MAX_X`                    | Maximum Pixels for Previews (X)                           | `preview_max_x`                             | `200`                            |
