@@ -1,3 +1,9 @@
+## 3.4.21 2022-11-23 <dave at tiredofit dot ca>
+
+   ### Added
+      - Bump tp Alpine 3.17 base
+
+
 ## 3.4.20 2022-11-22 <dave at tiredofit dot ca>
 
    ### Added
