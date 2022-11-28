@@ -1,13 +1,12 @@
-### Application Level Image CI
-### Dave Conroy <dave at tiredofit dot ca>
-
-name: 'build'
+# Manual Workflow tiredofit/docker-nginx
+name: manual
 
 on:
-  push:
-    paths:
-    - '**'
-    - '!README.md'
+  workflow_dispatch:
+    inputs:
+      Manual Build:
+        description: 'Manual Build'
+        required: false
 jobs:
   php81:
     env:
