@@ -1,3 +1,9 @@
+## 3.3.14 2022-11-28 <dave at tiredofit dot ca>
+
+   ### Changed
+      - Additional Github Actions fixes
+
+
 ## 3.3.13 2022-11-28 <dave at tiredofit dot ca>
 
    ### Changed
