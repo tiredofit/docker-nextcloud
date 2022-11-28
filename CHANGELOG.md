@@ -1,3 +1,9 @@
+## 3.4.24 2022-11-28 <dave at tiredofit dot ca>
+
+   ### Changed
+      - Fix for Notify Push
+
+
 ## 3.4.23 2022-11-28 <dave at tiredofit dot ca>
 
    ### Changed
