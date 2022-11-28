@@ -1,3 +1,9 @@
+## 3.4.23 2022-11-28 <dave at tiredofit dot ca>
+
+   ### Changed
+      - Rework Dockerfile and Github Actions
+
+
 ## 3.4.22 2022-11-28 <dave at tiredofit dot ca>
 
    ### Changed
