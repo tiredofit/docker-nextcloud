@@ -1,3 +1,9 @@
+## 3.4.13 2022-11-28 <dave at tiredofit dot ca>
+
+   ### Changed
+      - Rework CI
+
+
 ## 3.4.12 2022-11-28 <dave at tiredofit dot ca>
 
    ### Changed
