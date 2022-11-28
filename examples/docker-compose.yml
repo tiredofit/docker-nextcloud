@@ -54,7 +54,7 @@ services:
 
   nextcloud-db:
     image: tiredofit/mariadb:latest
-    container_name: nextcloud-db
+    container_name: nextcloud-db:10.8
     volumes:
       - /var/local/db/nextcloud:/var/lib/mysql
     environment:
@@ -67,7 +67,7 @@ services:
     restart: always
 
   nextcloud-redis:
-    image: tiredofit/redis:latest
+    image: tiredofit/redis:7
     container_name: nextcloud-redis
     volumes:
       - ./redis:/data

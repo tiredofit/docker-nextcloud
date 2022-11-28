@@ -1,3 +1,9 @@
+## 3.4.22 2022-11-28 <dave at tiredofit dot ca>
+
+   ### Changed
+      - Fix for new installations failing
+
+
 ## 3.4.21 2022-11-23 <dave at tiredofit dot ca>
 
    ### Added
