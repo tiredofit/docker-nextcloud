@@ -53,7 +53,7 @@ services:
     restart: always
 
   nextcloud-db:
-    image: tiredofit/mariadb:latest
+    image: tiredofit/mariadb:10.8
     container_name: nextcloud-db
     volumes:
       - /var/local/db/nextcloud:/var/lib/mysql
@@ -67,7 +67,7 @@ services:
     restart: always
 
   nextcloud-redis:
-    image: tiredofit/redis:latest
+    image: tiredofit/redis:7
     container_name: nextcloud-redis
     volumes:
       - ./redis:/data
@@ -91,7 +91,6 @@ services:
       - DB_DUMP_FREQ=1440
       - DB_DUMP_BEGIN=0000
       - DB_CLEANUP_TIME=8640
-      - COMPRESSION=ZSTD
     networks:
       - services
     restart: always
