@@ -1,3 +1,9 @@
+## 3.4.25 2022-11-28 <dave at tiredofit dot ca>
+
+   ### Changed
+      - Additional workflow fixes
+
+
 ## 3.4.24 2022-11-28 <dave at tiredofit dot ca>
 
    ### Changed
