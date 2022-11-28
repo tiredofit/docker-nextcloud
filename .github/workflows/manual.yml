@@ -1,13 +1,12 @@
-### Application Level Image CI
-### Dave Conroy <dave at tiredofit dot ca>
-
-name: 'build'
+# Manual Workflow tiredofit/docker-nextcloud
+name: manual
 
 on:
-  push:
-    paths:
-    - '**'
-    - '!README.md'
+  workflow_dispatch:
+    inputs:
+      Manual Build:
+        description: 'Manual Build'
+        required: false
 jobs:
   php81:
     env:
@@ -45,7 +44,7 @@ jobs:
           fi
 
           if [[ $GITHUB_REF == refs/tags/* ]]; then
-               GITTAG="${DOCKER_IMAGE}:$(echo $GITHUB_REF | sed 's|refs/tags/||g')-php${PHP_VERSION},${DOCKER_IMAGE}:$(echo $GITHUB_REF | sed 's|refs/tags/||g')"
+               GITTAG="${DOCKER_IMAGE}:${BRANCH}-php${PHP_VERSION}-$(echo $GITHUB_REF | sed 's|refs/tags/||g'),${DOCKER_IMAGE}:${BRANCH}-$(echo $GITHUB_REF | sed 's|refs/tags/||g')"
           fi
 
           if [ -n "${BRANCHTAG}" ] && [ -n "${GITTAG}" ]; then
@@ -145,7 +144,7 @@ jobs:
           fi
 
           if [[ $GITHUB_REF == refs/tags/* ]]; then
-               GITTAG="${DOCKER_IMAGE}:$(echo $GITHUB_REF | sed 's|refs/tags/||g')-php${PHP_VERSION}"
+               GITTAG="${DOCKER_IMAGE}:${BRANCH}-php${PHP_VERSION}-$(echo $GITHUB_REF | sed 's|refs/tags/||g')"
           fi
 
           if [ -n "${BRANCHTAG}" ] && [ -n "${GITTAG}" ]; then
