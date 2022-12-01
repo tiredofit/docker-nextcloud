@@ -1,3 +1,9 @@
+## 3.4.27 2022-12-01 <dave at tiredofit dot ca>
+
+   ### Changed
+      - Fix spelling mistake limiting ability to disable notify_push plugin
+
+
 ## 3.4.26 2022-12-01 <dave at tiredofit dot ca>
 
    ### Changed
