@@ -38,7 +38,7 @@ jobs:
                   BRANCHTAG="${DOCKER_IMAGE}:develop"
                 ;;
               * )
-                  BRANCHTAG="${DOCKER_IMAGE}:${BRANCH}-php${PHP_VERSION},${DOCKER_IMAGE}:${BRANCH},${DOCKER_IMAGE}:latest"
+                  BRANCHTAG="${DOCKER_IMAGE}:${BRANCH}-php${PHP_VERSION},${DOCKER_IMAGE}:${BRANCH}"
                 ;;
             esac
           fi
