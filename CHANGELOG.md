@@ -1,3 +1,10 @@
+## 3.3.15 2022-12-01 <dave at tiredofit dot ca>
+
+   ### Changed
+      - Rework Dockerfile
+      - Fix Files backend from being disabled
+
+
 ## 3.3.14 2022-11-28 <dave at tiredofit dot ca>
 
    ### Changed
