@@ -1,3 +1,9 @@
+## 3.4.16 2022-12-01 <dave at tiredofit dot ca>
+
+   ### Changed
+      - Fix spelling mistake when disabling notify_push (credit radarsymphony@github)
+
+
 ## 3.4.15 2022-12-01 <dave at tiredofit dot ca>
 
    ### Changed
