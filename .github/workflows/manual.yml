@@ -1,4 +1,4 @@
-# Manual Workflow tiredofit/docker-nextcloud
+# Manual Workflow tiredofit/docker-nginx
 name: manual
 
 on:
@@ -31,20 +31,20 @@ jobs:
             case ${BRANCH} in
               "main" | "master" )
                   ## Irrelevant
-                  BRANCHTAG="${DOCKER_IMAGE}:php${PHP_VERSION},${DOCKER_IMAGE}:latest"
+                  BRANCHTAG="${DOCKER_IMAGE}:php${PHP_VERSION}"
                 ;;
               "develop" )
                   ## Irrelevant
                   BRANCHTAG="${DOCKER_IMAGE}:develop"
                 ;;
               * )
-                  BRANCHTAG="${DOCKER_IMAGE}:${BRANCH}-php${PHP_VERSION},${DOCKER_IMAGE}:${BRANCH},${DOCKER_IMAGE}:latest"
+                  BRANCHTAG="${DOCKER_IMAGE}:${BRANCH}-php${PHP_VERSION}"
                 ;;
             esac
           fi
 
           if [[ $GITHUB_REF == refs/tags/* ]]; then
-               GITTAG="${DOCKER_IMAGE}:${BRANCH}-php${PHP_VERSION}-$(echo $GITHUB_REF | sed 's|refs/tags/||g'),${DOCKER_IMAGE}:${BRANCH}-$(echo $GITHUB_REF | sed 's|refs/tags/||g')"
+               GITTAG="${DOCKER_IMAGE}:$(echo $GITHUB_REF | sed 's|refs/tags/||g')-php${PHP_VERSION}"
           fi
 
           if [ -n "${BRANCHTAG}" ] && [ -n "${GITTAG}" ]; then
@@ -107,4 +107,3 @@ jobs:
           build-args: |
             DISTRO=${{ env.DISTRO }}
             PHP_BASE=${{ env.PHP_VERSION }}
-
