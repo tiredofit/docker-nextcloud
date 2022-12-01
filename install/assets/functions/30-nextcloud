@@ -142,7 +142,7 @@ configure_application_settings() {
     else
         print_debug "Disabling Hi Performance Files Backend"
         rm -rf /etc/services.available/30-nextcloud
-        sed -i "/include \/etc\/nginx\/sites.available\/files_backend.snippet;/d" /etc/nginx/sites.avaialable/nextcloud.conf
+        sed -i "/include \/etc\/nginx\/sites.available\/files_backend.snippet;/d" /etc/nginx/sites.available/nextcloud.conf
     fi
 
     ### Force Reset Permissions for Security
