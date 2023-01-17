@@ -1,7 +1,7 @@
 # github.com/tiredofit/docker-nextcloud
 
 [![GitHub release](https://img.shields.io/github/v/tag/tiredofit/docker-nextcloud?style=flat-square)](https://github.com/tiredofit/docker-nextcloud/releases/latest)
-[![Build Status](https://img.shields.io/github/workflow/status/tiredofit/docker-nextcloud/build?style=flat-square)](https://github.com/tiredofit/docker-nextcloud/actions?query=workflow%3Abuild)
+[![Build Status](https://img.shields.io/github/actions/workflow/status/tiredofit/docker-nextcloud.git/main.yml?branch=25&style=flat-square)](https://github.com/tiredofit/docker-nextcloud.git/actions)
 [![Docker Stars](https://img.shields.io/docker/stars/tiredofit/nextcloud.svg?style=flat-square&logo=docker)](https://hub.docker.com/r/tiredofit/nextcloud/)
 [![Docker Pulls](https://img.shields.io/docker/pulls/tiredofit/nextcloud.svg?style=flat-square&logo=docker)](https://hub.docker.com/r/tiredofit/nextcloud/)
 [![Become a sponsor](https://img.shields.io/badge/sponsor-tiredofit-181717.svg?logo=github&style=flat-square)](https://github.com/sponsors/tiredofit)
