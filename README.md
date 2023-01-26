@@ -57,11 +57,11 @@ Builds of the image are available on [Docker Hub](https://hub.docker.com/r/tired
 
 The following image tags are available along with their tagged release based on what's written in the [Changelog](CHANGELOG.md):
 
-| Version | Container OS | Tag          |
-| ------- | ------------ | ------------ |
-| 25      | Alpine       | `:25-latest` |
-| 24      | Alpine       | `:24-latest` |
-| 23      | Alpine       | `:23-latest` |
+| Version | Container OS | Tag   |
+| ------- | ------------ | ----- |
+| 26      | Alpine       | `:26` |
+| 25      | Alpine       | `:25` |
+| 24      | Alpine       | `:24` |
 
 #### Multi Architecture
 Images are built primarily for `amd64` architecture, and may also include builds for `arm/v7`, `arm64` and others. These variants are all unsupported. Consider [sponsoring](https://github.com/sponsors/tiredofit) my work so that I can work with various hardware. To see if this image supports multiple architecures, type `docker manifest (image):(tag)`

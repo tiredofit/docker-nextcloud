@@ -7,8 +7,8 @@ LABEL maintainer="Dave Conroy (github.com/tiredofit)"
 ARG NEXTCLOUD_VERSION
 ARG NEXTCLOUD_FILES_BACKEND_VERSION
 
-ENV NEXTCLOUD_VERSION=${NEXTCLOUD_VERSION:-"25.0.3"} \
-    NEXTCLOUD_FILES_BACKEND_VERSION=${NEXTCLOUD_FILES_BACKEND_VERSION:-"0.5.0"} \
+ENV NEXTCLOUD_VERSION=${NEXTCLOUD_VERSION:-"26.0.0beta1"} \
+    NEXTCLOUD_FILES_BACKEND_VERSION=${NEXTCLOUD_FILES_BACKEND_VERSION:-"0.5.2"} \
     NGINX_SITE_ENABLED=nextcloud \
     NGINX_WEBROOT="/www/nextcloud" \
     PHP_ENABLE_CREATE_SAMPLE_PHP=FALSE \
@@ -33,7 +33,7 @@ ENV NEXTCLOUD_VERSION=${NEXTCLOUD_VERSION:-"25.0.3"} \
     PHP_ENABLE_ZIP=TRUE \
     PHP_MEMORY_LIMIT="512M" \
     CONTAINER_NAME=nextcloud-app \
-    IMAGE_NAME="tiredofit/nextcloud:25" \
+    IMAGE_NAME="tiredofit/nextcloud:26" \
     IMAGE_REPO_URL="https://github.com/tiredofit/docker-nextcloud/"
 
 RUN source /assets/functions/00-container && \
@@ -71,7 +71,8 @@ RUN source /assets/functions/00-container && \
                 && \
     \
     mkdir -p /assets/nextcloud/custom-apps && \
-    curl -sSL https://download.nextcloud.com/server/releases/nextcloud-${NEXTCLOUD_VERSION}.tar.bz2 | tar xvfj - --strip 1 -C /assets/nextcloud && \
+    #curl -sSL https://download.nextcloud.com/server/releases/nextcloud-${NEXTCLOUD_VERSION}.tar.bz2 | tar xvfj - --strip 1 -C /assets/nextcloud && \
+    curl -sSL https://download.nextcloud.com/server/prereleases/nextcloud-${NEXTCLOUD_VERSION}.tar.bz2 | tar xvfj - --strip 1 -C /assets/nextcloud && \
     chown -R nginx:www-data /assets/nextcloud && \
     \
     mkdir -p /opt/nextcloud_files_backend && \
