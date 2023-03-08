@@ -1,3 +1,15 @@
+## 25-3.4.34 2023-03-07 <dave at tiredofit dot ca>
+
+   ### Added
+      - Start building notify_push from source
+
+
+## 25-3.4.33 2023-03-07 <dave at tiredofit dot ca>
+
+   ### Added
+      - notify_push 0.6.0
+
+
 ## 25-3.4.32 2023-02-23 <dave at tiredofit dot ca>
 
    ### Added
