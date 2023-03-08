@@ -78,7 +78,7 @@ RUN source /assets/functions/00-container && \
     \
     mkdir -p /opt/nextcloud_files_backend/x86_64 && \
     curl -sSL "${NEXTCLOUD_FILES_BACKEND_REPO_URL}"/releases/download/${NEXTCLOUD_FILES_BACKEND_VERSION}/notify_push-x86_64-unknown-linux-musl -o /opt/nextcloud_files_backend/bin/x86_64/notify_push && \
-    chmod +x /opt/nextcloud_files_backend/notify_push && \
+    chmod +x /opt/nextcloud_files_backend/bin/x86_64/notify_push && \
     chown -R ${NGINX_USER}:${NGINX_GROUP} /opt/nextcloud_files_backend && \
     \
     mkdir -p /data/userdata && \
