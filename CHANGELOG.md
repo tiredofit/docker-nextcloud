@@ -1,3 +1,21 @@
+## 24-3.4.23 2023-03-07 <dave at tiredofit dot ca>
+
+   ### Changed
+      - Fix prerelease/release repo
+
+
+## 24-3.4.22 2023-03-07 <dave at tiredofit dot ca>
+
+   ### Added
+      - Start building notify_push from source
+
+
+## 24-3.4.21 2023-03-07 <dave at tiredofit dot ca>
+
+   ### Added
+      - notify_push 0.6.0
+
+
 ## 24-3.4.20 2023-02-23 <dave at tiredofit dot ca>
 
    ### Added
