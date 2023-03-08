@@ -41,9 +41,6 @@ RUN source /assets/functions/00-container && \
     set -x && \
     package update && \
     package upgrade && \
-    package install .nextcloud-build-dependencies \
-                cargo \
-                && \
     package install .nextcloud-run-dependencies \
                 c-client \
                 coreutils \
@@ -80,10 +77,8 @@ RUN source /assets/functions/00-container && \
     chown -R nginx:www-data /assets/nextcloud && \
     \
     mkdir -p /opt/nextcloud_files_backend && \
-    clone_git_repo "${NEXTCLOUD_FILES_BACKEND_REPO_URL}" "${NEXTCLOUD_FILES_BACKEND_VERSION}" && \
-    cargo build --release && \
-    strip target/release/notify_push && \
-    mv target/release/notify_push /opt/nextcloud_files_backend && \
+    curl -sSL "${NEXTCLOUD_FILES_BACKEND_REPO_URL}"/releases/download/${NEXTCLOUD_FILES_BACKEND_VERSION}/notify_push-x86_64-unknown-linux-musl -o /opt/nextcloud_files_backend/notify_push && \
+    chmod +x /opt/nextcloud_files_backend/notify_push && \
     chown -R ${NGINX_USER}:${NGINX_GROUP} /opt/nextcloud_files_backend && \
     \
     mkdir -p /data/userdata && \
