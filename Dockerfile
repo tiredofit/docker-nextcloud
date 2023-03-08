@@ -8,7 +8,8 @@ ARG NEXTCLOUD_VERSION
 ARG NEXTCLOUD_FILES_BACKEND_VERSION
 
 ENV NEXTCLOUD_VERSION=${NEXTCLOUD_VERSION:-"26.0.0rc1"} \
-    NEXTCLOUD_FILES_BACKEND_VERSION=${NEXTCLOUD_FILES_BACKEND_VERSION:-"0.6.0"} \
+    NEXTCLOUD_FILES_BACKEND_VERSION=${NEXTCLOUD_FILES_BACKEND_VERSION:-"v0.6.0"} \
+    NEXTCLOUD_FILES_BACKEND_REPO_URL=${NEXTCLOUD_FILES_BACKEND_REPO_URL:-"https://github.com/nextcloud/notify_push"} \
     NGINX_SITE_ENABLED=nextcloud \
     NGINX_WEBROOT="/www/nextcloud" \
     PHP_ENABLE_CREATE_SAMPLE_PHP=FALSE \
@@ -40,6 +41,9 @@ RUN source /assets/functions/00-container && \
     set -x && \
     package update && \
     package upgrade && \
+    package install .nextcloud-build-dependencies \
+                cargo \
+                && \
     package install .nextcloud-run-dependencies \
                 c-client \
                 coreutils \
@@ -76,7 +80,10 @@ RUN source /assets/functions/00-container && \
     chown -R nginx:www-data /assets/nextcloud && \
     \
     mkdir -p /opt/nextcloud_files_backend && \
-    curl -ssL https://github.com/nextcloud/notify_push/releases/download/v${NEXTCLOUD_FILES_BACKEND_VERSION}/notify_push.tar.gz | tar xvfz - --strip 1 -C /opt/nextcloud_files_backend && \
+    clone_git_repo "${NEXTCLOUD_FILES_BACKEND_REPO_URL}" "${NEXTCLOUD_FILES_BACKEND_VERSION}" && \
+    cargo build --release && \
+    strip target/release/notify_push && \
+    mv target/release/notify_push /opt/nextcloud_files_backend && \
     chown -R ${NGINX_USER}:${NGINX_GROUP} /opt/nextcloud_files_backend && \
     \
     mkdir -p /data/userdata && \
@@ -84,6 +91,10 @@ RUN source /assets/functions/00-container && \
     touch /data/userdata/flow.log && \
     touch /data/userdata/nextcloud.log && \
     \
-    package cleanup
+    package remove .nextcloud-build-dependencies && \
+    package cleanup && \
+    rm -rf \
+            /root/.cargo \
+            /usr/src/*
 
 COPY install /
