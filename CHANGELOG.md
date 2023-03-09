@@ -1,25 +1,64 @@
-## 25-3.4.34 2023-03-07 <dave at tiredofit dot ca>
+## 25-3.4.40 2023-03-09 <dave at tiredofit dot ca>
+
+   ### Added
+      - Restore notify_push support for armv7 and aarch64
+
+   ### Changed
+      - Stop using legacy PHP configuration files and rely on hardcoded PHP_OPCACHE environment variables
+
+
+## 26-3.4.39 2023-03-09 <dave at tiredofit dot ca>
+
+   ### Added
+      - Nextcloud 26.0.0rc2
+
+
+## 26-3.4.38 2023-03-07 <dave at tiredofit dot ca>
 
    ### Added
       - Start building notify_push from source
 
 
-## 25-3.4.33 2023-03-07 <dave at tiredofit dot ca>
+## 26-3.4.37 2023-03-07 <dave at tiredofit dot ca>
 
    ### Added
       - notify_push 0.6.0
 
 
-## 25-3.4.32 2023-02-23 <dave at tiredofit dot ca>
+## 26-3.4.36 2023-03-02 <dave at tiredofit dot ca>
 
    ### Added
-      - Nextcloud 25.0.4
+      - Nextcloud 26.0.0rc1
 
 
-## 25-3.4.31 2023-01-26 <dave at tiredofit dot ca>
+## 26-3.4.35 2023-02-27 <dave at tiredofit dot ca>
 
    ### Added
-      - Notify Push plugin 0.5.2
+      - Nextcloud 26.0.0beta 5
+
+
+## 26-3.4.34 2023-02-16 <dave at tiredofit dot ca>
+
+   ### Added
+      - Nextcloud 26.0.0beta 4
+
+
+## 26-3.4.33 2023-02-09 <dave at tiredofit dot ca>
+
+   ### Added
+      - Nextcloud 26.0.0beta3
+
+
+## 26-3.4.32 2023-02-02 <dave at tiredofit dot ca>
+
+   ### Added
+      - Nextcloud 26.0.0 beta 2
+
+
+## 26-3.4.31 2023-01-26 <dave at tiredofit dot ca>
+
+   ### Added
+      - Nextcloud 26.0.0beta1
 
 
 ## 25-3.4.30 2023-01-25 <dave at tiredofit dot ca>
