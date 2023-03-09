@@ -33,6 +33,9 @@ ENV NEXTCLOUD_VERSION=${NEXTCLOUD_VERSION:-"26.0.0rc2"} \
     PHP_ENABLE_XMLWRITER=TRUE \
     PHP_ENABLE_ZIP=TRUE \
     PHP_MEMORY_LIMIT="512M" \
+    PHP_OPCACHE_INTERNED_STRINGS_BUFFER=8 \
+    PHP_OPCACHE_MAX_ACCELERATED_FILES=10000 \
+    PHP_OPCACHE_REVALIDATE_FREQ=1 \
     CONTAINER_NAME=nextcloud-app \
     IMAGE_NAME="tiredofit/nextcloud:26" \
     IMAGE_REPO_URL="https://github.com/tiredofit/docker-nextcloud/"
@@ -76,9 +79,13 @@ RUN source /assets/functions/00-container && \
     curl -sSL https://download.nextcloud.com/server/prereleases/nextcloud-${NEXTCLOUD_VERSION}.tar.bz2 | tar xvfj - --strip 1 -C /assets/nextcloud && \
     chown -R nginx:www-data /assets/nextcloud && \
     \
-    mkdir -p /opt/nextcloud_files_backend/x86_64 && \
+    mkdir -p /opt/nextcloud_files_backend/bin/x86_64 && \
     curl -sSL "${NEXTCLOUD_FILES_BACKEND_REPO_URL}"/releases/download/${NEXTCLOUD_FILES_BACKEND_VERSION}/notify_push-x86_64-unknown-linux-musl -o /opt/nextcloud_files_backend/bin/x86_64/notify_push && \
-    chmod +x /opt/nextcloud_files_backend/bin/x86_64/notify_push && \
+    mkdir -p /opt/nextcloud_files_backend/bin/armv7 && \
+    curl -sSL "${NEXTCLOUD_FILES_BACKEND_REPO_URL}"/releases/download/${NEXTCLOUD_FILES_BACKEND_VERSION}/notify_push-armv7-unknown-linux-musleabihf  -o /opt/nextcloud_files_backend/bin/armv7/notify_push && \
+    mkdir -p /opt/nextcloud_files_backend/bin/aarch64 && \
+    curl -sSL "${NEXTCLOUD_FILES_BACKEND_REPO_URL}"/releases/download/${NEXTCLOUD_FILES_BACKEND_VERSION}/notify_push-aarch64-unknown-linux-musl  -o /opt/nextcloud_files_backend/bin/aarch64/notify_push && \
+    chmod +x /opt/nextcloud_files_backend/bin/*/notify_push && \
     chown -R ${NGINX_USER}:${NGINX_GROUP} /opt/nextcloud_files_backend && \
     \
     mkdir -p /data/userdata && \
@@ -89,7 +96,6 @@ RUN source /assets/functions/00-container && \
     package remove .nextcloud-build-dependencies && \
     package cleanup && \
     rm -rf \
-            /root/.cargo \
             /usr/src/*
 
 COPY install /

@@ -1,3 +1,12 @@
+## 26-3.4.40 2023-03-09 <dave at tiredofit dot ca>
+
+   ### Added
+      - Reintroduce armv7 and aarch64 support for notify_push
+
+   ### Changed
+      - Strip out old legacy php configuration files and revert to using environment variables for OPCACHE
+
+
 ## 26-3.4.39 2023-03-09 <dave at tiredofit dot ca>
 
    ### Added
