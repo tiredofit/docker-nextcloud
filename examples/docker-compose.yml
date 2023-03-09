@@ -2,7 +2,7 @@ version: '2.4'
 services:
 
   nextcloud-app:
-    image: tiredofit/nextcloud:24-latest
+    image: tiredofit/nextcloud:25-latest
     container_name: nextcloud-app
     ### These labels are for Traefik Reverse Proxies
     labels:
@@ -53,8 +53,8 @@ services:
     restart: always
 
   nextcloud-db:
-    image: tiredofit/mariadb:10.8
-    container_name: nextcloud-db
+    image: tiredofit/mariadb:latest
+    container_name: nextcloud-db:10.8
     volumes:
       - /var/local/db/nextcloud:/var/lib/mysql
     environment:
@@ -91,6 +91,7 @@ services:
       - DB_DUMP_FREQ=1440
       - DB_DUMP_BEGIN=0000
       - DB_CLEANUP_TIME=8640
+      - COMPRESSION=ZSTD
     networks:
       - services
     restart: always

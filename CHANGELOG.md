@@ -1,127 +1,235 @@
-## 24-3.4.23 2023-03-07 <dave at tiredofit dot ca>
+## 24-3.4.40 2023-03-09 <dave at tiredofit dot ca>
+
+   ### Added
+      - Restore notify_push support for aarch64 and armv7
 
    ### Changed
-      - Fix prerelease/release repo
+      - Stop using PHP legacy configuration files and start using PHP_OPCACHE environment variables
 
 
-## 24-3.4.22 2023-03-07 <dave at tiredofit dot ca>
+## 26-3.4.39 2023-03-09 <dave at tiredofit dot ca>
+
+   ### Added
+      - Nextcloud 26.0.0rc2
+
+
+## 26-3.4.38 2023-03-07 <dave at tiredofit dot ca>
 
    ### Added
       - Start building notify_push from source
 
 
-## 24-3.4.21 2023-03-07 <dave at tiredofit dot ca>
+## 26-3.4.37 2023-03-07 <dave at tiredofit dot ca>
 
    ### Added
       - notify_push 0.6.0
 
 
-## 24-3.4.20 2023-02-23 <dave at tiredofit dot ca>
+## 26-3.4.36 2023-03-02 <dave at tiredofit dot ca>
 
    ### Added
-      - Nextcloud 24.0.10
+      - Nextcloud 26.0.0rc1
 
 
-## 24-3.4.19 2023-01-25 <dave at tiredofit dot ca>
+## 26-3.4.35 2023-02-27 <dave at tiredofit dot ca>
+
+   ### Added
+      - Nextcloud 26.0.0beta 5
+
+
+## 26-3.4.34 2023-02-16 <dave at tiredofit dot ca>
+
+   ### Added
+      - Nextcloud 26.0.0beta 4
+
+
+## 26-3.4.33 2023-02-09 <dave at tiredofit dot ca>
+
+   ### Added
+      - Nextcloud 26.0.0beta3
+
+
+## 26-3.4.32 2023-02-02 <dave at tiredofit dot ca>
+
+   ### Added
+      - Nextcloud 26.0.0 beta 2
+
+
+## 26-3.4.31 2023-01-26 <dave at tiredofit dot ca>
+
+   ### Added
+      - Nextcloud 26.0.0beta1
+
+
+## 25-3.4.30 2023-01-25 <dave at tiredofit dot ca>
 
    ### Added
       - Notify Push plugin 0.5.2
 
 
-## 3.4.18 2023-01-17 <dave at tiredofit dot ca>
+## 3.4.29 2023-01-17 <dave at tiredofit dot ca>
 
    ### Added
-      - Nextcloud 24.0.9
+      - Nextcloud 25.0.3
 
 
-## 3.4.17 2022-12-11 <dave at tiredofit dot ca>
+## 3.4.28 2022-12-11 <dave at tiredofit dot ca>
 
    ### Added
-      - Nextcloud 24.0.8
+      - Nextcloud 25.0.2
 
 
-## 3.4.16 2022-12-01 <dave at tiredofit dot ca>
+## 3.4.27 2022-12-01 <dave at tiredofit dot ca>
 
    ### Changed
-      - Fix spelling mistake when disabling notify_push (credit radarsymphony@github)
+      - Fix spelling mistake limiting ability to disable notify_push plugin
 
 
-## 3.4.15 2022-12-01 <dave at tiredofit dot ca>
+## 3.4.26 2022-12-01 <dave at tiredofit dot ca>
 
    ### Changed
       - Rework Dockerfile
 
 
-## 3.4.14 2022-11-28 <dave at tiredofit dot ca>
+## 3.4.25 2022-11-28 <dave at tiredofit dot ca>
 
    ### Changed
-      - Additional Github Actions fixes
+      - Additional workflow fixes
 
 
-## 3.4.13 2022-11-28 <dave at tiredofit dot ca>
+## 3.4.24 2022-11-28 <dave at tiredofit dot ca>
 
    ### Changed
-      - Rework CI
+      - Fix for Notify Push
 
 
-## 3.4.12 2022-11-28 <dave at tiredofit dot ca>
+## 3.4.23 2022-11-28 <dave at tiredofit dot ca>
+
+   ### Changed
+      - Rework Dockerfile and Github Actions
+
+
+## 3.4.22 2022-11-28 <dave at tiredofit dot ca>
 
    ### Changed
       - Fix for new installations failing
 
 
-## 3.4.11 2022-11-22 <dave at tiredofit dot ca>
+## 3.4.21 2022-11-23 <dave at tiredofit dot ca>
+
+   ### Added
+      - Bump tp Alpine 3.17 base
+
+
+## 3.4.20 2022-11-22 <dave at tiredofit dot ca>
 
    ### Added
       - Add OVERWRITE_CLI_URL (credit radarsymphony@github)
 
 
-## 3.4.10 2022-11-19 <dave at tiredofit dot ca>
+## 3.4.19 2022-11-19 <dave at tiredofit dot ca>
 
    ### Added
-      - Notify Push Plugin 0.5.0
+      - Notify Push plugin 0.5.0
 
 
-## 3.4.9 2022-11-03 <dave at tiredofit dot ca>
+## 3.4.18 2022-11-03 <dave at tiredofit dot ca>
 
    ### Added
-      - Nextcloud 24.0.7
+      - Nextcloud 25.0.1
 
 
-## 3.4.8 2022-10-17 <dave at tiredofit dot ca>
+## 3.4.17 2022-10-19 <dave at tiredofit dot ca>
+
+   ### Added
+      - Nextcloud 25.0.0
+
+
+## 3.4.16 2022-10-17 <dave at tiredofit dot ca>
 
    ### Changed
-      - Fix spelling mistake that appears during a version upgrade
+      - Fix spelling mistake during a version upgrade
 
 
-## 3.4.7 2022-10-13 <dave at tiredofit dot ca>
+## 3.4.15 2022-10-14 <dave at tiredofit dot ca>
+
+   ### Added
+      - Nextcloud 25.0.0rc5
+
+
+## 3.4.14 2022-10-13 <dave at tiredofit dot ca>
+
+   ### Added
+      - Nextcloud 25.0.0rc4
+
+
+## 3.4.13 2022-10-13 <dave at tiredofit dot ca>
 
    ### Added
       - Take advantage of new OPcache customizable features in tiredofit/nginx-php-fpm:7.2.0
 
 
-## 3.4.6 2022-10-06 <dave at tiredofit dot ca>
+## 3.4.12 2022-10-06 <dave at tiredofit dot ca>
 
    ### Added
-      - Nextcloud 24.0.6
+      - Nextcloud 25.0.0rc3
 
 
-## 3.4.5 2022-10-05 <dave at tiredofit dot ca>
+## 3.4.11 2022-10-05 <dave at tiredofit dot ca>
 
    ### Changed
-      - Migrate legacy Nginx configuration
+      - Migrate legacy nginx configuration
 
 
-## 3.4.4 2022-09-11 <dave at tiredofit dot ca>
-
-   ### Added
-      - Nextcloud 24.0.5
-
-
-## 3.4.3 2022-08-17 <dave at tiredofit dot ca>
+## 3.4.10 2022-09-29 <dave at tiredofit dot ca>
 
    ### Added
-      - Start using exec statements
+      - Nextcloud 25.0.0rc2
+
+
+## 3.4.9 2022-09-23 <dave at tiredofit dot ca>
+
+   ### Added
+      - Nextcloud 25.0.0rc1
+
+
+## 3.4.8 2022-09-19 <dave at tiredofit dot ca>
+
+   ### Added
+      - Nextcloud 25.0.0beta7
+
+
+## 3.4.7 2022-09-11 <dave at tiredofit dot ca>
+
+   ### Added
+      - Nextcloud 25.0.0beta6
+
+
+## 3.4.6 2022-09-02 <dave at tiredofit dot ca>
+
+   ### Added
+      - Nextcloud 25.0.0beta4
+
+
+## 3.4.5 2022-08-25 <dave at tiredofit dot ca>
+
+   ### Added
+      - Nextcloud 25.0.0beta3
+
+
+## 3.4.4 2022-08-17 <dave at tiredofit dot ca>
+
+   ### Added
+      - Start using Exec statements
+
+   ### Changed
+      - Fix Dockerfile stating its still 24
+
+
+## 3.4.3 2022-08-15 <dave at tiredofit dot ca>
+
+   ### Added
+      - Nextcloud 25.0.0.beta1
 
 
 ## 3.4.2 2022-08-12 <dave at tiredofit dot ca>

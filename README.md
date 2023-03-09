@@ -1,7 +1,7 @@
 # github.com/tiredofit/docker-nextcloud
 
 [![GitHub release](https://img.shields.io/github/v/tag/tiredofit/docker-nextcloud?style=flat-square)](https://github.com/tiredofit/docker-nextcloud/releases/latest)
-[![Build Status](https://img.shields.io/github/workflow/status/tiredofit/docker-nextcloud/build?style=flat-square)](https://github.com/tiredofit/docker-nextcloud/actions?query=workflow%3Abuild)
+[![Build Status](https://img.shields.io/github/actions/workflow/status/tiredofit/docker-nextcloudmain.yml?branch=25&style=flat-square)](https://github.com/tiredofit/docker-nextcloud.git/actions)
 [![Docker Stars](https://img.shields.io/docker/stars/tiredofit/nextcloud.svg?style=flat-square&logo=docker)](https://hub.docker.com/r/tiredofit/nextcloud/)
 [![Docker Pulls](https://img.shields.io/docker/pulls/tiredofit/nextcloud.svg?style=flat-square&logo=docker)](https://hub.docker.com/r/tiredofit/nextcloud/)
 [![Become a sponsor](https://img.shields.io/badge/sponsor-tiredofit-181717.svg?logo=github&style=flat-square)](https://github.com/sponsors/tiredofit)
@@ -53,15 +53,21 @@ This will build a Dockerfile for [Nextcloud](https://nextcloud.com) - a web base
 ### Build from Source
 Clone this repository and build the image with `docker build <arguments> (imagename) .`
 ### Prebuilt Images
-Builds of the image are available on [Docker Hub](https://hub.docker.com/r/tiredofit/nextcloud) and is the recommended method of installation.
+Builds of the image are available on [Docker Hub](https://hub.docker.com/r/tiredofit/nextcloud)
+
+Builds of the image are also available on the [Github Container Registry](https://github.com/tiredofit/docker-/pkgs/container/docker-) 
+ 
+```
+docker pull ghcr.io/tiredofit/docker-:(imagetag)
+``` 
 
 The following image tags are available along with their tagged release based on what's written in the [Changelog](CHANGELOG.md):
 
-| Version | Container OS | Tag          |
-| ------- | ------------ | ------------ |
-| 25      | Alpine       | `:25-latest` |
-| 24      | Alpine       | `:24-latest` |
-| 23      | Alpine       | `:23-latest` |
+| Version | Container OS | Tag   |
+| ------- | ------------ | ----- |
+| 26      | Alpine       | `:26` |
+| 25      | Alpine       | `:25` |
+| 24      | Alpine       | `:24` |
 
 #### Multi Architecture
 Images are built primarily for `amd64` architecture, and may also include builds for `arm/v7`, `arm64` and others. These variants are all unsupported. Consider [sponsoring](https://github.com/sponsors/tiredofit) my work so that I can work with various hardware. To see if this image supports multiple architecures, type `docker manifest (image):(tag)`
@@ -97,7 +103,7 @@ The following directories are used for configuration and can be mapped for persi
 
 #### Base Images used
 
-This image relies on an [Alpine Linux](https://hub.docker.com/r/tiredofit/alpine) base image that relies on an [init system](https://github.com/just-containers/s6-overlay) for added capabilities. Outgoing SMTP capabilities are handlded via `msmtp`. Individual container performance monitoring is performed by [zabbix-agent](https://zabbix.org). Additional tools include: `bash`,`curl`,`less`,`logrotate`,`nano`,`vim`.
+This image relies on an [Alpine Linux](https://hub.docker.com/r/tiredofit/alpine) base image that relies on an [init system](https://github.com/just-containers/s6-overlay) for added capabilities. Outgoing SMTP capabilities are handlded via `msmtp`. Individual container performance monitoring is performed by [zabbix-agent](https://zabbix.org). Additional tools include: `bash`,`curl`,`less`,`logrotate`,`nano`.
 
 Be sure to view the following repositories to understand all the customizable options:
 
@@ -162,7 +168,6 @@ This image automatically configures nextcloud with the following options as defi
 | `LOG_FILE_FLOW`                    | Workflow Log File                                         | `flow.log`                                  |                                  |
 | `LOG_LEVEL`                        | Log Level                                                 | `loglevel`                                  | `2`                              |
 | `LOG_TIMEZONE`                     | Timezone for Logfile                                      | `logtimezone`                               | Container Timezone               |
-| `OVERWRITE_CLI_URL`                | Overwrite the CLI URL                                     | `overwrite.cli.url`                         | ``                               | 
 | `OVERWRITE_HOST`                   | Override the hostname for URLs                            | `overwritehost`                             | ``                               |
 | `OVERWRITE_PROTOCOL`               | Override the Protocol if behind proxy                     | `overwriteprotocol`                         | ``                               |
 | `PREVIEW_MAX_X`                    | Maximum Pixels for Previews (X)                           | `preview_max_x`                             | `200`                            |
@@ -232,7 +237,7 @@ docker exec -it (whatever your container name is) bash
 These images were built to serve a specific need in a production environment and gradually have had more functionality added based on requests from the community.
 ### Usage
 - The [Discussions board](../../discussions) is a great place for working with the community on tips and tricks of using this image.
-- Consider [sponsoring me](https://github.com/sponsors/tiredofit) personalized support.
+- Consider [sponsoring me](https://github.com/sponsors/tiredofit) for personalized support
 ### Bugfixes
 - Please, submit a [Bug Report](issues/new) if something isn't working as expected. I'll do my best to issue a fix in short order.
 
