@@ -7,7 +7,7 @@ LABEL maintainer="Dave Conroy (github.com/tiredofit)"
 ARG NEXTCLOUD_VERSION
 ARG NEXTCLOUD_FILES_BACKEND_VERSION
 
-ENV NEXTCLOUD_VERSION=${NEXTCLOUD_VERSION:-"26.0.0rc3"} \
+ENV NEXTCLOUD_VERSION=${NEXTCLOUD_VERSION:-"26.0.0"} \
     NEXTCLOUD_FILES_BACKEND_VERSION=${NEXTCLOUD_FILES_BACKEND_VERSION:-"v0.6.0"} \
     NEXTCLOUD_FILES_BACKEND_REPO_URL=${NEXTCLOUD_FILES_BACKEND_REPO_URL:-"https://github.com/nextcloud/notify_push"} \
     NGINX_SITE_ENABLED=nextcloud \
@@ -75,8 +75,8 @@ RUN source /assets/functions/00-container && \
                 && \
     \
     mkdir -p /assets/nextcloud/custom-apps && \
-    #curl -sSL https://download.nextcloud.com/server/releases/nextcloud-${NEXTCLOUD_VERSION}.tar.bz2 | tar xvfj - --strip 1 -C /assets/nextcloud && \
-    curl -sSL https://download.nextcloud.com/server/prereleases/nextcloud-${NEXTCLOUD_VERSION}.tar.bz2 | tar xvfj - --strip 1 -C /assets/nextcloud && \
+    curl -sSL https://download.nextcloud.com/server/releases/nextcloud-${NEXTCLOUD_VERSION}.tar.bz2 | tar xvfj - --strip 1 -C /assets/nextcloud && \
+    #curl -sSL https://download.nextcloud.com/server/prereleases/nextcloud-${NEXTCLOUD_VERSION}.tar.bz2 | tar xvfj - --strip 1 -C /assets/nextcloud && \
     chown -R nginx:www-data /assets/nextcloud && \
     \
     mkdir -p /opt/nextcloud_files_backend/bin/x86_64 && \
