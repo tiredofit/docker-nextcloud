@@ -1,3 +1,13 @@
+## 26-3.4.43 2023-03-23 <dave at tiredofit dot ca>
+
+   ### Changed
+      - Rework Nginx and PHP configuration for better performance
+      - NGINX Timeouts set to 600
+      - PHP Timeouts set to 600
+      - Change FASTCGI Buffers to 64 4k
+      - Change Body Buffer to 512k
+
+
 ## 26-3.4.42 2023-03-21 <dave at tiredofit dot ca>
 
    ### Added
