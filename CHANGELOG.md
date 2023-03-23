@@ -1,3 +1,10 @@
+## 24-3.4.41 2023-03-23 <dave at tiredofit dot ca>
+
+   ### Added
+      - Nextcloud 24.0.11
+      - Backport performance changes from 26 branch for nginx and PHP
+
+
 ## 24-3.4.40 2023-03-09 <dave at tiredofit dot ca>
 
    ### Added
