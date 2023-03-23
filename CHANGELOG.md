@@ -1,3 +1,9 @@
+## 26-3.4.44 2023-03-23 <dave at tiredofit dot ca>
+
+   ### Changed
+      - Rework some opcache configuration and let base image handle things
+
+
 ## 26-3.4.43 2023-03-23 <dave at tiredofit dot ca>
 
    ### Changed
