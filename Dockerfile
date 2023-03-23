@@ -43,7 +43,7 @@ ENV NEXTCLOUD_VERSION=${NEXTCLOUD_VERSION:-"26.0.0"} \
     PHP_OPCACHE_REVALIDATE_FREQ=1 \
     PHP_TIMEOUT=600 \
     CONTAINER_NAME=nextcloud-app \
-    IMAGE_NAME="tiredofit/nextcloud:26" \
+    IMAGE_NAME="tiredofit/nextcloud" \
     IMAGE_REPO_URL="https://github.com/tiredofit/docker-nextcloud/"
 
 RUN source /assets/functions/00-container && \
