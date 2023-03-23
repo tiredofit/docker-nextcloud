@@ -1,3 +1,12 @@
+## 25-3.4.41 2023-03-23 <dave at tiredofit dot ca>
+
+   ### Added
+      - Nextcloud 25.05
+
+   ### Changed
+      - Backport Timeout and Performance changes in 26 branch for nginx and PHP
+
+
 ## 25-3.4.40 2023-03-09 <dave at tiredofit dot ca>
 
    ### Added
