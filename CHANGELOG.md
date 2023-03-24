@@ -1,3 +1,9 @@
+## 26-3.4.45 2023-03-24 <dave at tiredofit dot ca>
+
+   ### Added
+      - Enable SYSVSEM module
+
+
 ## 26-3.4.44 2023-03-23 <dave at tiredofit dot ca>
 
    ### Changed
