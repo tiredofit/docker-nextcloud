@@ -3,7 +3,7 @@
 bootstrap_webroot() {
     installed_version="0.0.0~unknown"
     mkdir -p "${NGINX_WEBROOT}"
-    silent apk add rsync && rsync -a --delete --exclude /config/ --exclude /data/ --exclude /custom-apps/ --exclude /themes/ /assets/nextcloud/ "${NGINX_WEBROOT}"/
+    silent rsync -a --delete --exclude /config/ --exclude /data/ --exclude /custom-apps/ --exclude /themes/ /assets/nextcloud/ "${NGINX_WEBROOT}"/
     mkdir -p "${NGINX_WEBROOT}"/data "${NGINX_WEBROOT}"/config "${NGINX_WEBROOT}"/themes "${NGINX_WEBROOT}"/custom-apps
     chown -R "${NGINX_USER}":"${NGINX_GROUP}" "${NGINX_WEBROOT}"
 
