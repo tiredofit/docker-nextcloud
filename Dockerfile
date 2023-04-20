@@ -101,6 +101,7 @@ RUN source /assets/functions/00-container && \
     package remove .nextcloud-build-dependencies && \
     package cleanup && \
     rm -rf \
-            /usr/src/*
+            /usr/src/* && \
+    apk add rsync 
 
 COPY install /
