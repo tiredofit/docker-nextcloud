@@ -1,3 +1,9 @@
+## 26-3.4.48 2023-04-21 <dave at tiredofit dot ca>
+
+   ### Changed
+      - Downgrade to PHP 8.1 to solve Alpine Edge upstream issues
+
+
 ## 26-3.4.47 2023-04-21 <dave at tiredofit dot ca>
 
    ### Added
