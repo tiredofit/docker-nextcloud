@@ -1,3 +1,10 @@
+## 26-3.5.1 2023-05-04 <dave at tiredofit dot ca>
+
+   ### Added
+      - Move back to PHP 8.2
+      - Start building ane enabling dlib and pdlib extension for Face Recognition features
+
+
 ## 26-3.5.0 2023-04-26 <dave at tiredofit dot ca>
 
    ### Added
