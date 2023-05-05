@@ -1,4 +1,4 @@
-ARG PHP_BASE=8.1
+ARG PHP_BASE=8.2
 ARG DISTRO="alpine"
 
 FROM docker.io/tiredofit/nginx-php-fpm:${PHP_BASE}-${DISTRO}
@@ -7,13 +7,13 @@ LABEL maintainer="Dave Conroy (github.com/tiredofit)"
 ARG NEXTCLOUD_VERSION
 ARG NEXTCLOUD_FILES_BACKEND_VERSION
 
-ENV NEXTCLOUD_VERSION=${NEXTCLOUD_VERSION:-"26.0.1"} \
+ENV NEXTCLOUD_VERSION=${NEXTCLOUD_VERSION:-"27.0.0beta1"} \
     NEXTCLOUD_FILES_BACKEND_VERSION=${NEXTCLOUD_FILES_BACKEND_VERSION:-"v0.6.2"} \
     NEXTCLOUD_FILES_BACKEND_REPO_URL=${NEXTCLOUD_FILES_BACKEND_REPO_URL:-"https://github.com/nextcloud/notify_push"} \
-    PDLIB_VERSION=v1.1.0 \
-    PDLIB_REPO_URL=https://github.com/goodspb/pdlib \
     DLIB_VERSION=v19.24 \
     DLIB_REPO_URL=https://github.com/davisking/dlib \
+    PDLIB_VERSION=v1.1.0 \
+    PDLIB_REPO_URL=https://github.com/goodspb/pdlib \
     NGINX_CLIENT_BODY_TIMEOUT=600 \
     NGINX_CLIENT_BODY_BUFFER_SIZE=512k \
     NGINX_FASTCGI_BUFFERS="64 4k" \

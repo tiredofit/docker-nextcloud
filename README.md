@@ -65,6 +65,7 @@ The following image tags are available along with their tagged release based on 
 
 | Version | Container OS | Tag   |
 | ------- | ------------ | ----- |
+| 27      | Alpine       | `:27` |
 | 26      | Alpine       | `:26` |
 | 25      | Alpine       | `:25` |
 | 24      | Alpine       | `:24` |

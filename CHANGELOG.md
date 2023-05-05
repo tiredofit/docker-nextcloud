@@ -1,7 +1,7 @@
-## 26-3.5.2 2023-05-04 <dave at tiredofit dot ca>
+## 27-3.5.2 2023-05-05 <dave at tiredofit dot ca>
 
    ### Added
-      - Build 8.1 variant
+      - Nextcloud 27.0.0beta1
 
 
 ## 26-3.5.1 2023-05-04 <dave at tiredofit dot ca>
