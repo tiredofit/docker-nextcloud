@@ -1,3 +1,10 @@
+## 26-3.5.3 2023-05-16 <dave at tiredofit dot ca>
+
+   ### Added
+      - Notify Push 0.6.3
+      - Revert back to PHP 8.2
+
+
 ## 26-3.5.2 2023-05-04 <dave at tiredofit dot ca>
 
    ### Added
