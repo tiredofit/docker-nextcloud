@@ -1,3 +1,9 @@
+## 27-3.6.0 2023-05-31 <dave at tiredofit dot ca>
+
+   ### Added
+      - Restore previously removed notify_push files backend daemon and optimize to work behind reverse proxies
+
+
 ## 27-3.5.7 2023-05-25 <dave at tiredofit dot ca>
 
    ### Added

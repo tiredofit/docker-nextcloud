@@ -1,0 +1,19 @@
+#!/command/with-contenv bash
+
+source /assets/functions/00-container
+prepare_service both
+
+PROCESS_NAME="files-backend"
+check_container_initialized
+liftoff
+
+apkArch="$(apk --print-arch)"
+case "$apkArch" in
+    x86_64) FBArch='x86_64' ; fbproceed=true ;;
+    armv7) FBArch='armv7' ; fbproceed=true ;;
+    aarch64) FBArch='aarch64' ; fbproceed=true ;;
+    *) echo >&2 "Can't run Files backend for: ($apkArch)" ;; \
+esac
+
+print_start "Starting Nextcloud High Performance Files Backend"
+exec sudo -u ${NGINX_USER} /opt/nextcloud_files_backend/bin/${FBArch}/notify_push --port ${FILES_BACKEND_PORT} ${NGINX_WEBROOT}/config/config.php --nextcloud-url http://localhost:$(cat /etc/nginx/sites.available/nextcloud.conf | grep "listen .*;" | awk '{print $2}' | sed "s|;||g")
