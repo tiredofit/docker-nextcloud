@@ -1,3 +1,9 @@
+## 26-3.6.0 2023-05-31 <dave at tiredofit dot ca>
+
+   ### Added
+      - Re enable notify push daemon that was removed in previous release and provide better ability to work behind reverse proxies
+
+
 ## 26-3.5.4 2023-05-25 <dave at tiredofit dot ca>
 
    ### Added
