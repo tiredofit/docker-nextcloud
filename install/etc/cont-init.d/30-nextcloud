@@ -6,6 +6,15 @@ PROCESS_NAME="nextcloud"
 
 check_service_initialized init 20-php-fpm
 
+transform_file_var \
+                        ADMIN_PASS \
+                        ADMIN_USER \
+                        DB_HOST \
+                        DB_NAME \
+                        DB_PASS \
+                        DB_PORT \
+                        DB_USER \
+                        MONITORING_APPLICATION_TOKEN
 check_databases
 bootstrap_webroot
 configure_data_directories

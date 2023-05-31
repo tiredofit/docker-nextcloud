@@ -1,3 +1,9 @@
+## 25-3.5.0 2023-05-31 <dave at tiredofit dot ca>
+
+   ### Added
+      - Restore previously removed notify_push daemon and build in optimizations to work better behind reverse proxies
+
+
 ## 25-3.4.46 2023-05-25 <dave at tiredofit dot ca>
 
    ### Added
