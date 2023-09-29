@@ -1,3 +1,9 @@
+## 27-3.6.8 2023-09-29 <dave at tiredofit dot ca>
+
+   ### Added
+      - Add mjs support to Nginx
+
+
 ## 27-3.6.7 2023-09-21 <dave at tiredofit dot ca>
 
    ### Added
