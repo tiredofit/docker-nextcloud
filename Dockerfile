@@ -1,5 +1,5 @@
 ARG PHP_BASE=8.2
-ARG DISTRO="debian"
+ARG DISTRO="alpine"
 
 FROM docker.io/tiredofit/nginx-php-fpm:${PHP_BASE}-${DISTRO}
 LABEL maintainer="Dave Conroy (github.com/tiredofit)"
