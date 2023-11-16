@@ -1,3 +1,9 @@
+## 28-3.6.18 2023-11-16 <dave at tiredofit dot ca>
+
+   ### Added
+      - Adjust nginx configuration to support ogg and flac for Nextcloud Talk
+
+
 ## 28-3.6.17 2023-11-16 <dave at tiredofit dot ca>
 
    ### Added
