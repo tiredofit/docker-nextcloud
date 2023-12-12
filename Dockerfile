@@ -7,7 +7,7 @@ LABEL maintainer="Dave Conroy (github.com/tiredofit)"
 ARG NEXTCLOUD_VERSION
 ARG NEXTCLOUD_FILES_BACKEND_VERSION
 
-ENV NEXTCLOUD_VERSION=${NEXTCLOUD_VERSION:-"28.0.0rc4"} \
+ENV NEXTCLOUD_VERSION=${NEXTCLOUD_VERSION:-"28.0.0"} \
     NEXTCLOUD_FILES_BACKEND_VERSION=${NEXTCLOUD_FILES_BACKEND_VERSION:-"v0.6.5"} \
     NEXTCLOUD_FILES_BACKEND_REPO_URL=${NEXTCLOUD_FILES_BACKEND_REPO_URL:-"https://github.com/nextcloud/notify_push"} \
     DLIB_VERSION=v19.24 \
@@ -109,6 +109,7 @@ RUN source /assets/functions/00-container && \
     cmake --build build && \
     cmake --install build && \
     case "${PHP_BASE}" in \
+        8.3 ) export php_ffolder="83" ;; \
         8.2 ) export php_folder="82" ;; \
         8.1 ) export php_folder="81" ;; \
         *) export php_folder=${PHP_BASE:0:1} ;; \
@@ -124,8 +125,8 @@ RUN source /assets/functions/00-container && \
     echo "extension=pdlib" > /etc/php${php_folder}/mods-available/pdlib.ini && \
     echo ";priority=20" >> /etc/php${php_folder}/mods-available/pdlib.ini && \
     mkdir -p /assets/nextcloud/custom-apps && \
-    #curl -sSL https://download.nextcloud.com/server/releases/nextcloud-${NEXTCLOUD_VERSION}.tar.bz2 | tar xvfj - --strip 1 -C /assets/nextcloud && \
-    curl -sSL https://download.nextcloud.com/server/prereleases/nextcloud-${NEXTCLOUD_VERSION}.tar.bz2 | tar xvfj - --strip 1 -C /assets/nextcloud && \
+    curl -sSL https://download.nextcloud.com/server/releases/nextcloud-${NEXTCLOUD_VERSION}.tar.bz2 | tar xvfj - --strip 1 -C /assets/nextcloud && \
+    #curl -sSL https://download.nextcloud.com/server/prereleases/nextcloud-${NEXTCLOUD_VERSION}.tar.bz2 | tar xvfj - --strip 1 -C /assets/nextcloud && \
     chown -R nginx:www-data /assets/nextcloud && \
     \
     mkdir -p /opt/nextcloud_files_backend/bin/x86_64 && \
