@@ -1,3 +1,9 @@
+## 28-3.6.25 2023-12-21 <joergmschulz@github>
+
+   ### Added
+      - Nextcloud 28.0.1
+
+
 ## 28-3.6.24 2023-12-15 <dave at tiredofit dot ca>
 
    ### Added
