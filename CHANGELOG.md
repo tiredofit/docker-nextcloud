@@ -1,3 +1,9 @@
+## 28-3.6.26 2024-01-18 <dave at tiredofit dot ca>
+
+   ### Added
+      - Notify Push 0.6.7
+
+
 ## 28-3.6.25 2023-12-21 <joergmschulz@github>
 
    ### Added
