@@ -1,0 +1,514 @@
+<h1
+id="github.comtiredofitdocker-nextcloud">github.com/tiredofit/docker-nextcloud</h1>
+<p><a
+href="https://github.com/tiredofit/docker-nextcloud/releases/latest"><img
+src="https://img.shields.io/github/v/tag/tiredofit/docker-nextcloud?style=flat-square"
+alt="GitHub release" /></a> <a
+href="https://github.com/tiredofit/docker-nextcloud.git/actions"><img
+src="https://img.shields.io/github/actions/workflow/status/tiredofit/docker-nextcloudmain.yml?branch=25&amp;style=flat-square"
+alt="Build Status" /></a> <a
+href="https://hub.docker.com/r/tiredofit/nextcloud/"><img
+src="https://img.shields.io/docker/stars/tiredofit/nextcloud.svg?style=flat-square&amp;logo=docker"
+alt="Docker Stars" /></a> <a
+href="https://hub.docker.com/r/tiredofit/nextcloud/"><img
+src="https://img.shields.io/docker/pulls/tiredofit/nextcloud.svg?style=flat-square&amp;logo=docker"
+alt="Docker Pulls" /></a> <a
+href="https://github.com/sponsors/tiredofit"><img
+src="https://img.shields.io/badge/sponsor-tiredofit-181717.svg?logo=github&amp;style=flat-square"
+alt="Become a sponsor" /></a> <a
+href="https://www.paypal.me/tiredofit"><img
+src="https://img.shields.io/badge/donate-paypal-00457c.svg?logo=paypal&amp;style=flat-square"
+alt="Paypal Donate" /></a> ## About</p>
+<p>This will build a Dockerfile for <a
+href="https://nextcloud.com">Nextcloud</a> - a web based groupware
+solution.</p>
+<ul>
+<li>Includes fail2ban for bad authentication blocking</li>
+<li>Includes Nextcloud Hi Performance Files Backend</li>
+</ul>
+<h2 id="maintainer">Maintainer</h2>
+<ul>
+<li>[Dave Conroy][https://github.com/tiredofit]</li>
+</ul>
+<h2 id="table-of-contents">Table of Contents</h2>
+<ul>
+<li><a href="#about">About</a></li>
+<li><a href="#maintainer">Maintainer</a></li>
+<li><a href="#table-of-contents">Table of Contents</a></li>
+<li><a href="#installation">Installation</a>
+<ul>
+<li><a href="#build-from-source">Build from Source</a></li>
+<li><a href="#prebuilt-images">Prebuilt Images</a>
+<ul>
+<li><a href="#multi-architecture">Multi Architecture</a></li>
+</ul></li>
+</ul></li>
+<li><a href="#configuration">Configuration</a>
+<ul>
+<li><a href="#quick-start">Quick Start</a></li>
+<li><a href="#persistent-storage">Persistent Storage</a>
+<ul>
+<li><a href="#base-images-used">Base Images used</a></li>
+</ul></li>
+<li><a href="#networking">Networking</a></li>
+</ul></li>
+<li><a href="#upgrading-from-the-2x-series">Upgrading from the 2.x
+Series</a></li>
+<li><a href="#maintenance">Maintenance</a>
+<ul>
+<li><a href="#shell-access">Shell Access</a></li>
+</ul></li>
+<li><a href="#support">Support</a>
+<ul>
+<li><a href="#usage">Usage</a></li>
+<li><a href="#bugfixes">Bugfixes</a></li>
+<li><a href="#feature-requests">Feature Requests</a></li>
+<li><a href="#updates">Updates</a></li>
+</ul></li>
+<li><a href="#license">License</a></li>
+<li><a href="#references">References</a></li>
+</ul>
+<h1 id="prerequisites-and-assumptions">Prerequisites and
+Assumptions</h1>
+<ul>
+<li>Assumes you are using some sort of SSL terminating reverse proxy
+such as:
+<ul>
+<li><a
+href="https://github.com/tiredofit/docker-traefik">Traefik</a></li>
+<li><a href="https://github.com/jc21/nginx-proxy-manager">Nginx</a></li>
+<li><a href="https://github.com/caddyserver/caddy">Caddy</a></li>
+<li><h2 id="installation">Installation</h2></li>
+</ul></li>
+</ul>
+<h3 id="build-from-source">Build from Source</h3>
+<p>Clone this repository and build the image with
+<code>docker build &lt;arguments&gt; (imagename) .</code> ### Prebuilt
+Images Builds of the image are available on <a
+href="https://hub.docker.com/r/tiredofit/nextcloud">Docker Hub</a></p>
+<p>Builds of the image are also available on the <a
+href="https://github.com/tiredofit/docker-/pkgs/container/docker-">Github
+Container Registry</a></p>
+<pre><code>docker pull ghcr.io/tiredofit/docker-:(imagetag)</code></pre>
+<p>The following image tags are available along with their tagged
+release based on what’s written in the <a
+href="CHANGELOG.md">Changelog</a>:</p>
+<table>
+<thead>
+<tr class="header">
+<th>Version</th>
+<th>Container OS</th>
+<th>Tag</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>27</td>
+<td>Alpine</td>
+<td><code>:27</code></td>
+</tr>
+<tr class="even">
+<td>26</td>
+<td>Alpine</td>
+<td><code>:26</code></td>
+</tr>
+<tr class="odd">
+<td>25</td>
+<td>Alpine</td>
+<td><code>:25</code></td>
+</tr>
+<tr class="even">
+<td>24</td>
+<td>Alpine</td>
+<td><code>:24</code></td>
+</tr>
+</tbody>
+</table>
+<h4 id="multi-architecture">Multi Architecture</h4>
+<p>Images are built primarily for <code>amd64</code> architecture, and
+may also include builds for <code>arm/v7</code>, <code>arm64</code> and
+others. These variants are all unsupported. Consider <a
+href="https://github.com/sponsors/tiredofit">sponsoring</a> my work so
+that I can work with various hardware. To see if this image supports
+multiple architecures, type
+<code>docker manifest (image):(tag)</code></p>
+<h2 id="configuration">Configuration</h2>
+<h3 id="quick-start">Quick Start</h3>
+<ul>
+<li><p>The quickest way to get started is using <a
+href="https://docs.docker.com/compose/">docker-compose</a>. See the
+examples folder for a working <a
+href="examples/docker-compose.yml">docker-compose.yml</a> that can be
+modified for development or production use.</p></li>
+<li><p>Set various <a href="#environment-variables">environment
+variables</a> to understand the capabilities of this image.</p></li>
+<li><p>Map <a href="#data-volumes">persistent storage</a> for access to
+configuration and data files for backup.</p></li>
+<li><p>Make <a href="#networking">networking ports</a> available for
+public access if necessary</p></li>
+</ul>
+<p><strong>The first boot can take from 2 minutes - 5 minutes depending
+on your CPU to setup the proper schemas.</strong></p>
+<h3 id="persistent-storage">Persistent Storage</h3>
+<p>The following directories are used for configuration and can be
+mapped for persistent storage.</p>
+<p><em>Upgrading from an earlier version of this image running Nextcloud
+20 or earlier? See <a href="#upgrading-from-the-2x-series">Upgrading
+from the 2.x Series</a></em></p>
+<table>
+<thead>
+<tr class="header">
+<th>Directory</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>/data/userdata</code></td>
+<td>Nextcloud Data</td>
+</tr>
+<tr class="even">
+<td><code>/www/nextcloud/config</code></td>
+<td>Nextcloud Configuration Directory</td>
+</tr>
+<tr class="odd">
+<td><code>/data/apps</code></td>
+<td>Custom Apps downloaded from Plugin Store</td>
+</tr>
+<tr class="even">
+<td><code>/data/themes</code></td>
+<td>Custom Themes Directory</td>
+</tr>
+<tr class="odd">
+<td><code>/data/cache</code></td>
+<td>Cache Directory</td>
+</tr>
+<tr class="even">
+<td><code>/data/tmp</code></td>
+<td>Temporary Directory</td>
+</tr>
+<tr class="odd">
+<td><code>/data/templates/</code></td>
+<td>Templates Directory</td>
+</tr>
+<tr class="even">
+<td><code>/www/logs</code></td>
+<td>Nginx / php-fpm / Nextcloud logfiles</td>
+</tr>
+</tbody>
+</table>
+<h4 id="base-images-used">Base Images used</h4>
+<p>This image relies on an <a
+href="https://hub.docker.com/r/tiredofit/alpine">Alpine Linux</a> base
+image that relies on an <a
+href="https://github.com/just-containers/s6-overlay">init system</a> for
+added capabilities. Outgoing SMTP capabilities are handlded via
+<code>msmtp</code>. Individual container performance monitoring is
+performed by <a href="https://zabbix.org">zabbix-agent</a>. Additional
+tools include:
+<code>bash</code>,<code>curl</code>,<code>less</code>,<code>logrotate</code>,<code>nano</code>.</p>
+<p>Be sure to view the following repositories to understand all the
+customizable options:</p>
+<table>
+<colgroup>
+<col style="width: 61%" />
+<col style="width: 38%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Image</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><a href="https://github.com/tiredofit/docker-alpine/">OS
+Base</a></td>
+<td>Customized Image based on Alpine Linux</td>
+</tr>
+<tr class="even">
+<td><a href="https://github.com/tiredofit/docker-nginx/">Nginx</a></td>
+<td>Nginx webserver</td>
+</tr>
+<tr class="odd">
+<td><a
+href="https://github.com/tiredofit/docker-nginx-php-fpm/">PHP-FPM</a></td>
+<td>PHP Interpreter</td>
+</tr>
+</tbody>
+</table>
+<p>If you there are features that you wish to override based on the
+defaults and for some reason the environment variables are not working,
+create a file called <code>custom.config.php</code> in your
+<code>data/config</code> directory</p>
+<table>
+<colgroup>
+<col style="width: 18%" />
+<col style="width: 71%" />
+<col style="width: 5%" />
+<col style="width: 4%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Parameter</th>
+<th>Description</th>
+<th>Default</th>
+<th><code>_FILE</code></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>ADMIN_USER</code></td>
+<td>Admin user e.g. <code>admin</code></td>
+<td></td>
+<td>x</td>
+</tr>
+<tr class="even">
+<td><code>ADMIN_PASS</code></td>
+<td>Admin pass e.g. <code>password</code></td>
+<td></td>
+<td>x</td>
+</tr>
+<tr class="odd">
+<td><code>DOMAIN</code></td>
+<td>The Domain that this is configured for e.g. ‘example.org’</td>
+<td></td>
+<td></td>
+</tr>
+<tr class="even">
+<td><code>DB_TYPE</code></td>
+<td>Set the DB_TYPE - e.g. <code>mysql</code>, <code>postgres</code>,
+<code>sqlite3</code></td>
+<td><code>sqlite3</code></td>
+<td></td>
+</tr>
+<tr class="odd">
+<td><code>DB_HOST</code></td>
+<td>Hostname of DB Server e.g. <code>nextcloud-db</code></td>
+<td></td>
+<td>x</td>
+</tr>
+<tr class="even">
+<td><code>DB_NAME</code></td>
+<td>Database name e.g. <code>nextcloud</code></td>
+<td></td>
+<td>x</td>
+</tr>
+<tr class="odd">
+<td><code>DB_PORT</code></td>
+<td>Database port e.g. <code>3306</code></td>
+<td></td>
+<td>x</td>
+</tr>
+<tr class="even">
+<td><code>DB_USER</code></td>
+<td>Username for Database e.g. <code>nextcloud</code></td>
+<td></td>
+<td>x</td>
+</tr>
+<tr class="odd">
+<td><code>DB_PASS</code></td>
+<td>Password for Database e.g. <code>password</code></td>
+<td></td>
+<td>x</td>
+</tr>
+<tr class="even">
+<td><code>IFRAME_DOMAINS</code></td>
+<td>Comma seperated value of domains/hostnames you want to allow loading
+the site via an IFrame e.g. <code>site.example.com</code></td>
+<td></td>
+<td></td>
+</tr>
+<tr class="odd">
+<td><code>MONITORING_APPLICATION_TOKEN</code></td>
+<td>Monitoring Application Token if ‘serverinfo’ application
+installed</td>
+<td></td>
+<td>x</td>
+</tr>
+</tbody>
+</table>
+<p>This image automatically configures nextcloud with the following
+options as defined in <a
+href="https://github.com/nextcloud/server/blob/master/config/config.sample.php">config.sample.php</a>.</p>
+<table>
+<colgroup>
+<col style="width: 20%" />
+<col style="width: 34%" />
+<col style="width: 25%" />
+<col style="width: 19%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Variable</th>
+<th>Description</th>
+<th>Nextcloud Attribute</th>
+<th>Default</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>ANIMATED_GIFS_MAX_FILESIZE</code></td>
+<td>Max file size for Animated Gifs</td>
+<td><code>max_filesize_animated_gifs_public_sharing</code></td>
+<td><code>10</code></td>
+</tr>
+<tr class="even">
+<td><code>CACHE_DIRECTORY</code></td>
+<td>Cache Directory (leave blank for default)</td>
+<td></td>
+<td><code>| | `CIPHER`                           | Encryption Cipher                                         | `cipher`                                    | `AES-256-CFB`                    | | `DATA_DIRECTORY`                   | Data Directory                                            |                                             | `${NGINX_WEBROOT}/data`          | | `DEFAULT_APPLICATION`              | Default Application users see                             | `defaultapp`                                | `files`                          | | `DEFAULT_LANGUAGE`                 | Default Language to Install                               | `default_language`                          | `en`                             | | `DEFAULT_LOCALE`                   | Default Locale                                            | `default_locale`                            | `en_US`                          | | `ENABLE_APP_CODE_CHECKER`          | Check for signatures on all code                          | `appcodechecker`                            | `TRUE`                           | | `ENABLE_APP_STORE`                 | Enable App Store                                          | `appstoreenabled`                           | `TRUE`                           | | `ENABLE_BRUTEFORCE_PROTECTION`     | Enable Brute Force Protection                             | `auth.bruteforce.protection.enabled`        | `TRUE`                           | | `ENABLE_CHECK_WELLKNOWN`           | Enable .wellknown check in admin                          |                                             | `TRUE`                           | | `ENABLE_DISPLAY_NAME_CHANGE`       | Allow user to change name                                 | `allow_user_to_change_display_name`         | `TRUE`                           | | `ENABLE_FILESYSTEM_CHECK_CHANGES`  | Check changes on Filesystem in Background                 | `filesystem_check_changes`                  | `FALSE`                          | | `ENABLE_FILE_LOCKING`              | Enable File Locking                                       | `filelocking.enabled`                       | `TRUE`                           | | `ENABLE_KNOWLEDGE_BASE`            | Enable Help Menu                                          | `knowledgebaseenabled`                      | `TRUE`                           | | `ENABLE_LOGIN_FORM_AUTOCOMPLETE`   | Allow Autocomplete on Login Pages                         | `login_form_autocomplete`                   | `TRUE`                           | | `ENABLE_LOG_QUERY`                 | Enable Logging DB Queries                                 | `log_query`                                 | `FALSE`                          | | `ENABLE_MYSQL_UTF8MB4`             | Enable 4 byte strings for MariaDB                         | `mysql.utf8mb4`                             | `TRUE`                           | | `ENABLE_PARTFILE_UPLOADS_STORAGE`  | Enable uploading .part files in same location             |                                             | `TRUE`                           | | `ENABLE_PREVIEWS`                  | Enable Document Previews                                  | `enable_previews`                           | `TRUE`                           | | `ENABLE_SESSION_KEEPALIVE`         | Enable Keepalive sessions                                 | `session_keepalive`                         | `TRUE`                           | | `ENABLE_SIGN_UP`                   | Allow Signups to Instance                                 | `simpleSignUpLink.shown`                    | `TRUE`                           | | `ENABLE_SMTP_AUTHENTICATION`       | Enable SMTP Authentication                                | `mail_smtpauth`                             | `FALSE`                          | | `ENABLE_TOKEN_AUTH_ENFORCED`       | Enforce logging in with Tokens for Clients                | `token_auth_enforced`                       | `FALSE`                          | | `FILE_LOCKING_DEBUG`               | Debug File Locking                                        | `filelocking.debug`                         | `FALSE`                          | | `FORCE_LANGUAGE`                   | Force Language                                            | `force_language`                            | `en`                             | | `FORCE_LOCALE`                     | Force Locale                                              | `force_locale`                              | `en_US`                          | | `HASHING_COST`                     | Performance Cost for Hashing                              | `hashingCost`                               | `10`                             | | `LDAP_CLEANUP_INTERVAL`            | How many minutes to cleanup LDAP users                    | `ldapUserCleanupInterval`                   | `51`                             | | `LOG_DATE_FORMAT`                  | Format for Date and Time in logs                          | `logdateformat`                             | `Y-m-d H:i:s`                    | | `LOG_DIR`                          | Log Directory                                             | `logfile`                                   | `/www/logs/nextcloud`            | | `LOG_FILE_AUDIT`                   | Audit Log file                                            | `audit.log`                                 |                                  | | `LOG_FILE_FLOW`                    | Workflow Log File                                         | `flow.log`                                  |                                  | | `LOG_LEVEL`                        | Log Level                                                 | `loglevel`                                  | `2`                              | | `LOG_TIMEZONE`                     | Timezone for Logfile                                      | `logtimezone`                               | Container Timezone               | | `OVERWRITE_HOST`                   | Override the hostname for URLs                            | `overwritehost`                             |</code></td>
+</tr>
+<tr class="odd">
+<td><code>OVERWRITE_PROTOCOL</code></td>
+<td>Override the Protocol if behind proxy</td>
+<td><code>overwriteprotocol</code></td>
+<td><code>| | `PREVIEW_MAX_X`                    | Maximum Pixels for Previews (X)                           | `preview_max_x`                             | `200`                            | | `PREVIEW_MAX_Y`                    | Maximum Pixels for Previews (Y)                           | `preview_max_y`                             | `200`                            | | `SHARE_FOLDER`                     | Change root path of all shares to users                   |                                             | `/`                              | | `SHARING_ENABLE_ACCEPT`            | Enable Sharing Acceptance features                        |                                             | `FALSE`                          | | `SHARING_ENABLE_MAIL`              | Enable Sharing Mail Notification                          |                                             | `TRUE`                           | | `SHARING_FORCE_ACCEPT`             | Force Sharing Acceptance features                         |                                             | `FALSE`                          | | `SHARING_MAX_AUTOCOMPLETE_RESULTS` | Maximum results returned when searching                   | `sharing.maxAutocompleteResults`            | `0`                              | | `SHARING_MIN_SEARCHSTRING_LENGTH`  | How many characters to type before searching              | `sharing.minSearchStringLength`             | `2`                              | | `SKELETON_DIRECTORY`               | What folder is copied to new users folders on first login | `skeletondirectory`                         | `${NGINX_WEBROOT}/core/skeleton` | | `SMTP_AUTHENTICATION_TYPE`         | Type of SMTP Authentication                               | `mail_smtpauthtype`                         | `NONE`                           | | `SMTP_DEBUG`                       | Debug SMTP activities                                     | `mail_smtpdebug`                            | `FALSE`                          | | `SMTP_DOMAIN`                      | Email Domain for Outbound mail                            | `mail_domain`                               | `example.org`                    | | `SMTP_FROM`                        | Account name for Outbound Email                           | `mail_from_address`                         | `noreply`                        | | `SMTP_HOST`                        | Remote SMTP Host                                          | `mail_smtphost`                             | `postfix_relay`                  | | `SMTP_PASS`                        | SMTP Password                                             | `mail_smtppassword`                         |</code></td>
+</tr>
+<tr class="even">
+<td><code>SMTP_PORT</code></td>
+<td>SMTP Port</td>
+<td><code>mail_smtpport</code></td>
+<td><code>25</code></td>
+</tr>
+<tr class="odd">
+<td><code>SMTP_SECURE</code></td>
+<td>Set if SMTP is TLS/SSL encrypted</td>
+<td><code>mail_smtpsecure</code></td>
+<td><code>FALSE</code></td>
+</tr>
+<tr class="even">
+<td><code>SMTP_SEND_PLAINTEXT_ONLY</code></td>
+<td>Send Plaintext Email Only</td>
+<td><code>mail_send_plaintext_only</code></td>
+<td><code>FALSE</code></td>
+</tr>
+<tr class="odd">
+<td><code>SMTP_TIMEOUT</code></td>
+<td>Timeout for SMTP connections</td>
+<td><code>mail_smtptimeout</code></td>
+<td><code>10</code></td>
+</tr>
+<tr class="even">
+<td><code>SMTP_USER</code></td>
+<td>SMTP Username</td>
+<td><code>mail_smtpname</code></td>
+<td>`<code>| |</code>SORT_GROUPS_BY_NAME<code>| Sort groups by name as opposed to most users              |</code>sort_groups_by_name<code>|</code>FALSE<code>| |</code>TRASHBIN_RETENTION<code>| How to deal with users trashbins                          |</code>trashbin_retention_obligation<code>|</code>auto<code>| |</code>VERSIONS_RETENTION<code>| How to deal with File Versions                            |</code>versions_retention_obligation<code>|</code>auto`</td>
+</tr>
+</tbody>
+</table>
+<h3 id="networking">Networking</h3>
+<p>The following ports are exposed.</p>
+<table>
+<thead>
+<tr class="header">
+<th>Port</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>80</code></td>
+<td>HTTP</td>
+</tr>
+</tbody>
+</table>
+<h2 id="upgrading-from-the-2.x-series">Upgrading from the 2.x
+Series</h2>
+<ul>
+<li><p>If you are upgrading from the 2.x series of images (Nextcloud 20
+and below) please note that the following environment variables have
+been introduced</p></li>
+<li><p><code>TEMP_DIRECTORY</code> - For holding temporary
+files</p></li>
+<li><p><code>CACHE_DIRECTORY</code> - Moving the “Cache” per user out of
+their user data folder for those using S3 Backend for performance
+reasons</p></li>
+<li><p><code>APP_DIRECTORY</code> - Applications downloaded from the App
+Store</p></li>
+<li><p><code>DATA_DIRECTORY</code> - Users Data Directory</p></li>
+<li><p>You will also need to export new volumes if you are using the new
+defaults to these paths above:</p></li>
+</ul>
+<table>
+<colgroup>
+<col style="width: 25%" />
+<col style="width: 41%" />
+<col style="width: 33%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Environment Variable</th>
+<th>2.x Images volume mapping</th>
+<th>New Image mapping</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>APP_DIRECTORY</code></td>
+<td><code>/www/nextcloud/custom-apps</code></td>
+<td><code>/data/apps</code></td>
+</tr>
+<tr class="even">
+<td><code>CACHE_DIRECTORY</code></td>
+<td>unset</td>
+<td><code>/data/cache</code></td>
+</tr>
+<tr class="odd">
+<td><code>DATA_DIRECTORY</code></td>
+<td><code>/www/nextcloud/data</code></td>
+<td><code>/data/userdata</code></td>
+</tr>
+<tr class="even">
+<td><code>SKELETON_DIRECTORY</code></td>
+<td><code>${NGINX_WEBROOT}/core/skeleton</code></td>
+<td><code>/data/templates/skeleton</code></td>
+</tr>
+<tr class="odd">
+<td><code>TEMP_DIRECTORY</code></td>
+<td>unset</td>
+<td><code>/data/tmp</code></td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li>Additionally you will need to make a change to the database to
+support the change of the data location as listed <a
+href="https://docs.nextcloud.com/server/21/admin_manual/issues/general_troubleshooting.html#troubleshooting-data-directory">here</a>.</li>
+</ul>
+<hr />
+<h2 id="maintenance">Maintenance</h2>
+<h3 id="shell-access">Shell Access</h3>
+<p>For debugging and maintenance purposes you may want access the
+containers shell.</p>
+<p><code>bash docker exec -it (whatever your container name is) bash</code>
+## Support</p>
+<p>These images were built to serve a specific need in a production
+environment and gradually have had more functionality added based on
+requests from the community. ### Usage - The <a
+href="../../discussions">Discussions board</a> is a great place for
+working with the community on tips and tricks of using this image. - <a
+href="https://tiredofit.ca/sponsor">Sponsor me</a> for personalized
+support ### Bugfixes - Please, submit a <a href="issues/new">Bug
+Report</a> if something isn’t working as expected. I’ll do my best to
+issue a fix in short order.</p>
+<h3 id="feature-requests">Feature Requests</h3>
+<ul>
+<li>Feel free to submit a feature request, however there is no guarantee
+that it will be added, or at what timeline.</li>
+<li><a href="https://tiredofit.ca/sponsor">Sponsor me</a> regarding
+development of features.</li>
+</ul>
+<h3 id="updates">Updates</h3>
+<ul>
+<li>Best effort to track upstream changes, More priority if I am
+actively using the image in a production environment.</li>
+<li><a href="https://tiredofit.ca/sponsor">Sponsor me</a> for up to date
+releases.</li>
+</ul>
+<h2 id="license">License</h2>
+<p>MIT. See <a href="LICENSE">LICENSE</a> for more details.</p>
+<h2 id="references">References</h2>
+<ul>
+<li>https://nextcloud.com</li>
+</ul>
