@@ -78,6 +78,7 @@ RUN source /assets/functions/00-container && \
                         gmp \
                         icu \
                         imagemagick \
+                        imagemagick-heic \
                         libedit \
                         libmcrypt \
                         libreoffice \

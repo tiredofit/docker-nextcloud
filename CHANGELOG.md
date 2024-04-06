@@ -1,3 +1,9 @@
+## 27-3.6.24 2024-04-06 <dave at tiredofit dot ca>
+
+   ### Added
+      - Add imagemagick-heic for HEIC support
+
+
 ## 27-3.6.23 2024-03-28 <dave at tiredofit dot ca>
 
    ### Added
