@@ -1,3 +1,9 @@
+## 28-3.6.33 2024-04-06 <joergmschulz>
+
+   ### Added
+      - Add imagemagick-heic for HEIC support
+
+
 ## 28-3.6.32 2024-03-28 <dave at tiredofit dot ca>
 
    ### Added
