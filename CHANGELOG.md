@@ -1,3 +1,9 @@
+## 29-3.6.43 2024-04-18 <dave at tiredofit dot ca>
+
+   ### Added
+      - Nextcloud 29.0.0rc5
+
+
 ## 29-3.6.42 2024-04-11 <dave at tiredofit dot ca>
 
    ### Added
