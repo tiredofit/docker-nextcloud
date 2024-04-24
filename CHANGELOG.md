@@ -1,3 +1,10 @@
+## 29-3.6.44 2024-04-24 <dave at tiredofit dot ca>
+
+   ### Added
+      - Nextcloud 29.0.0
+      - Dlib 19.24.4
+
+
 ## 29-3.6.43 2024-04-18 <dave at tiredofit dot ca>
 
    ### Added
