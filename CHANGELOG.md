@@ -1,3 +1,9 @@
+## 28-3.6.35 2024-05-02 <dave at tiredofit dot ca>
+
+   ### Added
+      - Nextcloud Client Push 0.6.11
+
+
 ## 28-3.6.34 2024-04-25 <dave at tiredofit dot ca>
 
    ### Added
