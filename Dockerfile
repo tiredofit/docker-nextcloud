@@ -69,6 +69,7 @@ RUN source /assets/functions/00-container && \
                         && \
     package install .nextcloud-run-dependencies \
                         c-client \
+			clamav-scanner \
                         coreutils \
                         ffmpeg \
                         findutils \
