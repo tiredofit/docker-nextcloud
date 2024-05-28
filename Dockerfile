@@ -110,7 +110,7 @@ RUN source /assets/functions/00-container && \
     cmake --build build && \
     cmake --install build && \
     case "${PHP_BASE}" in \
-        8.3 ) export php_ffolder="83" ;; \
+        8.3 ) export php_folder="83" ;; \
         8.2 ) export php_folder="82" ;; \
         8.1 ) export php_folder="81" ;; \
         *) export php_folder=${PHP_BASE:0:1} ;; \

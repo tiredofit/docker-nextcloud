@@ -1,3 +1,9 @@
+## 29-3.6.47 2024-05-28 <dave at tiredofit dot ca>
+
+   ### Changed
+      - Fix issues with building under PHP 8.3
+
+
 ## 29-3.6.46 2024-05-28 <dave at tiredofit dot ca>
 
    ### Added
