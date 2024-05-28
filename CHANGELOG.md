@@ -1,3 +1,10 @@
+## 29-3.6.46 2024-05-28 <dave at tiredofit dot ca>
+
+   ### Added
+      - Nextcloud 29.0.1
+      - PHP 8.3.x base
+
+
 ## 29-3.6.45 2024-04-24 <dave at tiredofit dot ca>
 
    ### Added
