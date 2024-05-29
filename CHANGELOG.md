@@ -1,3 +1,9 @@
+## 29-3.6.48 2024-05-29 <dave at tiredofit dot ca>
+
+   ### Added
+      - Notify Push 0.6.12
+
+
 ## 29-3.6.47 2024-05-28 <dave at tiredofit dot ca>
 
    ### Changed
