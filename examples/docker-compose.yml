@@ -53,8 +53,8 @@ services:
     restart: always
 
   nextcloud-db:
-    image: tiredofit/mariadb:latest
-    container_name: nextcloud-db:10.8
+    image: tiredofit/mariadb:10.11
+    container_name: nextcloud-db
     volumes:
       - /var/local/db/nextcloud:/var/lib/mysql
     environment:
