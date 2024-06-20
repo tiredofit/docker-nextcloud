@@ -1,3 +1,9 @@
+## 29-3.6.50 2024-06-20 <dave at tiredofit dot ca>
+
+   ### Added
+      - Add php-sodium extension for argon hashing
+
+
 ## 29-3.6.49 2024-06-06 <dave at tiredofit dot ca>
 
    ### Added
