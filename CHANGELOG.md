@@ -1,3 +1,10 @@
+## 27-3.6.26 2024-06-20 <dave at tiredofit dot ca>
+
+   ### Added
+      - Notify Push 0.6.12
+      - Add php-sodium plugin for argon hashing
+
+
 ## 27-3.6.25 2024-04-25 <dave at tiredofit dot ca>
 
    ### Added
