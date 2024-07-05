@@ -1,3 +1,9 @@
+## 28-3.6.40 2024-07-05 <dave at tiredofit dot ca>
+
+   ### Changed
+      - Update base image to tiredofit/alpine:7.10.0
+
+
 ## 28-3.6.39 2024-06-25 <dave at tiredofit dot ca>
 
    ### Added
