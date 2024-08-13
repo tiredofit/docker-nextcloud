@@ -127,8 +127,12 @@ RUN source /assets/functions/00-container && \
     echo "extension=pdlib" > /etc/php${php_folder}/mods-available/pdlib.ini && \
     echo ";priority=20" >> /etc/php${php_folder}/mods-available/pdlib.ini && \
     mkdir -p /assets/nextcloud/custom-apps && \
-    #curl -sSL https://download.nextcloud.com/server/releases/nextcloud-${NEXTCLOUD_VERSION}.tar.bz2 | tar xvfj - --strip 1 -C /assets/nextcloud && \
-    curl -sSL https://download.nextcloud.com/server/prereleases/nextcloud-${NEXTCLOUD_VERSION}.tar.bz2 | tar xvfj - --strip 1 -C /assets/nextcloud && \
+    if [[ "${NEXTCLOUD_VERSION}" =~ beta|pre|rc ]]; then \
+        _nextcloud_release_prefix=prereleases ; \
+    else \
+        _nextcloud_release_prefix=releases ; \
+    fi ; \
+    curl -sSL https://download.nextcloud.com/server/${_nextcloud_release_prefix}/nextcloud-${NEXTCLOUD_VERSION}.tar.bz2 | tar xvfj - --strip 1 -C /assets/nextcloud && \
     chown -R nginx:www-data /assets/nextcloud && \
     \
     mkdir -p /opt/nextcloud_files_backend/bin/x86_64 && \
